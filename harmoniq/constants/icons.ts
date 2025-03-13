@@ -1,4 +1,4 @@
-import home from "@/assets/icons/home-icon .png";
+import home from "@/assets/icons/home-icon.png";
 import search from "@/assets/icons/search.png";
 import person from "@/assets/icons/person.png";
 import logo from "@/assets/icons/logo.png";
