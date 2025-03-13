@@ -8,11 +8,12 @@ const id = 'note-reading';
 const Lesson = () => {
   return (
     <Link href={`../(lessons)/${id}/level1`} asChild>
-      <TouchableOpacity className="w-[40%]">
+      <TouchableOpacity className="w-[40%] mt-10" >
         <Image
           source={icons.lesson}
+          tintColor='yellow'
           className="w-full h-32 rounded-lg"
-          resizeMode="contain"
+          resizeMode="contain"       
         />
       </TouchableOpacity>
     </Link>

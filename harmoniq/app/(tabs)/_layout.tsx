@@ -5,6 +5,7 @@ import { images } from "../../constants/images";
 import { icons } from "../../constants/icons";
 import { RFValue } from 'react-native-responsive-fontsize';
 
+{/* Function for the navigation tabs */}
 const TabIcon = ({ focused, icon, title }: { focused: boolean, icon: any, title: string }) => {
   if (focused) {
     return (
