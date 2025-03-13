@@ -1,11 +1,13 @@
 import home from "@/assets/icons/home-icon.png";
 import search from "@/assets/icons/search.png";
-import person from "@/assets/icons/person.png";
+import person from "@/assets/icons/person-icon.png";
 import logo from "@/assets/icons/logo.png";
 import star from "@/assets/icons/star.png";
 import arrow from "@/assets/icons/arrow.png";
 import dumbbell from "@/assets/icons/dumbbell-icon.png";
 import missions from "@/assets/icons/missions-icon.png";
+import streak from "@/assets/icons/streak-icon.png";
+import lesson from "@/assets/icons/lesson-icon.png";
 
 export const icons = {
   home,
@@ -15,5 +17,7 @@ export const icons = {
   star,
   arrow,
   dumbbell,
-  missions
+  missions,
+  streak,
+  lesson
 };

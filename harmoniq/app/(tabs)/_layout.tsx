@@ -1,37 +1,43 @@
-import { View, Text, ImageBackground, Image } from 'react-native'
-import React from 'react'
-import { Tabs } from 'expo-router'
-import { images }  from "../../constants/images"
-import { icons } from "../../constants/icons"
+import { View, Text, ImageBackground, Image } from 'react-native';
+import React from 'react';
+import { Tabs } from 'expo-router';
+import { images } from "../../constants/images";
+import { icons } from "../../constants/icons";
+import { RFValue } from 'react-native-responsive-fontsize';
 
 const TabIcon = ({ focused, icon, title }: { focused: boolean, icon: any, title: string }) => {
-  if(focused) {
+  if (focused) {
     return (
       <ImageBackground
-        source={ images.highlight }
+        source={images.highlight}
         className="flex flex-row w-full flex-1 min-w-[112px] min-h-16 mt-4 justify-center items-center rounded-full overflow-hidden"
       >
-        <Image 
-          source={ icon }
-          tintColor="#00244E" 
-          className="size-7" 
+        <Image
+          source={icon}
+          tintColor="#00244E"
+          className="size-7"
+          resizeMode="contain"
         />
         <Text
-          className="text-primary text-base font-semibold ml-2"
-        >{title}</Text>
+          style={{ fontSize: RFValue(11) }} // Adjust the value as needed
+          className="text-primary font-semibold ml-2"
+        >
+          {title}
+        </Text>
       </ImageBackground>
-    )
+    );
   } else {
     return (
       <View className="size-full justify-center items-center mt-4 rounded-full overflow-hidden">
-        <Image 
-          source={icon} tintColor="#FF7900" 
+        <Image
+          source={icon}
+          tintColor="#FF7900"
           className="size-7"
-          />
+        />
       </View>
-    )
+    );
   }
-}
+};
 
 const _Layout = () => {
   return (
@@ -56,31 +62,31 @@ const _Layout = () => {
           borderColor: '#00244E'
         }
       }}
-      >
+    >
       <Tabs.Screen
         name="index"
-        options={{ 
+        options={{
           title: "Home",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon 
-              focused={ focused } 
-              icon={ icons.home } 
+            <TabIcon
+              focused={focused}
+              icon={icons.home}
               title="Home"
             />
           )
         }}
       />
-      
+
       <Tabs.Screen
         name="missions"
-        options={{ 
+        options={{
           headerShown: false,
           title: "Missions",
           tabBarIcon: ({ focused }) => (
-            <TabIcon 
-              focused={ focused } 
-              icon={ icons.missions } 
+            <TabIcon
+              focused={focused}
+              icon={icons.missions}
               title="Missions"
             />
           )
@@ -89,13 +95,13 @@ const _Layout = () => {
 
       <Tabs.Screen
         name="training"
-        options={{ 
+        options={{
           headerShown: false,
           title: "Training",
           tabBarIcon: ({ focused }) => (
-            <TabIcon 
-              focused={ focused } 
-              icon={ icons.dumbbell } 
+            <TabIcon
+              focused={focused}
+              icon={icons.dumbbell}
               title="Training"
             />
           )
@@ -104,20 +110,20 @@ const _Layout = () => {
 
       <Tabs.Screen
         name="profile"
-        options={{ 
+        options={{
           headerShown: false,
           title: "Profile",
           tabBarIcon: ({ focused }) => (
-            <TabIcon 
-              focused={ focused } 
-              icon={ icons.person } 
+            <TabIcon
+              focused={focused}
+              icon={icons.person}
               title="Profile"
             />
           )
         }}
       />
     </Tabs>
-  )
-}
+  );
+};
 
-export default _Layout
+export default _Layout;
