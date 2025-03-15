@@ -8,10 +8,11 @@ import AllAccidentals from "@/components/buttons/all-accidentals";
 import AllQuality from "@/components/buttons/all-quality";
 import { trebleClefNotes } from '@/constants/music-notes';
 import { images } from '@/constants/images';
+import ReturnHome from '@/components/return-home';
 
-type Note = 'c4' | 'd4' | 'e4' | 'f4';
+type Note = 'c4' | 'd4' | 'e4' | 'f4'| 'g4' | 'a4' | 'b4';
 
-const notes: Note[] = ['c4', 'd4', 'e4', 'f4'];
+const notes: Note[] = ['c4', 'd4', 'e4', 'f4', 'g4', 'a4', 'b4'];
 const accidentals = ['♯', '♭', '♮', '𝄪', '𝄫'];
 const quality = ['Major', 'Minor', 'Diminished', 'Augmented', 'Perfect'];
 
@@ -25,6 +26,7 @@ const NoteReading = () => {
   const [selectedNote, setSelectedNote] = useState<string | null>(null);
   const [isChecking, setIsChecking] = useState<boolean>(true); // Track whether the button is in "Check Answer" or "Continue" mode
   const [resultMessage, setResultMessage] = useState<string>(''); // Store the result message
+  const [buttonNotes, setButtonNotes] = useState<Note[]>([]); // Notes to display on buttons
 
   const playSound = async (note: string) => {
     try {
@@ -36,11 +38,12 @@ const NoteReading = () => {
     }
   };
 
-  const handleNotePress = async (note: string) => {
-    if (isChecking) {
-      setSelectedNote(note); // Update the selected note
-      await playSound(note); // Play the corresponding sound
-    }
+  // Helper function to shuffle and select notes
+  const generateButtonNotes = (randomNote: Note): Note[] => {
+    const otherNotes = notes.filter(note => note !== randomNote); // Exclude the random note
+    const shuffledNotes = otherNotes.sort(() => Math.random() - 0.5); // Shuffle the remaining notes
+    const selectedNotes = shuffledNotes.slice(0, 3); // Select 4 random notes
+    return [...selectedNotes, randomNote].sort(() => Math.random() - 0.5); // Add the random note and shuffle again
   };
 
   const handleGenerateNote = async () => {
@@ -49,6 +52,17 @@ const NoteReading = () => {
 
     const noteKey = note.toLowerCase().replace('4', '') as keyof typeof sounds;
     await playSound(noteKey);
+
+    // Generate notes for the buttons
+    const newButtonNotes = generateButtonNotes(note);
+    setButtonNotes(newButtonNotes);
+  };
+
+  const handleNotePress = async (note: string) => {
+    if (isChecking) {
+      setSelectedNote(note); // Update the selected note
+      await playSound(note); // Play the corresponding sound
+    }
   };
 
   const handleCheckAnswer = () => {
@@ -60,9 +74,9 @@ const NoteReading = () => {
       }
 
       if (selectedNote === randomNote) {
-        setResultMessage(`Waow! Keep it up!`);
+        setResultMessage(`Correct! You selected the correct note: ${selectedNote.toUpperCase()}`);
       } else {
-        setResultMessage(`Ooops! We all make mistakes. Keep going!`);
+        setResultMessage(`Incorrect! The correct note was: ${randomNote?.toUpperCase()}`);
       }
 
       // Switch to "Continue" mode
@@ -81,7 +95,10 @@ const NoteReading = () => {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 justify-center items-center bg-dark-200">
+    <SafeAreaView className="flex-1 justify-center items-center bg-dark-200 relative">
+      {/* Return Home Button */}
+      <ReturnHome />
+
       {/* Background Image */}
       <Image
         source={images.bg}
@@ -112,7 +129,7 @@ const NoteReading = () => {
       <View className="flex-col bg-primary rounded-xl border w-[80%] h-[50%] items-center justify-evenly">
         {/* SimpleNotes Component */}
         <SimpleNotes
-          notes={notes}
+          notes={buttonNotes} // Pass the dynamically generated notes
           selectedNote={selectedNote}
           onNotePress={handleNotePress} // Pass the handler to SimpleNotes
           disabled={!isChecking} // Disable buttons when not in "Check Answer" mode
@@ -123,7 +140,11 @@ const NoteReading = () => {
           {/* Display Result Message */}
           <Text
             className={`font-bold text-center ${
-              resultMessage ? 'text-white' : 'text-transparent'
+              resultMessage
+                ? selectedNote === randomNote
+                  ? 'text-green-500' // Green for correct
+                  : 'text-red-500' // Red for incorrect
+                : 'text-transparent' // Transparent when no message
             }`}
           >
             {resultMessage || 'Enter result here'}
