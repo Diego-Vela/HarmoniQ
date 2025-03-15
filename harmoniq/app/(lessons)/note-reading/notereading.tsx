@@ -64,7 +64,7 @@ const NoteReading = () => {
             />
             {/* Replay Note Button */}
             <TouchableOpacity
-              className="flex items-center justify-center mt-10 w-[30%] h-[20%] bg-blue-500 rounded-full px-4 py-2"
+              className="flex items-center justify-center mt-10 w-[30%] h-[20%] bg-secondary border-2 rounded-full px-4 py-2"
               onPress={handleReplayNote}
             >
               <Text className="text-white font-bold text-center">Replay Note</Text>
@@ -77,7 +77,7 @@ const NoteReading = () => {
       <View className="flex-col bg-primary rounded-xl border w-[80%] h-[50%] items-center justify-evenly">
         {/* Generate Random Note Button */}
         <TouchableOpacity
-          className="w-[50%] h-[10%] bg-green-500 rounded-xl items-center justify-center"
+          className="w-[50%] h-[10%] bg-secondary rounded-xl items-center justify-center"
           onPress={handleGenerateNote}
         >
           <Text className="text-white font-bold">Generate Note</Text>
