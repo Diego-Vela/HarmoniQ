@@ -9,7 +9,7 @@ type AllNotesProps = {
 
 const AllNotes: React.FC<AllNotesProps> = ({ notes, selectedNote, setSelectedNote }) => {
   return (
-    <View className="flex-wrap flex-row w-[90%] h-[35%] bg-white items-start justify-evenly">
+    <View className="flex-wrap flex-row w-[90%] h-[35%] bg-transparent items-center justify-evenly">
       {notes.map(note => (
         <TouchableOpacity
           key={note}
