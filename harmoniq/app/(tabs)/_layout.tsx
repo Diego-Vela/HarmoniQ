@@ -1,9 +1,9 @@
 import { View, Text, ImageBackground, Image } from 'react-native';
 import React from 'react';
 import { Tabs } from 'expo-router';
-import { images } from "../../constants/images";
-import { icons } from "../../constants/icons";
 import { RFValue } from 'react-native-responsive-fontsize';
+import { images } from "@/constants/images";
+import { icons } from "@/constants/icons";
 
 {/* Function for the navigation tabs */}
 const TabIcon = ({ focused, icon, title }: { focused: boolean, icon: any, title: string }) => {

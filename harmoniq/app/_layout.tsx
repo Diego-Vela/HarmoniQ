@@ -9,7 +9,11 @@ export default function RootLayout() {
       options={{ headerShown: false }}
     />
     <Stack.Screen
-      name="lessons/id"
+      name="(lessons)/[id]"
+      options={{ headerShown: false}}
+    />
+    <Stack.Screen
+      name="(lessons)/note-reading/notereading"
       options={{ headerShown: false}}
     />
     
