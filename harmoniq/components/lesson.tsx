@@ -3,11 +3,14 @@ import { Link } from 'expo-router'
 import React from 'react'
 import { icons } from "@/constants/icons";
 
-const id = 'note-reading';
+interface LessonProps {
+  lesson: string;
+  activity: string;
+}
 
-const Lesson = () => {
+const Lesson: React.FC<LessonProps> = ({ lesson, activity }) => {
   return (
-    <Link href={`../(lessons)/${id}/notereading`} asChild>
+    <Link href={`../(lessons)/${lesson}/${activity}`} asChild>
       <TouchableOpacity className="w-[40%] mt-10" >
         <Image
           source={icons.lesson}

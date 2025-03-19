@@ -21,11 +21,11 @@ export default function Index() {
         <Chapter/>
         <ScrollView className="flex-1" showsHorizontalScrollIndicator={false} contentContainerStyle={{minHeight: '100%', paddingBottom: 0}}>
           <View className="flex flex-col justify-between items-center mt-0 bg-transparent rounded-lg">
-            <Lesson/>
-            <Lesson/>
-            <Lesson/>
-            <Lesson/>
-            <Lesson/>
+            <Lesson lesson="note-reading" activity="notereading"/>
+            <Lesson lesson="(rythm)" activity="tap-rythm"/>
+            <Lesson lesson="" activity=""/>
+            <Lesson lesson="" activity=""/>
+            <Lesson lesson="" activity=""/>
           </View>
         </ScrollView>
       </View>
