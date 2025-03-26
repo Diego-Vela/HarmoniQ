@@ -23,7 +23,7 @@ export default function Index() {
           <View className="flex flex-col justify-between items-center mt-0 bg-transparent rounded-lg">
             <Lesson lesson="note-reading" activity="notereading"/>
             <Lesson lesson="(rythm)" activity="tap-rythm"/>
-            <Lesson lesson="" activity=""/>
+            <Lesson lesson="(rythm)" activity="rythm-quiz"/>
             <Lesson lesson="" activity=""/>
             <Lesson lesson="" activity=""/>
           </View>

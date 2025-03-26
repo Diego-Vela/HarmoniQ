@@ -1,12 +1,10 @@
 import React from 'react';
 import { Stack } from 'expo-router';
 
-const LessonsLayout = () => {
+export default function LessonsLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      {/* All screens within the (lessons) folder will inherit this configuration */}
+      {/* This lets the Stack wrap your nested pages */}
     </Stack>
   );
 };
-
-export default LessonsLayout;

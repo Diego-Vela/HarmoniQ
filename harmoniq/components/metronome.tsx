@@ -1,21 +1,28 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useImperativeHandle, forwardRef } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Audio } from 'expo-av';
 import Animated, { useSharedValue, withTiming, useAnimatedStyle } from 'react-native-reanimated';
 
 interface MetronomeProps {
   bpm: number; // Accept bpm as a prop
+  onTick?: () => void; // Callback for each beat
 }
 
-const Metronome: React.FC<MetronomeProps> = ({ bpm }) => {
+export interface MetronomeRef {
+  beatTimestamps: number[];
+}
+
+const Metronome = forwardRef<MetronomeRef, MetronomeProps>(({ bpm, onTick }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false); // Track if the metronome is playing
   const [displayText, setDisplayText] = useState<string>('Tap Rhythm'); // Text to display
   const intervalRef = useRef<NodeJS.Timeout | null>(null); // Reference to the interval
   const [sound, setSound] = useState<Audio.Sound | null>(null); // Sound object for the metronome tick
+  const beatTimestamps = useRef<number[]>([]); // Store timestamps of metronome beats
   const beat = useSharedValue(0);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    opacity: beat.value % 2 === 0 ? 1 : 0.5,
+  // Expose beatTimestamps to the parent component via the ref
+  useImperativeHandle(ref, () => ({
+    beatTimestamps: beatTimestamps.current,
   }));
 
   // Load the metronome sound
@@ -42,11 +49,23 @@ const Metronome: React.FC<MetronomeProps> = ({ bpm }) => {
       let beatCount = 0; // Local variable to track the beat count
       setDisplayText('1'); // Start with the first beat
       intervalRef.current = setInterval(() => {
+        const now = Date.now(); // Record the current timestamp
+        beatTimestamps.current.push(now); // Save the timestamp of the beat
+        if (beatTimestamps.current.length > 10) {
+          beatTimestamps.current.shift(); // Keep only the last 10 beats
+        }
+
         beatCount += 1;
+
+        // Notify the parent component of the beat
+        if (onTick) {
+          onTick();
+        }
+
         playTick(); // Play the tick sound
         // Update the display text for the first 4 beats
         if (beatCount <= 4) {
-          setDisplayText(beatCount === 4 ? 'Start' : beatCount.toString());
+          setDisplayText(beatCount === 4 ? '4 - Start' : beatCount.toString());
         } else if (beatCount === 5) {
           setDisplayText('Tap Rhythm'); // Start with the first beat
         } else if (beatCount === 8) {
@@ -100,9 +119,8 @@ const Metronome: React.FC<MetronomeProps> = ({ bpm }) => {
       >
         <Text className="text-white font-bold">{isPlaying ? 'End the Beat Yo' : 'Start the Beat Yo'}</Text>
       </TouchableOpacity>
-      <Animated.View style={[animatedStyle, { width: 100, height: 100, backgroundColor: 'red' }]} />
     </View>
   );
-};
+});
 
 export default Metronome;

@@ -7,4 +7,9 @@ export const sounds: Record<string, any> = {
   g: require('@/assets/sounds/notes/g4.mp3'),
   a: require('@/assets/sounds/notes/a5.mp3'),
   b: require('@/assets/sounds/notes/b5.mp3'),
+
+  correct: require('@/assets/sounds/correct.mp3'),
+  wrong: require('@/assets/sounds/incorrect.mp3'),
+  tap: require('@/assets/sounds/tap.mp3'),
+  metronome: require('@/assets/sounds/metronome.wav'),
 };

@@ -6,6 +6,8 @@ import g4 from "@/assets/images/music/no-time-sig/treble/g4.png";
 import a4 from "@/assets/images/music/no-time-sig/treble/a4.png";
 import b4 from "@/assets/images/music/no-time-sig/treble/b4.png";
 
+import base from "@/assets/images/music/time-sig/rythm/rythm-empty.png";
+
 export const trebleClefNotes = {
   c4,
   d4,
@@ -15,3 +17,7 @@ export const trebleClefNotes = {
   a4,
   b4,
 };
+
+export const rythmNotes = {
+  base
+}

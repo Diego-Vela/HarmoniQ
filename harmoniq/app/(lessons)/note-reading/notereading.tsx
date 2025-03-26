@@ -27,6 +27,16 @@ const NoteReading = () => {
     }
   };
 
+  const playFeedbackSound = async (isCorrect: boolean) => {
+    try {
+      const soundFile = isCorrect ? sounds.correct : sounds.wrong;
+      const { sound } = await Audio.Sound.createAsync(soundFile);
+      await sound.playAsync();
+    } catch (error) {
+      console.error('Error playing feedback sound:', error);
+    }
+  };
+
   const getRandomNote = (): Note => {
     const randomIndex = Math.floor(Math.random() * notes.length);
     return notes[randomIndex];
@@ -57,18 +67,22 @@ const NoteReading = () => {
     }
   };
 
-  const handleCheckAnswer = () => {
+  const handleCheckAnswer = async () => {
     if (isChecking) {
       if (!selectedNote) {
         setResultMessage('Please select a note before checking your answer.');
         return;
       }
 
-      if (selectedNote === randomNote) {
-        setResultMessage(`Correct! You selected the correct note: ${selectedNote.toUpperCase()}`);
-      } else {
-        setResultMessage(`Incorrect! The correct note was: ${randomNote?.toUpperCase()}`);
-      }
+      const isCorrect = selectedNote === randomNote;
+      setResultMessage(
+        isCorrect
+          ? `Correct! You selected the correct note: ${selectedNote.toUpperCase()}`
+          : `Incorrect! The correct note was: ${randomNote?.toUpperCase()}`
+      );
+
+      // Play feedback sound
+      await playFeedbackSound(isCorrect);
 
       setIsChecking(false);
     } else {
@@ -84,14 +98,14 @@ const NoteReading = () => {
   }, []);
 
   return (
-    <ActivityBase>
+    <ActivityBase description="Select the correct note to match the displayed note">
       {/* Display Random Note */}
       <View className="bg-transparent w-[80%] h-[35%] items-center justify-center relative">
         {randomNote && (
           <>
             <Image
               source={trebleClefNotes[randomNote]}
-              className="w-[90%] h-[50%] z-0 rounded-2xl"
+              className="w-[90%] h-[50%] z-0 "
               resizeMode="contain"
             />
             <TouchableOpacity
