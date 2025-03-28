@@ -3,7 +3,7 @@ export function compareRhythm(
   targetRhythm: string[],
   startTime: number | null,
   tempo = 100,
-  tolerance = 350 // milliseconds of error allowed
+  tolerance = 215 // milliseconds of error allowed
 ): boolean {
   if (!startTime || userTimestamps.length !== targetRhythm.length) return false;
 

@@ -1,14 +1,28 @@
 import React, { useRef, useEffect } from 'react';
-import { Pressable, Text } from 'react-native';
+import { Pressable, Text, Animated } from 'react-native';
 import { Audio } from 'expo-av';
 import { sounds } from '@/constants/sounds';
 
-type TapPadProps = {
+interface TapPadProps {
   onTap: () => void;
-};
+  beatFlash?: boolean; // new prop
+}
 
-export default function TapPad({ onTap }: TapPadProps) {
+export default function TapPad({ onTap, beatFlash }: TapPadProps) {
   const tapSoundRef = useRef<Audio.Sound | null>(null);
+
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    if (beatFlash) {
+      scaleAnim.setValue(1.2);
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [beatFlash]);
 
   const playTapSound = async () => {
     try {
@@ -36,11 +50,10 @@ export default function TapPad({ onTap }: TapPadProps) {
   }, []);
 
   return (
-    <Pressable
-      className="w-[45%] h-full bg-blue-500 rounded justify-center items-center shadow-lg shadow-red-500 active:bg-blue-600"
-      onPressIn={handlePressIn} // Trigger on press down
-    >
-      <Text className="text-white text-2xl font-bold">TAP</Text>
-    </Pressable>
+    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+      <Pressable onPress={onTap}>
+        {/* Your pad visuals here */}
+      </Pressable>
+    </Animated.View>
   );
 }
