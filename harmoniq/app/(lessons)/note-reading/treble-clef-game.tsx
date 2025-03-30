@@ -1,6 +1,6 @@
 import React from 'react';
 import NoteReadingGame from '@/components/note-reading/note-reading-game';
-import noteData from '@/constants/note-identification.json';
+import noteData from '@/data/note-identification.json';
 import { trebleClefNotes } from '@/constants/music-notes-treble';
 import { useLocalSearchParams } from 'expo-router';
 

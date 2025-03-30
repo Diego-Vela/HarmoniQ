@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import  intervalLevels  from '@/constants/interval-levels.json';
+import  intervalLevels  from '@/data/interval-levels.json';
 import { playTone } from '@/utils/play-tone-util'; // Adjust path as needed
 
 

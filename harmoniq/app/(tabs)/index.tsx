@@ -25,7 +25,7 @@ export default function Index() {
             <Lesson lesson="note-reading" activity="bass-clef-game" level="1"/>
             <Lesson lesson="(rythm)" activity="rythm-quiz" level="1"/>
             <Lesson lesson="(intervals)" activity="interval-activity" level="1"/>
-            <Lesson lesson="" activity="" level="1"/>
+            <Lesson lesson="notation" activity="key-signature-id" level="1"/>
           </View>
         </ScrollView>
       </View>
