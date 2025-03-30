@@ -1,0 +1,78 @@
+{
+  "tap": {
+    "1": [
+      { "pattern": ["h"], "beats": 2 },
+      { "pattern": ["q", "q"], "beats": 2 },
+      { "pattern": ["q", "8", "8"], "beats": 2 },
+      { "pattern": ["8", "q", "8"], "beats": 2 },
+      { "pattern": ["8", "8", "q"], "beats": 2 },
+      { "pattern": ["8", "8", "8", "8"], "beats": 2 }
+    ],
+    "2": [
+      { "pattern": ["q", "h"], "beats": 3 },
+      { "pattern": ["h", "q"], "beats": 3 },
+      { "pattern": ["q", "q", "q"], "beats": 3 },
+      { "pattern": ["8", "8", "h"], "beats": 3 },
+      { "pattern": ["8", "h", "8"], "beats": 3 },
+      { "pattern": ["h", "8", "8"], "beats": 3 },
+      { "pattern": ["q", "q", "8", "8"], "beats": 3 },
+      { "pattern": ["q", "8", "q", "8"], "beats": 3 },
+      { "pattern": ["q", "8", "8", "q"], "beats": 3 },
+      { "pattern": ["8", "q", "q", "8"], "beats": 3 },
+      { "pattern": ["8", "q", "8", "q"], "beats": 3 },
+      { "pattern": ["8", "8", "q", "q"], "beats": 3 }
+    ],
+    "3": [
+      { "pattern": ["h", "h"], "beats": 4 },
+      { "pattern": ["q", "q", "h"], "beats": 4 },
+      { "pattern": ["q", "h", "q"], "beats": 4 },
+      { "pattern": ["h", "q", "q"], "beats": 4 },
+      { "pattern": ["q", "q", "q", "q"], "beats": 4 },
+      { "pattern": ["q", "8", "8", "h"], "beats": 4 },
+      { "pattern": ["q", "8", "h", "8"], "beats": 4 },
+      { "pattern": ["q", "h", "8", "8"], "beats": 4 },
+      { "pattern": ["8", "q", "8", "h"], "beats": 4 },
+      { "pattern": ["8", "q", "h", "8"], "beats": 4 },
+      { "pattern": ["8", "8", "q", "h"], "beats": 4 },
+      { "pattern": ["8", "8", "h", "q"], "beats": 4 }
+    ]
+  },
+  "randomizer": {
+    "1": [
+      { "pattern": ["h"], "beats": 2 },
+      { "pattern": ["q", "q"], "beats": 2 },
+      { "pattern": ["q", "8", "8"], "beats": 2 },
+      { "pattern": ["8", "q", "8"], "beats": 2 },
+      { "pattern": ["8", "8", "q"], "beats": 2 },
+      { "pattern": ["8", "8", "8", "8"], "beats": 2 }
+    ],
+    "2": [
+      { "pattern": ["q", "h"], "beats": 3 },
+      { "pattern": ["h", "q"], "beats": 3 },
+      { "pattern": ["q", "q", "q"], "beats": 3 },
+      { "pattern": ["8", "8", "h"], "beats": 3 },
+      { "pattern": ["8", "h", "8"], "beats": 3 },
+      { "pattern": ["h", "8", "8"], "beats": 3 },
+      { "pattern": ["q", "q", "8", "8"], "beats": 3 },
+      { "pattern": ["q", "8", "q", "8"], "beats": 3 },
+      { "pattern": ["q", "8", "8", "q"], "beats": 3 },
+      { "pattern": ["8", "q", "q", "8"], "beats": 3 },
+      { "pattern": ["8", "q", "8", "q"], "beats": 3 },
+      { "pattern": ["8", "8", "q", "q"], "beats": 3 }
+    ],
+    "3": [
+      { "pattern": ["h", "h"], "beats": 4 },
+      { "pattern": ["q", "q", "h"], "beats": 4 },
+      { "pattern": ["q", "h", "q"], "beats": 4 },
+      { "pattern": ["h", "q", "q"], "beats": 4 },
+      { "pattern": ["q", "q", "q", "q"], "beats": 4 },
+      { "pattern": ["q", "8", "8", "h"], "beats": 4.0 },
+      { "pattern": ["q", "8", "h", "8"], "beats": 4.0 },
+      { "pattern": ["q", "h", "8", "8"], "beats": 4.0 },
+      { "pattern": ["8", "q", "8", "h"], "beats": 4.0 },
+      { "pattern": ["8", "q", "h", "8"], "beats": 4.0 },
+      { "pattern": ["8", "8", "q", "h"], "beats": 4.0 },
+      { "pattern": ["8", "8", "h", "q"], "beats": 4.0 }
+    ]
+  }
+}
