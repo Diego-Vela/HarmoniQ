@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { useNoteReading } from '@/hooks/useNoteReading'; // Your custom hook
+import { useNoteReading } from '@/hooks/useNoteReading'; 
 import SimpleNotes from '@/components/buttons/simple-notes';
 import ActivityBase from '@/components/activity-base';
-import Feedback from '@/components/feedback'; // Import the Feedback component
+import Feedback from '@/components/feedback'; 
 
 type NoteReadingGameProps = {
   clefName: 'Treble' | 'Bass';
