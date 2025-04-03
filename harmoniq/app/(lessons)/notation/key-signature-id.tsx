@@ -1,15 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
+import { useLocalSearchParams } from 'expo-router'; // Import useLocalSearchParams
 import ActivityBase from '@/components/activity-base';
 import Feedback from '@/components/feedback';
 import SimpleNotes from '@/components/buttons/simple-notes';
-import { keySignatureImages } from '@/constants/keys';
+import {
+  TrebleSharpMajors,
+  TrebleFlatMajors,
+  TrebleSharpMinors,
+  TrebleFlatMinors,
+  BassSharpMajors,
+  BassFlatMajors,
+  BassSharpMinors,
+  BassFlatMinors,
+} from '@/constants/keys';
+import keyIdLevels from '@/data/key-id-levels.json';
 
 const KeySignatureGame = () => {
-  const [currentKey, setCurrentKey] = useState(generateKey());
+  const { level } = useLocalSearchParams(); // Grab the level from the URL or navigation params
+  const [currentKey, setCurrentKey] = useState(() => generateKey(level as string));
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [isChecking, setIsChecking] = useState(true);
   const [showFeedback, setShowFeedback] = useState(false);
+
+  useEffect(() => {
+    // Regenerate the key when the level changes
+    setCurrentKey(generateKey(level as string));
+    setSelectedKey(null);
+    setIsChecking(true);
+    setShowFeedback(false);
+  }, [level]);
 
   const handlePress = (key: string) => {
     if (isChecking) {
@@ -22,7 +42,7 @@ const KeySignatureGame = () => {
       setIsChecking(false);
       setShowFeedback(true);
     } else {
-      setCurrentKey(generateKey());
+      setCurrentKey(generateKey(level as string));
       setSelectedKey(null);
       setIsChecking(true);
       setShowFeedback(false);
@@ -67,15 +87,52 @@ const KeySignatureGame = () => {
   );
 };
 
-function generateKey() {
-  const allKeys = Object.keys(keySignatureImages); // Get all key names
-  const correct = allKeys[Math.floor(Math.random() * allKeys.length)] as keyof typeof keySignatureImages; // Pick a random key
-  const options = shuffle(allKeys.filter((k) => k !== correct)).slice(0, 3); // Pick 3 random incorrect options
-  options.push(correct); // Add the correct answer to the options
+function generateKey(level: string) {
+  // Find the level configuration from the JSON file
+  const levelConfig = keyIdLevels.levels.find((lvl) => lvl.level === level);
+
+  if (!levelConfig) {
+    throw new Error(`Level ${level} not found in key-id-levels.json`);
+  }
+
+  const { quality, staff, keys } = levelConfig;
+
+  // Combine the relevant constants based on quality and staff
+  let availableKeys: Record<string, any> = {};
+
+  if (staff === 'treble' || staff === 'both') {
+    if (quality === 'major') {
+      availableKeys = { ...TrebleSharpMajors, ...TrebleFlatMajors };
+    } else if (quality === 'minor') {
+      availableKeys = { ...TrebleSharpMinors, ...TrebleFlatMinors };
+    }
+  }
+
+  if (staff === 'bass' || staff === 'both') {
+    if (quality === 'major') {
+      availableKeys = { ...availableKeys, ...BassSharpMajors, ...BassFlatMajors };
+    } else if (quality === 'minor') {
+      availableKeys = { ...availableKeys, ...BassSharpMinors, ...BassFlatMinors };
+    }
+  }
+
+  // Filter available keys based on the `keys` array from the JSON file
+  const filteredKeys = Object.keys(availableKeys).filter((key) => keys.includes(key.split(' ')[0]));
+
+  // Pick a random correct key
+  const correctKey = filteredKeys[Math.floor(Math.random() * filteredKeys.length)];
+
+  // Generate 3 random incorrect options
+  const incorrectKeys = filteredKeys.filter((key) => key !== correctKey);
+  const randomIncorrectKeys = shuffle(incorrectKeys).slice(0, 3);
+
+  // Combine and shuffle options
+  const options = shuffle([...randomIncorrectKeys, correctKey]);
+
   return {
-    image: keySignatureImages[correct], // Get the image for the correct key
-    correctAnswer: correct, // The correct key name
-    options: shuffle(options), // Shuffle the options
+    image: availableKeys[correctKey], // Get the image for the correct key
+    correctAnswer: correctKey, // The correct key name
+    options, // The shuffled options
   };
 }
 

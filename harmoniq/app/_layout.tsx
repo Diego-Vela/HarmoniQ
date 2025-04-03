@@ -12,6 +12,10 @@ export default function RootLayout() {
       name="(lessons)"
       options={{ headerShown: false}}
     />
+    <Stack.Screen
+      name="level-select"
+      options={{ headerShown: false }}
+    />
     
   </Stack>;
 }

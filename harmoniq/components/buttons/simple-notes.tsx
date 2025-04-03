@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
 
 type SimpleNotesProps = {
-  notes: string[]; // Full notes like "c4", "d4", etc.
+  notes: string[]; // Full notes like "C#", "Db", etc.
   selectedNote: string | null;
   onNotePress: (note: string) => void; // Function to handle note press
   disabled: boolean; // New prop to disable buttons
@@ -14,8 +14,11 @@ const SimpleNotes: React.FC<SimpleNotesProps> = ({ notes, selectedNote, onNotePr
       {notes.map(note => {
         const isSelected = selectedNote === note;
 
-        // Extract the uppercase letter of the note (e.g., "C" from "c4")
-        const displayNote = note.charAt(0).toUpperCase();
+        // Extract the note up to the sharp (#) or flat (b) symbol
+        const displayNote = note
+        .match(/^[A-G][#b]?/)?.[0] || note.charAt(0).toUpperCase()
+        .replace('#', '♯')
+        .replace('b', '♭');
 
         return (
           <TouchableOpacity

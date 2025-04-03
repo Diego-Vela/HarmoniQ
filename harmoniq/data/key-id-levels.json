@@ -1,0 +1,28 @@
+{
+  "levels":
+  [
+    {
+      "level": "1",
+      "quality": "major",
+      "staff": "treble",
+      "keys": ["C", "F", "G","Bb"]
+    },
+    {
+      "level": "2",
+      "quality": "major",
+      "staff": "treble",
+      "keys": ["C", "F", "G","Bb","A"]
+    },
+    {
+      "level": "3",
+      "quality": "major",
+      "staff": "treble",
+      "keys": ["C", "F", "G","Bb", "A", "D", "Eb"]
+    },
+    {
+      "level": "4",
+      "quality": "both",
+      "keys": ["A", "D", "E","B"]
+    }
+  ]
+}

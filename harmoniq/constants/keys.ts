@@ -34,7 +34,7 @@ import gSharpMinor from '@/assets/images/music/keys/sharps/key-5-sharp.png'
 import dSharpMinor from '@/assets/images/music/keys/sharps/key-6-sharp.png'
 import aSharpMinor from '@/assets/images/music/keys/sharps/key-7-sharp.png'
 
-export const keySignatureImages = {
+export const keySignatureImagesTreble = {
   "C Major": cMajor,
   "A Minor": aMinor,
 
@@ -74,3 +74,56 @@ export const keySignatureImages = {
   "D# Minor": dSharpMinor,
   "A# Minor": aSharpMinor,
 };
+
+// Treble - Major Keys
+export const TrebleSharpMajors = {
+  "C Major": cMajor,
+  "G Major": gMajor,
+  "D Major": dMajor,
+  "A Major": aMajor,
+  "E Major": eMajor,
+  "B Major": bMajor,
+  "F# Major": fSharpMajor,
+  "C# Major": cSharpMajor,
+};
+
+export const TrebleFlatMajors = {
+  "C Major": cMajor,
+  "F Major": fMajor,
+  "Bb Major": bFlatMajor,
+  "Eb Major": eFlatMajor,
+  "Ab Major": aFlatMajor,
+  "Db Major": dFlatMajor,
+  "Gb Major": gFlatMajor,
+  "Cb Major": cFlatMajor,
+};
+
+// Treble - Minor Keys
+export const TrebleSharpMinors = {
+  "E Minor": eMinor,
+  "B Minor": bMinor,
+  "F# Minor": fSharpMinor,
+  "C# Minor": cSharpMinor,
+  "G# Minor": gSharpMinor,
+  "D# Minor": dSharpMinor,
+  "A# Minor": aSharpMinor,
+};
+
+export const TrebleFlatMinors = {
+  "Ab Minor": aFlatMinor,
+  "D Minor": dMinor,
+  "G Minor": gMinor,
+  "C Minor": cMinor,
+  "F Minor": fMinor,
+  "Bb Minor": bFlatMinor,
+  "Eb Minor": eFlatMinor,
+};
+
+// Bass - Major and Minor Keys (if needed, similar structure can be added)
+export const BassSharpMajors = { /* Add bass sharp major keys here */ };
+export const BassFlatMajors = { /* Add bass flat major keys here */ };
+export const BassSharpMinors = { /* Add bass sharp minor keys here */ };
+export const BassFlatMinors = { /* Add bass flat minor keys here */ };
+
+export const keySignatureImagesBass = {
+}
