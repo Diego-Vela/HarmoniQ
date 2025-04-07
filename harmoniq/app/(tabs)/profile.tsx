@@ -19,7 +19,7 @@ const Profile = () => {
       <View className="flex justify-center items-center w-full h-[8%] mt-0 bg-primary z-0 border-gray-600 border-b">
         <Topbar />
       </View>
-
+      
       {/* Profile Content */}
       <View className="flex-1">
         {/* Background Image */}

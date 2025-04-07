@@ -23,9 +23,9 @@ export default function Index() {
           <View className="flex flex-col justify-between items-center mt-0 bg-transparent rounded-lg">
             <Lesson lesson="note-reading" activity="treble-clef-game" level="1"/>
             <Lesson lesson="note-reading" activity="bass-clef-game" level="1"/>
-            <Lesson lesson="(rythm)" activity="rythm-quiz" level="3"/>
-            <Lesson lesson="(intervals)" activity="interval-activity" level="1"/>
-            <Lesson lesson="notation" activity="key-signature-id" level="3"/>
+            <Lesson lesson="rhythm" activity="rhythm-quiz" level="1"/>
+            <Lesson lesson="intervals" activity="interval-activity" level="1"/>
+            <Lesson lesson="notation" activity="key-signature-id" level="1"/>
           </View>
         </ScrollView>
       </View>
