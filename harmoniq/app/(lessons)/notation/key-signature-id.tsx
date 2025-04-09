@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams } from 'expo-router'; // Import useLocalSearchParams
-import ActivityBase from '@/components/activity-base';
-import Feedback from '@/components/feedback';
-import SimpleNotes from '@/components/buttons/simple-notes';
+import ActivityBase from '@/components/activities/activity-base';
+import Feedback from '@/components/activities/feedback';
+import SimpleNotes from '@/components/activities/buttons/simple-notes';
 import {
   TrebleSharpMajors,
   TrebleFlatMajors,

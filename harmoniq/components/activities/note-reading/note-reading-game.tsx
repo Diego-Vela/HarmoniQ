@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { useNoteReading } from '@/hooks/useNoteReading'; 
-import SimpleNotes from '@/components/buttons/simple-notes';
-import ActivityBase from '@/components/activity-base';
-import Feedback from '@/components/feedback'; 
+import SimpleNotes from '@/components/activities/buttons/simple-notes';
+import ActivityBase from '@/components/activities/activity-base';
+import Feedback from '@/components/activities/feedback'; 
 
 type NoteReadingGameProps = {
   clefName: 'Treble' | 'Bass';

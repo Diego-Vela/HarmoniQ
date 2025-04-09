@@ -21,6 +21,8 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-elevation')(['responsive']),
+  ],
 }
 

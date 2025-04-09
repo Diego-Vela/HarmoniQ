@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from 'react';
-import { compareRhythm } from '@/components/rhythm/rhythm-comparer';
+import { compareRhythm } from '@/components/activities/rhythm/rhythm-comparer';
 import { selectRandomRhythm } from '@/utils/rhythm-utils';
 
 interface RhythmPattern {

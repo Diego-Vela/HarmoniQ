@@ -1,0 +1,36 @@
+{
+  "daily": [
+    {
+      "id": "d2",
+      "title": "Complete 5 note reading questions",
+      "xpReward": 60,
+      "goal": 5
+    },
+    {
+      "id": "d3",
+      "title": "Finish 2 rhythm exercises",
+      "xpReward": 50,
+      "goal": 2
+    },
+    {
+      "id": "d4",
+      "title": "Identify 4 key signatures",
+      "xpReward": 55,
+      "goal": 4
+    }
+  ],
+  "weekly": [
+    {
+      "id": "w1",
+      "title": "Complete 10 interval challenges",
+      "xpReward": 200,
+      "goal": 10
+    },
+    {
+      "id": "w2",
+      "title": "Earn 150 XP from training",
+      "xpReward": 250,
+      "goal": 150
+    }
+  ]
+}

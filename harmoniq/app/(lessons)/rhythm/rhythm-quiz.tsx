@@ -2,12 +2,12 @@ import React, { useState, useRef } from 'react';
 import { View, Button, Animated } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 
-import TapPad from '@/components/rhythm/tap-pad';
-import RhythmDisplay from '@/components/rhythm/rhythm-display';
-import Feedback from '@/components/feedback';
-import ActivityBase from '@/components/activity-base';
+import TapPad from '@/components/activities/rhythm/tap-pad';
+import RhythmDisplay from '@/components/activities/rhythm/rhythm-display';
+import Feedback from '@/components/activities/feedback';
+import ActivityBase from '@/components/activities/activity-base';
 
-import MetronomeCountdown from '@/components/rhythm/metronome-countdown';
+import MetronomeCountdown from '@/components/activities/rhythm/metronome-countdown';
 import { useRhythmSession } from '@/hooks/useRhythmSession';
 
 export default function RhythmQuiz() {

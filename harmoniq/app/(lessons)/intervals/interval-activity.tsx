@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import ActivityBase from '@/components/activity-base';
-import Feedback from '@/components/feedback';
+import ActivityBase from '@/components/activities/activity-base';
+import Feedback from '@/components/activities/feedback';
 import { useIntervalTraining, LevelData } from '@/hooks/useIntervalTraining';
 import intervalLevels from '@/data/interval-levels.json';
 import type { Interval } from '@/hooks/useIntervalTraining';
