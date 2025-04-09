@@ -1,19 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import ActivityBase from '@/components/activities/activity-base';
 import Feedback from '@/components/activities/feedback';
 import { useIntervalTraining, LevelData } from '@/hooks/useIntervalTraining';
 import intervalLevels from '@/data/interval-levels.json';
 import type { Interval } from '@/hooks/useIntervalTraining';
-import { useLocalSearchParams } from 'expo-router';
+import { ActivityComponentProps } from '@/constants/types';
 
-export default function IntervalActivity() {
-  // Find the correct level data from the JSON file and cast it as LevelData
-  const { level } = useLocalSearchParams();
-  if (Array.isArray(level)) {
-    throw new Error('dummy error');
-  }
-  const levelData = intervalLevels.levels.find((lvl) => lvl.level === level) as LevelData;
+const IntervalGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) => {
+  const levelData = intervalLevels.levels.find((lvl) => Number(lvl.level) === level) as LevelData;
 
   if (!levelData) {
     throw new Error(`Level ${level} not found in interval-levels.json`);
@@ -30,17 +25,29 @@ export default function IntervalActivity() {
     checkAnswer,
     previewInterval,
     generateNext,
-  } = useIntervalTraining(level, levelData); // Pass levelData as a prop
+  } = useIntervalTraining(level.toString(), levelData);
 
-  const intervalOptions = levelData.intervals; // Access intervals for the selected level
+  const intervalOptions = levelData.intervals;
+
+  const [correctCount, setCorrectCount] = useState(0);
+  const targetCorrect = 10;
+
+  useEffect(() => {
+    if (isChecking === false && isCorrect) {
+      const newCount = correctCount + 1;
+      setCorrectCount(newCount);
+      if (newCount >= targetCorrect) {
+        setTimeout(onSuccess, 600); // short delay to show feedback
+      }
+    }
+  }, [isChecking]);
 
   const handleIntervalPress = (interval: string) => {
     if (!isChecking) return;
     const typedInterval = interval as Interval;
     setSelectedInterval(typedInterval);
-    previewInterval(typedInterval); // 🔊 Play preview
+    previewInterval(typedInterval);
   };
-  
 
   const handleMainButton = () => {
     if (isChecking) {
@@ -51,8 +58,9 @@ export default function IntervalActivity() {
   };
 
   return (
-    <ActivityBase description="Identify the interval starting from the root note">
-      {/* Play Button */}
+    <>
+
+      {/* Play Interval */}
       <TouchableOpacity
         className="w-[24%] h-[12%] bg-secondary rounded-full justify-center items-center"
         onPress={playInterval}
@@ -88,6 +96,8 @@ export default function IntervalActivity() {
           {isChecking ? 'Check Answer' : 'Continue'}
         </Text>
       </TouchableOpacity>
-    </ActivityBase>
+    </>
   );
-}
+};
+
+export default IntervalGame;

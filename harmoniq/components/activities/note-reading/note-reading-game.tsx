@@ -4,14 +4,15 @@ import { useNoteReading } from '@/hooks/useNoteReading';
 import SimpleNotes from '@/components/activities/buttons/simple-notes';
 import ActivityBase from '@/components/activities/activity-base';
 import Feedback from '@/components/activities/feedback'; 
+import { NoteReadingGameProps } from '@/constants/types';
 
-type NoteReadingGameProps = {
-  clefName: 'Treble' | 'Bass';
-  notes: string[];
-  noteImages: Record<string, any>; // Replace `any` with correct type if you have one
-};
-
-const NoteReadingGame: React.FC<NoteReadingGameProps> = ({ clefName, notes, noteImages }) => {
+const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
+  clefName,
+  notes,
+  noteImages,
+  level,
+  onSuccess
+}) => {
   const {
     randomNote,
     selectedNote,
@@ -24,7 +25,9 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({ clefName, notes, note
     playSound,
   } = useNoteReading(notes);
 
-  const [visibleFeedback, setVisibleFeedback] = useState(false); // State to control feedback visibility
+  const [visibleFeedback, setVisibleFeedback] = useState(false);
+  const [correctCount, setCorrectCount] = useState(0);
+  const targetCorrect = 10;
 
   const handleNotePress = async (note: string) => {
     if (isChecking) {
@@ -35,16 +38,22 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({ clefName, notes, note
 
   const handleMainButton = () => {
     if (isChecking) {
+      const isCorrect = selectedNote === randomNote;
       handleCheckAnswer();
-      setVisibleFeedback(true); // Show feedback when checking the answer
+      setVisibleFeedback(true);
+  
+      if (isCorrect) {
+        onSuccess();
+      }
     } else {
       regenerateNote();
-      setVisibleFeedback(false); // Hide feedback when generating a new note
+      setVisibleFeedback(false);
     }
   };
+  
 
   return (
-    <ActivityBase description={`Select the correct note for the ${clefName} clef`}>
+    <>
       {/* Display Note */}
       <View className="bg-transparent w-[80%] h-[35%] items-center justify-center relative rounded-xl">
         {randomNote && (
@@ -90,7 +99,7 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({ clefName, notes, note
           </TouchableOpacity>
         </View>
       </View>
-    </ActivityBase>
+    </>
   );
 };
 

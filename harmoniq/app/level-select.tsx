@@ -30,8 +30,10 @@ const LevelSelect = () => {
   };
 
   const handleLevelPress = (level: number) => {
-    router.push(`/(lessons)/${category}/${subcategory}?level=${level}` as any);
+    console.log(`/(lessons)/entry-point?category=${category}&subcategory=${subcategory}&level=${level}`)
+    router.push(`/(lessons)/entry-point?category=${category}&subcategory=${subcategory}&level=${level}`);
   };
+  
 
   return (
     <SafeAreaView className="flex-1 bg-dark-200 items-center justify-start pt-12">

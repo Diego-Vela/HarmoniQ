@@ -26,10 +26,10 @@ const Training = () => {
           <Text className="text-2xl font-bold text-white mt-4 mb-2">Note Reading</Text>
           <View className="w-full h-[1px] bg-gray-600 mb-4" /> 
           <View className="flex-column justify-evenly">
-            <TouchableOpacity onPress={() => navigateToLevelSelect('note-reading', 'treble-clef-game')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-orange-600">
+            <TouchableOpacity onPress={() => navigateToLevelSelect('note-reading', 'treble-clef')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-orange-600">
               <Text className="text-primary font-semibold text-xl">Treble</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigateToLevelSelect('note-reading', 'bass-clef-game')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-orange-600">
+            <TouchableOpacity onPress={() => navigateToLevelSelect('note-reading', 'bass-clef')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-orange-600">
               <Text className="text-primary font-semibold text-xl">Bass</Text>
             </TouchableOpacity>
           </View>
@@ -37,21 +37,21 @@ const Training = () => {
           {/* Notation Section */}
           <Text className="text-2xl font-bold text-white mt-4 mb-2">Notation</Text>
           <View className="w-full h-[1px] bg-gray-600 mb-4" /> 
-          <TouchableOpacity onPress={() => navigateToLevelSelect('notation', 'key-signature-id')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-red-600">
+          <TouchableOpacity onPress={() => navigateToLevelSelect('notation', 'key-signature-id-game')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-red-600">
             <Text className="text-primary font-semibold text-xl">Key Signature Identification</Text>
           </TouchableOpacity>
 
           {/* Rhythm Section */}
           <Text className="text-2xl font-bold text-white mt-4 mb-2">Rhythm</Text>
           <View className="w-full h-[1px] bg-gray-600 mb-4" /> 
-          <TouchableOpacity onPress={() => navigateToLevelSelect('rhythm', 'rhythm-quiz')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-blue-600">
+          <TouchableOpacity onPress={() => navigateToLevelSelect('rhythm', 'tap-rhythm-game')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-blue-600">
             <Text className="text-primary font-semibold text-xl">Tap Rhythm</Text>
           </TouchableOpacity>
 
           {/* Interval Section */}
           <Text className="text-2xl font-bold text-white mt-4 mb-2">Intervals</Text>
           <View className="w-full h-[1px] bg-gray-600 mb-4" /> 
-          <TouchableOpacity onPress={() => navigateToLevelSelect('intervals', 'interval-activity')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-green-600">
+          <TouchableOpacity onPress={() => navigateToLevelSelect('intervals', 'interval-game')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-green-600">
             <Text className="text-primary font-semibold text-xl">Interval Ear Training</Text>
           </TouchableOpacity>
         </ScrollView>

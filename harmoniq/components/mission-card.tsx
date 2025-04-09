@@ -4,12 +4,14 @@ import { Mission } from '@/constants/types';
 
 type Props = {
   mission: Mission;
-  isClaimed: boolean;
+
   onClaim: (mission: Mission) => void;
 };
 
-const MissionCard: React.FC<Props> = ({ mission, isClaimed, onClaim }) => {
+
+const MissionCard: React.FC<Props> = ({ mission, onClaim }) => {
   const isComplete = mission.progress.current >= mission.progress.goal;
+  const isClaimed = mission.completed;
 
   return (
     <View className="flex justify-center border border-gray-600 rounded-xl mb-4 bg-transparent h-32">

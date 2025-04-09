@@ -20,7 +20,9 @@ const BassClefGame = () => {
     <NoteReadingGame
       clefName="Bass"
       notes={bassNotes}
-      noteImages={bassClefNotes} // Pass bass clef note images if needed
+      noteImages={bassClefNotes}
+      level={parseInt(level as string)}
+      onSuccess={() => console.log('Bass training complete')} // Replace with mission success logic later
     />
   );
 };
