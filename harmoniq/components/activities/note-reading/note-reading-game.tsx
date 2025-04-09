@@ -11,13 +11,12 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
   notes,
   noteImages,
   level,
-  onSuccess
+  onSuccess,
 }) => {
   const {
     randomNote,
     selectedNote,
     setSelectedNote,
-    resultMessage,
     isChecking,
     regenerateNote,
     handleCheckAnswer,
@@ -26,8 +25,7 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
   } = useNoteReading(notes);
 
   const [visibleFeedback, setVisibleFeedback] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
-  const targetCorrect = 10;
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false); // Track if the answer is correct
 
   const handleNotePress = async (note: string) => {
     if (isChecking) {
@@ -37,20 +35,25 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
   };
 
   const handleMainButton = () => {
+    console.log('isChecking:', isChecking, 'selectedNote:', selectedNote, 'randomNote:', randomNote);
+
     if (isChecking) {
       const isCorrect = selectedNote === randomNote;
+      console.log('isCorrect:', isCorrect);
       handleCheckAnswer();
       setVisibleFeedback(true);
-  
-      if (isCorrect) {
-        onSuccess();
-      }
+      setIsAnswerCorrect(isCorrect); // Track if the answer is correct
     } else {
-      regenerateNote();
+      if (isAnswerCorrect) {
+        console.log('onSuccess called');
+        onSuccess(); // Call onSuccess only when the answer was correct
+      } else {
+        regenerateNote(); // Generate a new note if the answer was incorrect
+      }
       setVisibleFeedback(false);
+      setIsAnswerCorrect(false); // Reset the correct answer state
     }
   };
-  
 
   return (
     <>

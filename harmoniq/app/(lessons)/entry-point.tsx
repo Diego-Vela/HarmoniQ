@@ -17,28 +17,15 @@ const LessonsEntryPoint = () => {
     return <Text className="text-white">Missing or invalid training parameters.</Text>;
   }
 
-  const validSubcategories = ['treble', 'bass', 'interval', 'key-signature', 'tap-rhythm'];
-
-  if (!validSubcategories.includes(subcategory)) {
-    return <Text className="text-white">Invalid subcategory: {subcategory}</Text>;
-  }
-
   const sequence: ActivityDefinition[] =
     category === 'training'
-      ? Array.from({ length: 10 }, () => {
-          if (subcategory === 'treble' || subcategory === 'bass') {
-            return {
-              type: 'note-reading',
-              clef: subcategory === 'treble' ? 'Treble' : 'Bass',
-              level: parsedLevel,
-            };
-          } else {
-            return {
-              type: subcategory as 'interval' | 'key-signature' | 'tap-rhythm',
-              level: parsedLevel,
-            };
-          }
-        })
+      ? Array.from({ length: 10 }, () => ({
+          type: subcategory === 'treble' || subcategory === 'bass'
+            ? 'note-reading'
+            : (subcategory as any),
+          clef: subcategory === 'treble' ? 'Treble' : subcategory === 'bass' ? 'Bass' : undefined,
+          level: parsedLevel,
+        } as any))
       : [
           { type: 'note-reading', clef: 'Treble', level: parsedLevel },
           { type: 'note-reading', clef: 'Treble', level: parsedLevel },
@@ -47,12 +34,15 @@ const LessonsEntryPoint = () => {
           { type: 'tap-rhythm', level: parsedLevel },
         ];
 
+  console.log('Generated sequence:', sequence);
+
   return (
     <ActivitySequenceManager
       mode={category === 'lesson' ? 'lesson' : 'training'}
       sequence={sequence}
       onComplete={() => {
         console.log('Lesson/Training Complete');
+        // maybe route back or update mission XP here
       }}
     />
   );

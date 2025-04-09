@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import ActivityBase from '@/components/activities/activity-base';
 import Feedback from '@/components/activities/feedback';
 import { useIntervalTraining, LevelData } from '@/hooks/useIntervalTraining';
 import intervalLevels from '@/data/interval-levels.json';
@@ -29,18 +28,8 @@ const IntervalGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =>
 
   const intervalOptions = levelData.intervals;
 
-  const [correctCount, setCorrectCount] = useState(0);
-  const targetCorrect = 10;
-
-  useEffect(() => {
-    if (isChecking === false && isCorrect) {
-      const newCount = correctCount + 1;
-      setCorrectCount(newCount);
-      if (newCount >= targetCorrect) {
-        setTimeout(onSuccess, 600); // short delay to show feedback
-      }
-    }
-  }, [isChecking]);
+  const [visibleFeedbackState, setVisibleFeedbackState] = useState(false);
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false); // Track if the answer is correct
 
   const handleIntervalPress = (interval: string) => {
     if (!isChecking) return;
@@ -50,16 +39,28 @@ const IntervalGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =>
   };
 
   const handleMainButton = () => {
+    console.log('isChecking:', isChecking, 'selectedInterval:', selectedInterval, 'currentInterval:', currentInterval);
+
     if (isChecking) {
+      const isCorrectAnswer = selectedInterval === currentInterval;
+      console.log('isCorrect:', isCorrectAnswer);
       checkAnswer();
+      setVisibleFeedbackState(true);
+      setIsAnswerCorrect(isCorrectAnswer); // Track if the answer is correct
     } else {
-      generateNext();
+      if (isAnswerCorrect) {
+        console.log('onSuccess called');
+        onSuccess(); // Call onSuccess only when the answer was correct
+      } else {
+        generateNext(); // Generate the next interval if the answer was incorrect
+      }
+      setVisibleFeedbackState(false);
+      setIsAnswerCorrect(false); // Reset the correct answer state
     }
   };
 
   return (
     <>
-
       {/* Play Interval */}
       <TouchableOpacity
         className="w-[24%] h-[12%] bg-secondary rounded-full justify-center items-center"
@@ -85,7 +86,7 @@ const IntervalGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =>
       </View>
 
       {/* Feedback */}
-      <Feedback isCorrect={isCorrect} visible={visibleFeedback} />
+      <Feedback isCorrect={isCorrect} visible={visibleFeedbackState} />
 
       {/* Main Button */}
       <TouchableOpacity

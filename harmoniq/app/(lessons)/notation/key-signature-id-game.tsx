@@ -22,14 +22,14 @@ const KeySignatureGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [isChecking, setIsChecking] = useState(true);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
-  const targetCorrect = 10;
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false); // Track if the answer is correct
 
   useEffect(() => {
     setCurrentKey(generateKey(level.toString()));
     setSelectedKey(null);
     setIsChecking(true);
     setShowFeedback(false);
+    setIsAnswerCorrect(false); // Reset the correct answer state when the level changes
   }, [level]);
 
   const handlePress = (key: string) => {
@@ -43,20 +43,25 @@ const KeySignatureGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }
       setIsChecking(false);
       setShowFeedback(true);
 
-      if (selectedKey === currentKey.correctAnswer) {
-        onSuccess();
-      }
+      const isCorrect = selectedKey === currentKey.correctAnswer;
+      console.log('isCorrect:', isCorrect);
+      setIsAnswerCorrect(isCorrect); // Track if the answer is correct
     } else {
-      setCurrentKey(generateKey(level.toString()));
+      if (isAnswerCorrect) {
+        console.log('onSuccess called');
+        onSuccess(); // Call onSuccess only when the answer was correct
+      } else {
+        setCurrentKey(generateKey(level.toString())); // Generate a new key if the answer was incorrect
+      }
       setSelectedKey(null);
       setIsChecking(true);
       setShowFeedback(false);
+      setIsAnswerCorrect(false); // Reset the correct answer state
     }
   };
 
   return (
     <>
-
       {/* Signature Image */}
       <View className="bg-transparent w-[80%] h-[35%] items-center justify-center relative rounded-xl">
         <Image

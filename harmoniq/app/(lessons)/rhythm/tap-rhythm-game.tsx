@@ -29,15 +29,14 @@ const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =
     timestampsRef,
   } = useRhythmSession(category, level.toString());
 
-  // When correct and feedback is shown, trigger success once
-  useEffect(() => {
-    if (isCorrect && showFeedback && !justCompleted) {
-      setJustCompleted(true);
-      setTimeout(() => {
-        onSuccess(); // Trigger next activity
-      }, 800); // delay briefly so feedback appears first
+  const handleContinue = () => {
+    if (isCorrect) {
+      console.log('onSuccess called');
+      onSuccess(); // Trigger the next activity
+    } else {
+      handleReset(); // Reset the game if the answer was incorrect
     }
-  }, [isCorrect, showFeedback]);
+  };
 
   return (
     <>
@@ -67,13 +66,16 @@ const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =
         }}
       />
 
-      <View className="flex-row w-[50%] h-[20%] bg-transparent items-center justify-center">
+      <View className="flex-row w-[45%] h-[20%] bg-transparent items-center justify-center">
         <TapPad onTap={() => canTap && handleTap()} />
       </View>
 
       <Feedback visible={showFeedback} isCorrect={isCorrect} />
 
-      <Button title={isCorrect ? 'Next' : 'Reset'} onPress={handleReset} />
+      <Button
+        title={isCorrect ? 'Continue' : 'Reset'}
+        onPress={handleContinue} // Call handleContinue when the button is pressed
+      />
     </>
   );
 };

@@ -89,12 +89,12 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
 
   return (
     <ActivityBase description={mode === 'lesson' ? 'Lesson' : 'Training'}>
-      <View className="w-[60%] h-[5%] bg-gray-400 rounded-full overflow-hidden mt-4">
+      <View className="w-[60%] h-[3%] bg-gray-400 rounded-full overflow-hidden mt-6">
         <View
           style={{
             width: sequence.length > 0 ? `${(completedCount / sequence.length) * 100}%` : '0%',
           }}
-          className="h-full bg-green-600"
+          className="h-full bg-green-500"
         />
       </View>
       {renderActivity()}
