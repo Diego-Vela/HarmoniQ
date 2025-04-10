@@ -37,12 +37,15 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
   const current = sequence[currentIndex];
 
   const renderActivity = () => {
+    const activityKey = `activity-${currentIndex}`;
     console.log('Current activity:', current);
     console.log('completed:', completedCount, 'current index:', currentIndex, 'sequence length:', sequence.length);
+  
     switch (current.type) {
       case 'note-reading':
         return (
           <NoteReadingGame
+            key={activityKey} // ✅ force re-mount
             clefName={current.clef}
             notes={getNoteSet(current.clef, current.level)}
             noteImages={getNoteImages(current.clef)}
@@ -53,6 +56,7 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
       case 'interval':
         return (
           <IntervalGame
+            key={activityKey} // ✅ force re-mount
             level={current.level}
             onSuccess={handleActivitySuccess}
           />
@@ -60,6 +64,7 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
       case 'key-signature':
         return (
           <KeySignatureGame
+            key={activityKey} // ✅ force re-mount
             level={current.level}
             onSuccess={handleActivitySuccess}
           />
@@ -67,12 +72,13 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
       case 'tap-rhythm':
         return (
           <TapRhythmGame
+            key={activityKey} // ✅ force re-mount
             level={current.level}
             onSuccess={handleActivitySuccess}
           />
         );
       default:
-        return <Text>Unsupported activity type.</Text>;
+        return <Text>Unsupported activity type</Text>;
     }
   };
 

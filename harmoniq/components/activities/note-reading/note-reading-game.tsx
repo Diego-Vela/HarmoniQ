@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { useNoteReading } from '@/hooks/useNoteReading'; 
+import { useNoteReading } from '@/hooks/useNoteReading';
 import SimpleNotes from '@/components/activities/buttons/simple-notes';
-import ActivityBase from '@/components/activities/activity-base';
-import Feedback from '@/components/activities/feedback'; 
+import Feedback from '@/components/activities/feedback';
 import { NoteReadingGameProps } from '@/constants/types';
+
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withSequence,
+  withSpring,
+} from 'react-native-reanimated';
 
 const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
   clefName,
@@ -25,7 +32,30 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
   } = useNoteReading(notes);
 
   const [visibleFeedback, setVisibleFeedback] = useState(false);
-  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false); // Track if the answer is correct
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
+
+  // Animated values
+  const bgColorValue = useSharedValue('rgb(255, 121, 0)'); // orange (#FF7900)
+  const scaleValue = useSharedValue(1);
+  const shakeX = useSharedValue(0);
+
+  // Update background color based on correctness
+  useEffect(() => {
+    if (!isChecking && isAnswerCorrect) {
+      bgColorValue.value = withTiming('rgb(22, 163, 74)', { duration: 300 }); // green
+    } else {
+      bgColorValue.value = withTiming('rgb(255, 121, 0)', { duration: 300 }); // reset to orange
+    }
+  }, [isChecking, isAnswerCorrect]);
+
+  // Combine all animations into a style
+  const animatedButtonStyle = useAnimatedStyle(() => ({
+    backgroundColor: bgColorValue.value,
+    transform: [
+      { scale: scaleValue.value },
+      { translateX: shakeX.value },
+    ],
+  }));
 
   const handleNotePress = async (note: string) => {
     if (isChecking) {
@@ -35,23 +65,35 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
   };
 
   const handleMainButton = () => {
-    console.log('isChecking:', isChecking, 'selectedNote:', selectedNote, 'randomNote:', randomNote);
-
     if (isChecking) {
       const isCorrect = selectedNote === randomNote;
-      console.log('isCorrect:', isCorrect);
       handleCheckAnswer();
       setVisibleFeedback(true);
-      setIsAnswerCorrect(isCorrect); // Track if the answer is correct
+      setIsAnswerCorrect(isCorrect);
+
+      if (isCorrect) {
+        scaleValue.value = withSequence(
+          withSpring(1.3),
+          withSpring(1)
+        );
+      } else {
+        shakeX.value = withSequence(
+          withTiming(-15, { duration: 50 }),
+          withTiming(15, { duration: 50 }),
+          withTiming(-6, { duration: 50 }),
+          withTiming(6, { duration: 50 }),
+          withTiming(0, { duration: 50 })
+        );
+      }
     } else {
       if (isAnswerCorrect) {
-        console.log('onSuccess called');
-        onSuccess(); // Call onSuccess only when the answer was correct
+        onSuccess();
       } else {
-        regenerateNote(); // Generate a new note if the answer was incorrect
+        regenerateNote();
       }
+
       setVisibleFeedback(false);
-      setIsAnswerCorrect(false); // Reset the correct answer state
+      setIsAnswerCorrect(false);
     }
   };
 
@@ -85,21 +127,22 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
           disabled={!isChecking}
         />
 
-        {/* Feedback */}
         <Feedback
-          isCorrect={selectedNote === randomNote} // Determine if the answer is correct
-          visible={visibleFeedback} // Control visibility of feedback
+          isCorrect={selectedNote === randomNote}
+          visible={visibleFeedback}
         />
 
         <View className="flex w-[90%] h-[20%] bg-transparent rounded-xl items-center justify-evenly">
-          <TouchableOpacity
-            className="w-[80%] h-[50%] bg-accent rounded-xl justify-center shadow-md border border-accent"
-            onPress={handleMainButton}
+          <Animated.View
+            style={[{ width: '80%', height: '50%', borderRadius: 16 }, animatedButtonStyle]}
+            className="justify-center shadow-md border border-accent"
           >
-            <Text className="text-white font-bold text-center">
-              {isChecking ? 'Check Answer' : 'Continue'}
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={handleMainButton}>
+              <Text className="text-white font-bold text-center">
+                {isChecking ? 'Check Answer' : 'Continue'}
+              </Text>
+            </TouchableOpacity>
+          </Animated.View>
         </View>
       </View>
     </>
