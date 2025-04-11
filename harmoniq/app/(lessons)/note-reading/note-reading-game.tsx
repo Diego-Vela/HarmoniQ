@@ -4,7 +4,7 @@ import { useNoteReading } from '@/hooks/useNoteReading';
 import SimpleNotes from '@/components/activities/buttons/simple-notes';
 import Feedback from '@/components/activities/feedback';
 import { NoteReadingGameProps } from '@/constants/types';
-
+import AnimatedCheckButton from '@/components/activities/buttons/check-answer-button';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -133,16 +133,11 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
         />
 
         <View className="flex w-[90%] h-[20%] bg-transparent rounded-xl items-center justify-evenly">
-          <Animated.View
-            style={[{ width: '80%', height: '50%', borderRadius: 16 }, animatedButtonStyle]}
-            className="justify-center shadow-md border border-accent"
-          >
-            <TouchableOpacity onPress={handleMainButton}>
-              <Text className="text-white font-bold text-center">
-                {isChecking ? 'Check Answer' : 'Continue'}
-              </Text>
-            </TouchableOpacity>
-          </Animated.View>
+          <AnimatedCheckButton
+            isChecking={isChecking}
+            isCorrect={isAnswerCorrect}
+            onPress={handleMainButton}
+          />
         </View>
       </View>
     </>

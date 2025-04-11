@@ -19,6 +19,10 @@ export default function RootLayout() {
           name="level-select"
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="entry-point"
+          options={{ headerShown: false }}
+        />
       </Stack>
     </XPProvider>
   );

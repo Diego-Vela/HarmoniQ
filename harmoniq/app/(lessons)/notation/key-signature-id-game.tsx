@@ -4,7 +4,7 @@ import ActivityBase from '@/components/activities/activity-base';
 import Feedback from '@/components/activities/feedback';
 import SimpleNotes from '@/components/activities/buttons/simple-notes';
 import { ActivityComponentProps } from '@/constants/types';
-
+import AnimatedCheckButton from '@/components/activities/buttons/check-answer-button';
 import {
   TrebleSharpMajors,
   TrebleFlatMajors,
@@ -85,14 +85,13 @@ const KeySignatureGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }
           visible={showFeedback}
         />
 
-        <TouchableOpacity
-          className="w-[80%] h-[15%] bg-accent rounded-xl justify-center shadow-md border border-accent mt-3"
-          onPress={handleMainButton}
-        >
-          <Text className="text-white font-bold text-center text-lg">
-            {isChecking ? 'Check Answer' : 'Continue'}
-          </Text>
-        </TouchableOpacity>
+        <View className="flex w-[90%] h-[20%] bg-transparent rounded-xl items-center justify-evenly">
+          <AnimatedCheckButton
+            isChecking={isChecking}
+            isCorrect={isAnswerCorrect}
+            onPress={handleMainButton}
+          />
+        </View>
       </View>
     </>
   );

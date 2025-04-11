@@ -5,6 +5,9 @@ import { useIntervalTraining, LevelData } from '@/hooks/useIntervalTraining';
 import intervalLevels from '@/data/interval-levels.json';
 import type { Interval } from '@/hooks/useIntervalTraining';
 import { ActivityComponentProps } from '@/constants/types';
+import AnimatedCheckButton from '@/components/activities/buttons/check-answer-button';
+import SimpleNotes from '@/components/activities/buttons/simple-notes'; // Import SimpleNotes component
+import SimpleIntervals from '@/components/activities/buttons/simple-intervals';
 
 const IntervalGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) => {
   const levelData = intervalLevels.levels.find((lvl) => Number(lvl.level) === level) as LevelData;
@@ -69,34 +72,24 @@ const IntervalGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =>
         <Text className="text-white font-bold text-3xl">🔊</Text>
       </TouchableOpacity>
 
-      {/* Interval Choices */}
-      <View className="flex-row flex-wrap justify-evenly w-[90%]">
-        {intervalOptions.map((interval) => (
-          <TouchableOpacity
-            key={interval}
-            className={`w-[40%] h-[50] rounded-xl items-center justify-center m-2 ${
-              selectedInterval === interval ? 'bg-blue-500' : 'bg-gray-300'
-            }`}
-            onPress={() => handleIntervalPress(interval)}
-            disabled={!isChecking}
-          >
-            <Text className="text-xl font-bold text-black">{interval}</Text>
-          </TouchableOpacity>
-        ))}
+      <View className="flex-col bg-primary rounded-xl border border-primary w-[80%] h-[50%] items-center justify-evenly shadow-lg">
+        <SimpleIntervals
+          intervals={intervalOptions}
+          selectedInterval={selectedInterval}
+          onIntervalPress={(interval) => handleIntervalPress(interval)} // Handle interval press
+          disabled={!isChecking}
+        />
+
+        <Feedback isCorrect={isCorrect} visible={visibleFeedbackState} />
+
+        <View className="flex w-[90%] h-[20%] bg-transparent rounded-xl items-center justify-evenly">
+          <AnimatedCheckButton
+            isChecking={isChecking}
+            isCorrect={isAnswerCorrect}
+            onPress={handleMainButton}
+          />
+        </View>
       </View>
-
-      {/* Feedback */}
-      <Feedback isCorrect={isCorrect} visible={visibleFeedbackState} />
-
-      {/* Main Button */}
-      <TouchableOpacity
-        className="w-[80%] h-[10%] bg-secondary rounded-xl justify-center mt-5"
-        onPress={handleMainButton}
-      >
-        <Text className="text-white font-bold text-center text-xl">
-          {isChecking ? 'Check Answer' : 'Continue'}
-        </Text>
-      </TouchableOpacity>
     </>
   );
 };

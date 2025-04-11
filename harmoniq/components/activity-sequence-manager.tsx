@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import NoteReadingGame from '@/components/activities/note-reading/note-reading-game';
+import NoteReadingGame from '@/app/(lessons)/note-reading/note-reading-game';
 import IntervalGame from '@/app/(lessons)/intervals/interval-game';
 import KeySignatureGame from '@/app/(lessons)/notation/key-signature-id-game';
 import TapRhythmGame from '@/app/(lessons)/rhythm/tap-rhythm-game';
@@ -38,8 +38,8 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
 
   const renderActivity = () => {
     const activityKey = `activity-${currentIndex}`;
-    console.log('Current activity:', current);
-    console.log('completed:', completedCount, 'current index:', currentIndex, 'sequence length:', sequence.length);
+    // console.log('Current activity:', current);
+    // console.log('completed:', completedCount, 'current index:', currentIndex, 'sequence length:', sequence.length);
   
     switch (current.type) {
       case 'note-reading':
@@ -61,7 +61,7 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
             onSuccess={handleActivitySuccess}
           />
         );
-      case 'key-signature':
+      case 'key-signature-id':
         return (
           <KeySignatureGame
             key={activityKey} // ✅ force re-mount
