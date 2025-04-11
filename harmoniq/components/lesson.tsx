@@ -4,17 +4,20 @@ import React from 'react';
 import { icons } from '@/constants/icons';
 
 interface LessonProps {
-  lesson: string;
-  activity: string;
-  level: string; 
+  chapter: string;
+  level: number | string;
 }
 
-const Lesson: React.FC<LessonProps> = ({ lesson, activity, level }) => {
+const Lesson: React.FC<LessonProps> = ({ chapter, level }) => {
   return (
     <Link
       href={{
-        pathname: `../(lessons)/${lesson}/${activity}`,
-        params: { level }, 
+        pathname: '/entry-point',
+        params: {
+          category: 'lesson',
+          subcategory: chapter,
+          level: String(level),
+        },
       }}
       asChild
     >

@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import  intervalLevels  from '@/data/interval-levels.json';
-import { playTone } from '@/utils/play-tone-util'; // Adjust path as needed
+import { playTone } from '@/utils/play-tone-utils'; // Adjust path as needed
 
 
 export type Interval =

@@ -1,0 +1,64 @@
+{
+  "Chapter 1": {
+    "1": [
+      { "type": "note-reading", "clef": "Treble", "level": 1 },
+      { "type": "note-reading", "clef": "Treble", "level": 1 },
+      { "type": "interval", "level": 1 },
+      { "type": "note-reading", "clef": "Treble", "level": 1 },
+      { "type": "interval", "level": 1 },
+      { "type": "note-reading", "clef": "Treble", "level": 1 },
+      { "type": "note-reading", "clef": "Treble", "level": 1 },
+      { "type": "interval", "level": 1 },
+      { "type": "interval", "level": 1 },
+      { "type": "note-reading", "clef": "Treble", "level": 1 }
+    ],
+    "2": [
+      { "type": "note-reading", "clef": "Bass", "level": 1 },
+      { "type": "note-reading", "clef": "Bass", "level": 1 },
+      { "type": "interval", "level": 1 },
+      { "type": "note-reading", "clef": "Bass", "level": 1 },
+      { "type": "interval", "level": 1 },
+      { "type": "note-reading", "clef": "Bass", "level": 1 },
+      { "type": "note-reading", "clef": "Bass", "level": 1 },
+      { "type": "key-signature-id", "level": 1 },
+      { "type": "interval", "level": 1 },
+      { "type": "key-signature-id", "level": 1 }
+    ],
+    "3": [
+      { "type": "note-reading", "clef": "Treble", "level": 1 },
+      { "type": "note-reading", "clef": "Bass", "level": 1 },
+      { "type": "key-signature-id", "level": 1 },
+      { "type": "note-reading", "clef": "Bass", "level": 1 },
+      { "type": "interval", "level": 1 },
+      { "type": "key-signature-id", "level": 1 },
+      { "type": "key-signature-id", "level": 1 },
+      { "type": "key-signature-id", "level": 1 },
+      { "type": "interval", "level": 1 },
+      { "type": "tap-rhythm", "level": 1 }
+    ],
+    "4": [
+      { "type": "tap-rhythm", "level": 1 },
+      { "type": "note-reading", "clef": "Treble", "level": 1 },
+      { "type": "key-signature-id", "level": 1 },
+      { "type": "note-reading", "clef": "Bass", "level": 1 },
+      { "type": "interval", "level": 1 },
+      { "type": "tap-rhythm", "level": 1 },
+      { "type": "note-reading", "clef": "Treble", "level": 1 },
+      { "type": "key-signature-id", "level": 1 },
+      { "type": "interval", "level": 1 },
+      { "type": "tap-rhythm", "level": 1 }
+    ],
+    "5": [
+      { "type": "note-reading", "clef": "Treble", "level": 1 },
+      { "type": "note-reading", "clef": "Treble", "level": 2 },  
+      { "type": "interval", "level": 1 },
+      { "type": "note-reading", "clef": "Bass", "level": 1 },
+      { "type": "key-signature-id", "level": 1 },
+      { "type": "tap-rhythm", "level": 1 },
+      { "type": "note-reading", "clef": "Treble", "level": 2 },
+      { "type": "interval", "level": 1 },
+      { "type": "note-reading", "clef": "Bass", "level": 1 },
+      { "type": "tap-rhythm", "level": 1 }
+    ]
+  }
+}

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { getXPForLevel } from '@/utils/xp-helpers';
+import { getXPForLevel } from '@/utils/xp-utils';
 
 type XPState = {
   level: number;
@@ -42,7 +42,7 @@ export const XPProvider = ({ children }: { children: ReactNode }) => {
 
       if (leveledUp) {
         setJustLeveledUp(true);
-        setTimeout(() => setJustLeveledUp(false), 2000); // auto-dismiss after 2 seconds
+        setTimeout(() => setJustLeveledUp(false), 2000); 
       }
 
       return {

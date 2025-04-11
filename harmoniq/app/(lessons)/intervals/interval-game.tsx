@@ -42,17 +42,17 @@ const IntervalGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =>
   };
 
   const handleMainButton = () => {
-    console.log('isChecking:', isChecking, 'selectedInterval:', selectedInterval, 'currentInterval:', currentInterval);
+    // console.log('isChecking:', isChecking, 'selectedInterval:', selectedInterval, 'currentInterval:', currentInterval);
 
     if (isChecking) {
       const isCorrectAnswer = selectedInterval === currentInterval;
-      console.log('isCorrect:', isCorrectAnswer);
+      // console.log('isCorrect:', isCorrectAnswer);
       checkAnswer();
       setVisibleFeedbackState(true);
       setIsAnswerCorrect(isCorrectAnswer); // Track if the answer is correct
     } else {
       if (isAnswerCorrect) {
-        console.log('onSuccess called');
+        // console.log('onSuccess called');
         onSuccess(); // Call onSuccess only when the answer was correct
       } else {
         generateNext(); // Generate the next interval if the answer was incorrect
