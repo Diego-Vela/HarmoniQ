@@ -95,6 +95,10 @@ export type StatsStore = {
   dailyStreak: number;
   lastActivityDate: string | null;
 
+  lastCompletedLesson: string | null;
+
+  updateLessonProgress: (lessonKey: string) => void;
+
   incrementTrainingStat: (
     category: keyof TrainingStats,
     subcategory: string
@@ -104,6 +108,30 @@ export type StatsStore = {
 
   resetDaily: () => void;
   resetWeekly: () => void;
+};
+
+export type ProgressStore = {
+  completedLessons: number;
+  totalXP: number;
+
+  claimXP: (amount: number) => void;
+  incrementLessonProgress: () => void;
+  resetProgress: () => void;
+};
+
+// XP
+export type XPState = {
+  level: number;
+  currentXP: number;
+  xpToNextLevel: number;
+  streak: number;
+  totalXP: number; // 👈 new
+  justLeveledUp: boolean;
+};
+
+export type XPContextType = Omit<XPState, 'justLeveledUp'> & {
+  claimXP: (amount: number) => void;
+  justLeveledUp: boolean;
 };
 
 // Misc

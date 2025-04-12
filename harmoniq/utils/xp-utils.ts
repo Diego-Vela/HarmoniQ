@@ -1,3 +1,3 @@
-export const getXPForLevel = (level: number): number => {
-  return 50 + level * 25;
-};
+export function getXPForLevel(level: number): number {
+  return Math.round(10 + (level - 1) * 5);
+}

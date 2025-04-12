@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import CompletionScreen from '@/components/screens/completion-screen';
-import { useProgressStore } from '@/stores/useProgressStore';
 import { useXP } from '@/hooks/useXp';
 import { playXpSound } from '@/hooks/useXpSound';
 import { useStatsStore } from '@/stores/useStatsStore';
 import { useMissions } from '@/hooks/useMissions';
-
+import { useProgressStore } from '@/stores/useProgressStore';
 
 const CompletionPage = () => {
   const router = useRouter();
+  const incrementLessonProgress = useProgressStore((s) => s.incrementLessonProgress);
   const { mode, category, subcategory, level } = useLocalSearchParams<{
     mode: string;
     category: string;
@@ -22,42 +22,41 @@ const CompletionPage = () => {
 
   const isLesson = mode === 'lesson';
   const isTraining = mode === 'training';
-
   const lessonKey = `${subcategory}-${parsedLevel}`;
-  const completedLessons = useProgressStore((s) => s.completedLessons);
-  const markLessonComplete = useProgressStore((s) => s.markLessonComplete);
-  const hasCompletedBefore = completedLessons.has(lessonKey);
-
   const { claimXP } = useXP();
+  const lastCompletedLesson = useStatsStore((s) => s.lastCompletedLesson);
+  const hasCompletedBefore = lastCompletedLesson && lessonKey <= lastCompletedLesson;
   const xpAwarded = isLesson ? (hasCompletedBefore ? 0 : 80) : 30;
-
   const [hasClaimed, setHasClaimed] = useState(false);
-
   const incrementTrainingStat = useStatsStore((s) => s.incrementTrainingStat);
-
   const { updateMissionsFromActivity } = useMissions();
-
   const updateStreak = useStatsStore((s) => s.updateStreak);
+  const updateLessonProgress = useStatsStore((s) => s.updateLessonProgress);
+
 
   const handleClaim = () => {
-    if (!hasClaimed && xpAwarded > 0) {
-      updateStreak(new Date());
+    if (hasClaimed) return;
+  
+    updateStreak(new Date());
+  
+    if (isLesson && !hasCompletedBefore) {
+      updateLessonProgress(lessonKey);
+      incrementLessonProgress(); // Pass the required argument
+    }
+  
+    if (xpAwarded > 0) {
       playXpSound();
       claimXP(xpAwarded);
-
       updateMissionsFromActivity('training', category, subcategory, xpAwarded);
   
       if (isTraining && category && subcategory) {
-        incrementTrainingStat(category as any, subcategory as string); 
-      }
-  
-      if (isLesson && !hasCompletedBefore) {
-        markLessonComplete(lessonKey);
+        incrementTrainingStat(category as any, subcategory);
       }
     }
-
+  
     setHasClaimed(true);
   };
+  
   
   return (
     <CompletionScreen

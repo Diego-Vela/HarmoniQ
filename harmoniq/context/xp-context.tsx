@@ -1,19 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { getXPForLevel } from '@/utils/xp-utils';
-
-type XPState = {
-  level: number;
-  currentXP: number;
-  xpToNextLevel: number;
-  streak: number;
-  totalXP: number; // 👈 new
-  justLeveledUp: boolean;
-};
-
-type XPContextType = Omit<XPState, 'justLeveledUp'> & {
-  claimXP: (amount: number) => void;
-  justLeveledUp: boolean;
-};
+import { XPState, XPContextType } from '@/constants/types'; // Adjust the import path as necessary
 
 export const XPContext = createContext<XPContextType | undefined>(undefined);
 

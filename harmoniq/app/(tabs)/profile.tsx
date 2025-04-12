@@ -20,7 +20,7 @@ const Profile = () => {
       <ScrollView className="flex-1" contentContainerStyle={{ minHeight: "100%", paddingBottom: 100 }}>
         <ProfileHeader />
         <XPSection totalXP={totalXP} />
-        <LessonProgress progress={lifetime.lessonProgress} completed={completedLessons.size} />
+        <LessonProgress progress={lifetime.lessonProgress} completed={completedLessons} />
         <Streaks streak={dailyStreak} longest={lifetime.longestStreak} lastActive={lastActivityDate} />
         <CollapsibleStatSection title="Lifetime Training Stats" stats={lifetime} />
         <CollapsibleStatSection title="Weekly Training Stats" stats={weekly} />

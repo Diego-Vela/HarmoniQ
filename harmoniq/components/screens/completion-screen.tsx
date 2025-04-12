@@ -12,10 +12,7 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
   onClaim,
 }) => {
   const title = mode === 'training' ? '🎯 Training Complete!' : '📘 Lesson Complete!';
-  const subtitle =
-    mode === 'lesson' && xpAwarded === 0
-      ? 'Already completed — no XP awarded.'
-      : `You earned ${xpAwarded} XP!`;
+  const subtitle = `You earned ${xpAwarded} XP!`;
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(20)).current;
@@ -65,12 +62,12 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
           </Animated.View>
         )}
 
-        {!hasClaimed ? (
+        {xpAwarded > 0 && !hasClaimed ? (
           <TouchableOpacity
-            className="bg-green-600 w-[90%] py-5 rounded-2xl mt-4"
             onPress={onClaim}
+            className="bg-green-600 w-[80%] py-4 rounded-xl mt-4"
           >
-            <Text className="text-white text-center font-semibold text-xl">
+            <Text className="text-white text-center font-semibold text-lg">
               Claim XP
             </Text>
           </TouchableOpacity>

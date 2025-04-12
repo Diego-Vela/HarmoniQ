@@ -36,8 +36,9 @@ export const useStatsStore = create<StatsStore>()(
       daily: createEmptyTimeScopeStats(),
       dailyStreak: 0,
       lastActivityDate: null,
+      lastCompletedLesson: null, // Initialize lastCompletedLesson
 
-      incrementTrainingStat: (category, subcategory) => {
+      incrementTrainingStat: (category: keyof TrainingStats, subcategory: string) => {
         const updateScope = (scope: TimeScopeStats) => {
           const currentCat = scope.trainingStats[category];
           const newSubcategories = {
@@ -67,19 +68,21 @@ export const useStatsStore = create<StatsStore>()(
           weekly: updateScope(state.weekly),
           daily: updateScope(state.daily),
         }));
-        
-        // console.log('[Stats] Updated lifetime stats:', get().lifetime);
       },
 
-      updateLessonProgress: (newProgress: string) => {
-        set((state) => ({
-          lifetime: {
-            ...state.lifetime,
-            lessonProgress: newProgress,
-          },
-        }));
+      updateLessonProgress: (newLesson: string) => {
+        const current = get().lastCompletedLesson;
+
+        if (!current || newLesson > current) {
+          set((state) => ({
+            lastCompletedLesson: newLesson,
+            lifetime: {
+              ...state.lifetime,
+              lessonProgress: newLesson,
+            },
+          }));
+        }
       },
-      
 
       updateStreak: (currentDate: Date) => {
         const today = currentDate.toDateString();
