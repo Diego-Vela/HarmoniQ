@@ -1,7 +1,6 @@
 // entry-point-utils.ts
 import { ActivityDefinition } from '@/constants/types';
-
-export type ActivityType = 'note-reading' | 'interval' | 'key-signature-id' | 'tap-rhythm';
+import { ActivityType } from '@/constants/types';
 
 export const Categories = {
   Notation: 'notation',
@@ -48,6 +47,7 @@ const trainingLengths: Record<ActivityType, number> = {
   'interval': 7,
   'key-signature-id': 7,
   'tap-rhythm': 5,
+  'lesson': 0,
 };
 
 export const getTrainingLength = (type: ActivityType): number =>

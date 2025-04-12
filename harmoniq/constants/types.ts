@@ -12,8 +12,10 @@ export type Mission = {
 export type ActivityDefinition =
   | { type: 'note-reading'; clef: 'Treble' | 'Bass'; level: number }
   | { type: 'interval'; level: number }
-  | { type: 'key-signature'; level: number }
+  | { type: 'key-signature-id'; level: number }
   | { type: 'tap-rhythm'; level: number };
+
+export type ActivityType = 'note-reading' | 'interval' | 'key-signature-id' | 'tap-rhythm' | 'lesson';
 
 // Props to pass to each game component
 export interface ActivityComponentProps {

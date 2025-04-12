@@ -10,7 +10,7 @@ type SimpleNotesProps = {
 
 const SimpleNotes: React.FC<SimpleNotesProps> = ({ notes, selectedNote, onNotePress, disabled }) => {
   return (
-    <View className="flex-wrap flex-row w-[100%] h-[70%] bg-transparent items-center justify-evenly">
+    <View className="flex-wrap flex-row w-[95%] h-[60%] justify-evenly items-center">
       {notes.map(note => {
         const isSelected = selectedNote === note;
 
@@ -23,7 +23,7 @@ const SimpleNotes: React.FC<SimpleNotesProps> = ({ notes, selectedNote, onNotePr
         return (
           <TouchableOpacity
             key={note}
-            className={`w-[45%] h-[45%] rounded-3xl items-center justify-center mt-[1%] mb-[1%] ${
+            className={`w-[45%] h-[45%] rounded-3xl justify-center mt-[2%] mb-[2%] ${
               disabled
                 ? 'bg-gray-500' // Darker gray when disabled
                 : isSelected

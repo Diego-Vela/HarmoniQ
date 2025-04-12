@@ -28,7 +28,7 @@ const SimpleIntervals: React.FC<SimpleIntervalsProps> = ({
   disabled,
 }) => {
   return (
-    <View className="flex-wrap flex-row w-[100%] h-[70%] bg-transparent items-center justify-evenly">
+    <View className="flex-wrap flex-row w-[95%] h-[60%] justify-evenly items-center">
       {intervals.map((interval) => {
         const isSelected = selectedInterval === interval;
 
@@ -38,7 +38,7 @@ const SimpleIntervals: React.FC<SimpleIntervalsProps> = ({
         return (
           <TouchableOpacity
             key={interval}
-            className={`w-[45%] h-[45%] rounded-3xl items-center justify-center mt-[1%] mb-[1%] ${
+            className={`w-[45%] h-[45%] rounded-3xl justify-center mt-[2%] mb-[2%] ${
               disabled
                 ? 'bg-gray-500' // Darker gray when disabled
                 : isSelected

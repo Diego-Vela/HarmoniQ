@@ -58,8 +58,8 @@ const AnimatedCheckButton: React.FC<AnimatedCheckButtonProps> = ({
     <Animated.View
       style={[
         {
-          width: '80%',
-          height: '50%',
+          width: '90%',
+          height: '80%',
           borderRadius: 16,
         },
         animatedStyle,
