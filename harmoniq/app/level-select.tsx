@@ -2,13 +2,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import ReturnHome from '@/components/return-home';
+import Background from '@/components/common/background';
+import ReturnHome from '@/components/common/return-home';
 
 const MAX_LEVEL = 5;
 const universallyUnlockedLevel = 1;
-
-
 
 const LevelSelect = () => {
   const router = useRouter();
@@ -19,9 +17,11 @@ const LevelSelect = () => {
 
   if (!category || !subcategory) {
     return (
-      <SafeAreaView className="flex-1 justify-center items-center bg-dark-200">
-        <Text className="text-white text-lg">Missing training information.</Text>
-      </SafeAreaView>
+      <Background>
+        <View className="flex-1 justify-center items-center">
+          <Text className="text-white text-lg">Missing training information.</Text>
+        </View>
+      </Background>
     );
   }
 
@@ -30,13 +30,12 @@ const LevelSelect = () => {
   };
 
   const handleLevelPress = (level: number) => {
-    console.log(`/category=${category} subcategory=${subcategory} level=${level}`)
+    console.log(`/category=${category} subcategory=${subcategory} level=${level}`);
     router.push(`/entry-point?category=${category}&subcategory=${subcategory}&level=${level}`);
   };
-  
 
   return (
-    <SafeAreaView className="flex-1 bg-dark-200 items-center justify-start pt-12">
+    <Background>
       <ReturnHome />
       <Text className="text-white text-2xl font-bold mb-6">Select Level</Text>
       {[...Array(MAX_LEVEL)].map((_, i) => {
@@ -54,7 +53,7 @@ const LevelSelect = () => {
           </TouchableOpacity>
         );
       })}
-    </SafeAreaView>
+    </Background>
   );
 };
 

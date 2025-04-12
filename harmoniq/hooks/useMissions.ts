@@ -1,66 +1,92 @@
-import { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Mission } from '@/constants/types';
-import { generateMissions } from '@/utils/mission-generator';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import {
+  generateDailyMissions,
+  generateWeeklyMissions,
+} from '@/utils/mission-generator';
+import { MissionStore, MissionWithProgress } from '@/constants/types';
 
-const DAILY_KEY = 'lastDailyReset';
-const WEEKLY_KEY = 'lastWeeklyReset';
-const MISSIONS_KEY = 'missions';
+export const useMissions = create<MissionStore>()(
+  persist(
+    (set, get) => ({
+      dailyMissions: [],
+      weeklyMissions: [],
+      claimedMissionIds: new Set(),
 
-export function useMissions() {
-  const [missions, setMissions] = useState<Mission[]>([]);
-  const [loading, setLoading] = useState(true);
+      generateDailyMissions: (count: number) => {
+        set({ dailyMissions: generateDailyMissions(count) });
+      },
 
-  const isNewDay = (stored: string | null) => {
-    if (!stored) return true;
-    const last = new Date(stored);
-    const now = new Date();
-    return last.toDateString() !== now.toDateString();
-  };
+      generateWeeklyMissions: (count: number) => {
+        set({ weeklyMissions: generateWeeklyMissions(count) });
+      },
 
-  const isNewWeek = (stored: string | null) => {
-    if (!stored) return true;
-    const now = new Date();
-    const last = new Date(stored);
-    const getWeek = (d: Date) => {
-      const firstDayOfYear = new Date(d.getFullYear(), 0, 1);
-      const pastDaysOfYear = (d.getTime() - firstDayOfYear.getTime()) / 86400000;
-      return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
-    };
-    return now.getFullYear() !== last.getFullYear() || getWeek(now) !== getWeek(last);
-  };
+      resetAllMissions: () => {
+        set({
+          dailyMissions: [],
+          weeklyMissions: [],
+          claimedMissionIds: new Set(),
+        });
+      },
 
-  useEffect(() => {
-    (async () => {
-      const [dailyReset, weeklyReset, storedMissions] = await Promise.all([
-        AsyncStorage.getItem(DAILY_KEY),
-        AsyncStorage.getItem(WEEKLY_KEY),
-        AsyncStorage.getItem(MISSIONS_KEY),
-      ]);
+      incrementMissionProgress: (scope, missionId, amount = 1) => {
+        const key = scope === 'daily' ? 'dailyMissions' : 'weeklyMissions';
+        const currentMissions = get()[key];
 
-      let newMissions: Mission[] = [];
+        const updated = currentMissions.map((mission) =>
+          mission.id === missionId
+            ? {
+                ...mission,
+                progress: Math.min(mission.progress + amount, mission.goal),
+              }
+            : mission
+        );
 
-      const shouldResetDaily = isNewDay(dailyReset);
-      const shouldResetWeekly = isNewWeek(weeklyReset);
+        set({ [key]: updated } as Pick<MissionStore, typeof key>);
+      },
 
-      if (shouldResetDaily || shouldResetWeekly || !storedMissions) {
-        newMissions = generateMissions();
-        await AsyncStorage.setItem(MISSIONS_KEY, JSON.stringify(newMissions));
-        if (shouldResetDaily) await AsyncStorage.setItem(DAILY_KEY, new Date().toISOString());
-        if (shouldResetWeekly) await AsyncStorage.setItem(WEEKLY_KEY, new Date().toISOString());
-        setMissions(newMissions);
-      } else {
-        setMissions(JSON.parse(storedMissions));
-      }
+      claimMission: (missionId) => {
+        const claimed = new Set(get().claimedMissionIds);
+        claimed.add(missionId);
+        set({ claimedMissionIds: claimed });
+      },
 
-      setLoading(false);
-    })();
-  }, []);
+      updateMissionsFromActivity: (type, category, subcategory, xpGained = 0) => {
+        const updateList = (missions: MissionWithProgress[]) =>
+          missions.map((m) => {
+            const isAlreadyComplete = m.progress >= m.goal;
 
-  const saveMissions = async (updated: Mission[]) => {
-    setMissions(updated);
-    await AsyncStorage.setItem(MISSIONS_KEY, JSON.stringify(updated));
-  };
+            if (isAlreadyComplete) return m;
 
-  return { missions, setMissions: saveMissions, loading };
-}
+            if (m.type === 'xp-earned') {
+              return {
+                ...m,
+                progress: Math.min(m.progress + xpGained, m.goal),
+              };
+            }
+
+            if (
+              m.type === 'training' &&
+              (m.category === category || m.category === 'any') &&
+              (m.subcategory === subcategory || m.subcategory === 'any')
+            ) {
+              return {
+                ...m,
+                progress: Math.min(m.progress + 1, m.goal),
+              };
+            }
+
+            return m;
+          });
+
+        set((state) => ({
+          dailyMissions: updateList(state.dailyMissions),
+          weeklyMissions: updateList(state.weeklyMissions),
+        }));
+      },
+    }),
+    {
+      name: 'mission-storage',
+    }
+  )
+);

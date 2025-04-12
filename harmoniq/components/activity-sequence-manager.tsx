@@ -5,13 +5,7 @@ import IntervalGame from '@/app/(lessons)/intervals/interval-game';
 import KeySignatureGame from '@/app/(lessons)/notation/key-signature-id-game';
 import TapRhythmGame from '@/app/(lessons)/rhythm/tap-rhythm-game';
 import ActivityBase from '@/components/activities/activity-base';
-
-// You can customize this type depending on how you're loading your data
-type ActivityDefinition =
-  | { type: 'note-reading', clef: 'Treble' | 'Bass', level: number }
-  | { type: 'interval', level: number }
-  | { type: 'key-signature', level: number }
-  | { type: 'tap-rhythm', level: number };
+import { ActivityDefinition } from '@/constants/types';
 
 type Props = {
   mode: 'training' | 'lesson';

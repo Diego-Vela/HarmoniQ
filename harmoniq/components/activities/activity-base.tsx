@@ -7,7 +7,7 @@
 import React from 'react';
 import { View, Image, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ReturnHome from '@/components/return-home';
+import ReturnHome from '@/components/common/return-home';
 import { images } from '@/constants/images';
 
 interface ActivityBaseProps {

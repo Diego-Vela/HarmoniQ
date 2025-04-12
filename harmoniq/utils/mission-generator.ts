@@ -1,38 +1,30 @@
-import { Mission } from '@/constants/types';
-import pool from '@/data/mission-pool.json';
+import { Mission, MissionWithProgress } from '@/constants/types';
+import missionsRaw from '@/data/mission-pool.json';
 
-export function generateMissions(): Mission[] {
-  const dailyPool = [...pool.daily];
-  const weeklyPool = [...pool.weekly];
+const missions = missionsRaw as {
+  daily: Mission[];
+  weekly: Mission[];
+};
 
-  const getRandom = (arr: any[], count: number) => {
-    return arr
-      .sort(() => 0.5 - Math.random())
-      .slice(0, count);
-  };
+function shuffleArray<T>(array: T[]): T[] {
+  return [...array].sort(() => Math.random() - 0.5);
+}
 
-  const staticDaily: Mission = {
-    id: 'login',
-    title: 'Log in today',
-    type: 'daily',
-    completed: false,
-    xpReward: 25,
-    progress: { current: 0, goal: 1 }
-  };
-
-  const selectedDailies = getRandom(dailyPool, 2).map(item => ({
-    ...item,
-    type: 'daily',
-    completed: false,
-    progress: { current: 0, goal: item.goal }
+export function generateMissions(
+  pool: Mission[],
+  count: number
+): MissionWithProgress[] {
+  const shuffled = shuffleArray(pool);
+  return shuffled.slice(0, count).map((mission) => ({
+    ...mission,
+    progress: 0,
   }));
+}
 
-  const selectedWeekly = getRandom(weeklyPool, 1).map(item => ({
-    ...item,
-    type: 'weekly',
-    completed: false,
-    progress: { current: 0, goal: item.goal }
-  }));
+export function generateDailyMissions(count: number): MissionWithProgress[] {
+  return generateMissions(missions.daily, count);
+}
 
-  return [staticDaily, ...selectedDailies, ...selectedWeekly];
+export function generateWeeklyMissions(count: number): MissionWithProgress[] {
+  return generateMissions(missions.weekly, count);
 }

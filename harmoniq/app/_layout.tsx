@@ -23,6 +23,10 @@ export default function RootLayout() {
           name="entry-point"
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="completion"
+          options={{ headerShown: false }}
+        />
       </Stack>
     </XPProvider>
   );

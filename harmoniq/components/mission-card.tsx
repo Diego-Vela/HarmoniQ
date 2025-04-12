@@ -1,17 +1,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Mission } from '@/constants/types';
+import { MissionWithProgress } from '@/constants/types';
+import { useMissions } from '@/hooks/useMissions';
 
 type Props = {
-  mission: Mission;
-
-  onClaim: (mission: Mission) => void;
+  mission: MissionWithProgress;
+  onClaim: (mission: MissionWithProgress) => void;
 };
 
-
 const MissionCard: React.FC<Props> = ({ mission, onClaim }) => {
-  const isComplete = mission.progress.current >= mission.progress.goal;
-  const isClaimed = mission.completed;
+  const isComplete = mission.progress >= mission.goal;
+  const isClaimed = useMissions((state) => state.claimedMissionIds.has(mission.id));
+
 
   return (
     <View className="flex justify-center border border-gray-600 rounded-xl mb-4 bg-transparent h-32">
@@ -26,11 +26,11 @@ const MissionCard: React.FC<Props> = ({ mission, onClaim }) => {
           <View className="relative h-[24px] w-[90%] self-center bg-gray-700 rounded-full overflow-hidden">
             <View
               className="absolute top-0 left-0 h-full rounded-full bg-accent shadow-[0_0_10px_#FFA500]"
-              style={{ width: `${(mission.progress.current / mission.progress.goal) * 100}%` }}
+              style={{ width: `${(mission.progress / mission.goal) * 100}%` }}
             />
             <View className="absolute w-full h-full justify-center items-center">
               <Text className="text-white text-sm font-semibold">
-                {mission.progress.current} / {mission.progress.goal}
+                {mission.progress} / {mission.goal}
               </Text>
             </View>
           </View>

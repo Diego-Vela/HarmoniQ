@@ -1,36 +1,123 @@
 {
   "daily": [
     {
+      "id": "d1",
+      "title": "Complete 5 note reading trainings",
+      "type": "training",
+      "category": "note-reading",
+      "subcategory": "any",
+      "goal": 5,
+      "xpReward": 60
+    },
+    {
       "id": "d2",
-      "title": "Complete 5 note reading questions",
-      "xpReward": 60,
-      "goal": 5
+      "title": "Complete 5 treble clef note readings",
+      "type": "training",
+      "category": "note-reading",
+      "subcategory": "treble-clef",
+      "goal": 5,
+      "xpReward": 60
     },
     {
       "id": "d3",
-      "title": "Finish 2 rhythm exercises",
-      "xpReward": 50,
-      "goal": 2
+      "title": "Complete 5 bass clef note readings",
+      "type": "training",
+      "category": "note-reading",
+      "subcategory": "bass-clef",
+      "goal": 5,
+      "xpReward": 60
     },
     {
       "id": "d4",
+      "title": "Complete 5 rhythm trainings",
+      "type": "training",
+      "category": "rhythm",
+      "subcategory": "any",
+      "goal": 5,
+      "xpReward": 60
+    },
+    {
+      "id": "d5",
+      "title": "Complete 5 tap rhythm activities",
+      "type": "training",
+      "category": "rhythm",
+      "subcategory": "tap-rhythm",
+      "goal": 5,
+      "xpReward": 60
+    },
+    {
+      "id": "d6",
+      "title": "Complete 2 trainings of any type",
+      "type": "training",
+      "category": "any",
+      "subcategory": "any",
+      "goal": 2,
+      "xpReward": 50
+    },
+    {
+      "id": "d7",
       "title": "Identify 4 key signatures",
-      "xpReward": 55,
-      "goal": 4
+      "type": "training",
+      "category": "notation",
+      "subcategory": "key-signature-id",
+      "goal": 4,
+      "xpReward": 55
     }
   ],
   "weekly": [
     {
       "id": "w1",
-      "title": "Complete 10 interval challenges",
-      "xpReward": 200,
-      "goal": 10
+      "title": "Complete 10 interval trainings",
+      "type": "training",
+      "category": "intervals",
+      "subcategory": "intervals",
+      "goal": 10,
+      "xpReward": 200
     },
     {
       "id": "w2",
-      "title": "Earn 150 XP from training",
-      "xpReward": 250,
-      "goal": 150
+      "title": "Earn 150 XP from any training",
+      "type": "xp-earned",
+      "category": "any",
+      "subcategory": "any",
+      "goal": 150,
+      "xpReward": 250
+    },
+    {
+      "id": "w3",
+      "title": "Complete 10 notation trainings",
+      "type": "training",
+      "category": "notation",
+      "subcategory": "any",
+      "goal": 10,
+      "xpReward": 200
+    },
+    {
+      "id": "w4",
+      "title": "Complete 10 treble clef note readings",
+      "type": "training",
+      "category": "note-reading",
+      "subcategory": "treble-clef",
+      "goal": 10,
+      "xpReward": 200
+    },
+    {
+      "id": "w5",
+      "title": "Complete 10 bass clef note readings",
+      "type": "training",
+      "category": "note-reading",
+      "subcategory": "bass-clef",
+      "goal": 10,
+      "xpReward": 200
+    },
+    {
+      "id": "w6",
+      "title": "Complete 10 rhythm trainings",
+      "type": "training",
+      "category": "rhythm",
+      "subcategory": "any",
+      "goal": 10,
+      "xpReward": 200
     }
   ]
 }
