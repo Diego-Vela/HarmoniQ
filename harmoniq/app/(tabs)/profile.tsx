@@ -1,34 +1,30 @@
-import { Text, View, Image, ScrollView } from "react-native";
 import React from "react";
+import { ScrollView } from "react-native";
 import Background from "@/components/common/background";
-import { images } from "@/constants/images";
-import { placeholders } from "@/constants/icons";
+import ProfileHeader from "@/components/profile/profile-header";
+import XPSection from "@/components/profile/xp-section";
+import LessonProgress from "@/components/profile/lesson-progress";
+import Streaks from "@/components/profile/streaks";
+import CollapsibleStatSection from "@/components/profile/collapsible-stat-section";
+import { useStatsStore } from "@/stores/useStatsStore";
+import { useProgressStore } from "@/stores/useProgressStore";
+import { useXP } from "@/hooks/useXp";
 
 const Profile = () => {
-  // Mock user data
-  const user = {
-    profilePicture: placeholders.profile,
-    username: "JohnDoe123",
-    accountAge: "2 years",
-  };
+  const { lifetime, weekly, daily, dailyStreak, lastActivityDate } = useStatsStore();
+  const completedLessons = useProgressStore((s) => s.completedLessons);
+  const { totalXP } = useXP();
 
   return (
     <Background>
-      {/* Background Image */}
-      <Image source={images.bg} className="absolute w-full h-[50%] z-0" resizeMode="cover" />
-
-      {/* Profile Details */}
-      <ScrollView className="flex-1" showsHorizontalScrollIndicator={false} contentContainerStyle={{ minHeight: "100%", paddingBottom: 100 }}>
-        <View className="flex items-center justify-center mt-10">
-          {/* User Picture */}
-          <Image source={user.profilePicture} className="w-32 h-32 rounded-full border-4 border-white" resizeMode="cover" />
-
-          {/* Username */}
-          <Text className="text-white text-2xl font-bold mt-4">{user.username}</Text>
-
-          {/* Account Age */}
-          <Text className="text-gray-400 text-lg mt-2">Account Age: {user.accountAge}</Text>
-        </View>
+      <ScrollView className="flex-1" contentContainerStyle={{ minHeight: "100%", paddingBottom: 100 }}>
+        <ProfileHeader />
+        <XPSection totalXP={totalXP} />
+        <LessonProgress progress={lifetime.lessonProgress} completed={completedLessons.size} />
+        <Streaks streak={dailyStreak} longest={lifetime.longestStreak} lastActive={lastActivityDate} />
+        <CollapsibleStatSection title="Lifetime Training Stats" stats={lifetime} />
+        <CollapsibleStatSection title="Weekly Training Stats" stats={weekly} />
+        <CollapsibleStatSection title="Daily Training Stats" stats={daily} />
       </ScrollView>
     </Background>
   );

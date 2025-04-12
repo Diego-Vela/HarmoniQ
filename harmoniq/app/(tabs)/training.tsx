@@ -14,7 +14,6 @@ const Training = () => {
 
   return (
     <Background>
-      <Image source={images.bg} className="absolute w-full h-[50%] z-0" resizeMode="cover" />
       <ScrollView className="flex-1 px-4" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
         {/* Note Reading Section */}
         <Text className="text-2xl font-bold text-white mt-4 mb-2">Note Reading</Text>

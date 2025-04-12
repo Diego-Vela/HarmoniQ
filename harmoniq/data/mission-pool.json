@@ -2,7 +2,7 @@
   "daily": [
     {
       "id": "d1",
-      "title": "Complete 5 note reading trainings",
+      "title": "Complete 1 note reading training",
       "type": "training",
       "category": "note-reading",
       "subcategory": "any",
@@ -11,38 +11,38 @@
     },
     {
       "id": "d2",
-      "title": "Complete 5 treble clef note readings",
+      "title": "Complete treble clef note reading training 1 time",
       "type": "training",
       "category": "note-reading",
       "subcategory": "treble-clef",
-      "goal": 5,
+      "goal": 1,
       "xpReward": 60
     },
     {
       "id": "d3",
-      "title": "Complete 5 bass clef note readings",
+      "title": "Complete bass clef note reading training 1 time",
       "type": "training",
       "category": "note-reading",
       "subcategory": "bass-clef",
-      "goal": 5,
+      "goal": 1,
       "xpReward": 60
     },
     {
       "id": "d4",
-      "title": "Complete 5 rhythm trainings",
+      "title": "Complete 1 rhythm training",
       "type": "training",
       "category": "rhythm",
       "subcategory": "any",
-      "goal": 5,
+      "goal": 1,
       "xpReward": 60
     },
     {
       "id": "d5",
-      "title": "Complete 5 tap rhythm activities",
+      "title": "Complete 1 rhythm tap rhythm training",
       "type": "training",
       "category": "rhythm",
       "subcategory": "tap-rhythm",
-      "goal": 5,
+      "goal": 1,
       "xpReward": 60
     },
     {
@@ -56,7 +56,7 @@
     },
     {
       "id": "d7",
-      "title": "Identify 4 key signatures",
+      "title": "Complete 1 notation training",
       "type": "training",
       "category": "notation",
       "subcategory": "key-signature-id",

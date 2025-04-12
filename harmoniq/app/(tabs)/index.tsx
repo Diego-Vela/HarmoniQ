@@ -13,11 +13,6 @@ export default function Index() {
 
   return (
     <Background>
-      <Image
-        source={images.bg}
-        className="absolute w-full h-[50%] z-0"
-        resizeMode="cover"
-      />
       <Chapter />
       <ScrollView
         className="flex-1"

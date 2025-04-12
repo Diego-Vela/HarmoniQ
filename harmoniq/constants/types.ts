@@ -70,11 +70,48 @@ export interface NoteReadingGameProps extends ActivityComponentProps {
   noteImages: Record<string, any>;
 }
 
+// Data Stores
+export type StatCategory = {
+  total: number;
+  subcategories: Record<string, number>; // e.g. { 'treble-clef': 4, 'bass-clef': 2 }
+};
+
+export type TrainingStats = {
+  'note-reading': StatCategory;
+  rhythm: StatCategory;
+  intervals: StatCategory;
+  notation: StatCategory;
+};
+
+export type TimeScopeStats = {
+  trainingsCompleted: number;
+  trainingStats: TrainingStats;
+};
+
+export type StatsStore = {
+  lifetime: TimeScopeStats & { lessonProgress: string; longestStreak: number };
+  weekly: TimeScopeStats;
+  daily: TimeScopeStats;
+  dailyStreak: number;
+  lastActivityDate: string | null;
+
+  incrementTrainingStat: (
+    category: keyof TrainingStats,
+    subcategory: string
+  ) => void;
+
+  updateStreak: (currentDate: Date) => void;
+
+  resetDaily: () => void;
+  resetWeekly: () => void;
+};
+
 // Misc
 export type CompletionScreenProps = {
   mode: 'lesson' | 'training';
   xpAwarded: number;
   onNext: () => void;
   onReplay?: () => void;
+  onClaim: () => void;
+  hasClaimed: boolean;
 };
-

@@ -53,16 +53,17 @@ const LessonsEntryPoint = () => {
       </Text>
     );
   }
+  // console.log(category, subcategory, parsedLevel, sequence);
 
   return (
     <ActivitySequenceManager
-      mode="training"
+      mode={isLesson ? 'lesson' : 'training'}
       sequence={sequence}
       onComplete={() => {
-        router.push({
+        router.replace({
           pathname: '/completion',
           params: {
-            mode: 'training',
+            mode: isLesson ? 'lesson' : 'training',
             category,
             subcategory,
             level: parsedLevel.toString(),

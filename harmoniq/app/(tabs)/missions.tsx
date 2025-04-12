@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
 import Background from '@/components/common/background';
 import MissionCard from '@/components/mission-card';
-import { images } from '@/constants/images';
 import { useXP } from '@/hooks/useXp';
 import { useMissions } from '@/hooks/useMissions';
+import { playXpSound } from '@/hooks/useXpSound';
 
 const Missions = () => {
   const {
@@ -23,6 +23,7 @@ const Missions = () => {
 
     if (isComplete && !isClaimed) {
       claimXP(mission.xpReward);
+      playXpSound();
       claimMission(mission.id);
       setXpGained(mission.xpReward);
 
@@ -32,12 +33,6 @@ const Missions = () => {
 
   return (
     <Background>
-      {/* Background Image */}
-      <Image
-        source={images.bg}
-        className="absolute w-full h-[50%] z-0"
-        resizeMode="cover"
-      />
 
       {/* Scrollable Content */}
       <ScrollView className="flex-1 px-4" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>

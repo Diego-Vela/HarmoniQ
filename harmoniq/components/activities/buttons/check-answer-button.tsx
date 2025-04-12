@@ -29,10 +29,10 @@ const AnimatedCheckButton: React.FC<AnimatedCheckButtonProps> = ({
   useEffect(() => {
     if (!isChecking) {
       if (isCorrect) {
-        bgColorValue.value = withTiming('rgb(22, 163, 74)', { duration: 300 }); // green
+        bgColorValue.value = withTiming('rgb(22, 163, 74)', { duration: 200 }); // green
         scaleValue.value = withSequence(withSpring(1.2), withSpring(1));
       } else {
-        bgColorValue.value = withTiming('rgb(255, 121, 0)', { duration: 300 }); // reset to orange
+        bgColorValue.value = withTiming('rgb(255, 121, 0)', { duration: 200 }); // reset to orange
         shakeX.value = withSequence(
           withTiming(-10, { duration: 50 }),
           withTiming(10, { duration: 50 }),

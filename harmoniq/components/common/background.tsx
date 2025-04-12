@@ -1,6 +1,7 @@
 import React from "react";
-import { View, SafeAreaView } from "react-native";
+import { View, SafeAreaView, Image } from "react-native";
 import Topbar from "@/components/common/topbar";
+import { images } from "@/constants/images";
 
 type BackgroundProps = {
   children: React.ReactNode;
@@ -15,7 +16,15 @@ const Background: React.FC<BackgroundProps> = ({ children }) => {
       </View>
 
       {/* Content */}
-      <View className="flex-1">{children}</View>
+      <View className="flex-1">
+        {/* Background Image */}
+        <Image
+          source={images.bg}
+          className="absolute w-full h-[50%] z-0"
+          resizeMode="cover"
+        />
+        {children}
+      </View>
     </SafeAreaView>
   );
 };

@@ -6,6 +6,7 @@ type XPState = {
   currentXP: number;
   xpToNextLevel: number;
   streak: number;
+  totalXP: number; // 👈 new
   justLeveledUp: boolean;
 };
 
@@ -22,6 +23,7 @@ export const XPProvider = ({ children }: { children: ReactNode }) => {
     currentXP: 0,
     xpToNextLevel: getXPForLevel(1),
     streak: 0,
+    totalXP: 0, // 👈 new
   });
 
   const [justLeveledUp, setJustLeveledUp] = useState(false);
@@ -32,27 +34,28 @@ export const XPProvider = ({ children }: { children: ReactNode }) => {
       let newLevel = prev.level;
       let xpToNext = prev.xpToNextLevel;
       let leveledUp = false;
-
+  
       while (newXP >= xpToNext) {
         newXP -= xpToNext;
         newLevel += 1;
         xpToNext = getXPForLevel(newLevel);
         leveledUp = true;
       }
-
+  
       if (leveledUp) {
         setJustLeveledUp(true);
-        setTimeout(() => setJustLeveledUp(false), 2000); 
+        setTimeout(() => setJustLeveledUp(false), 2000);
       }
-
+  
       return {
         ...prev,
         level: newLevel,
         currentXP: newXP,
         xpToNextLevel: xpToNext,
+        totalXP: prev.totalXP + amount, // 👈 Add XP here
       };
     });
-  };
+  };  
 
   return (
     <XPContext.Provider value={{ ...state, justLeveledUp, claimXP }}>

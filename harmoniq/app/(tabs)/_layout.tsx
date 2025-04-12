@@ -59,8 +59,9 @@ const _Layout = () => {
           height: 52,
           position: 'absolute',
           overflow: 'hidden',
-          borderWidth: 1,
-          borderColor: '#00244E'
+          borderWidth: 2,
+          borderColor: '#0d1a2b',
+
         }
       }}
     >

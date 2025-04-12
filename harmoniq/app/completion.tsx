@@ -1,14 +1,24 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import CompletionScreen from '@/components/screens/completion-screen';
 import { useProgressStore } from '@/stores/useProgressStore';
 import { useXP } from '@/hooks/useXp';
-import Background from '@/components/common/background';
+import { playXpSound } from '@/hooks/useXpSound';
+import { useStatsStore } from '@/stores/useStatsStore';
+import { useMissions } from '@/hooks/useMissions';
+
 
 const CompletionPage = () => {
   const router = useRouter();
-  const { mode, category, subcategory, level } = useLocalSearchParams();
+  const { mode, category, subcategory, level } = useLocalSearchParams<{
+    mode: string;
+    category: string;
+    subcategory: string;
+    level: string;
+  }>();
   const parsedLevel = parseInt(level as string || '1');
+
+  // console.log(mode, category, subcategory, parsedLevel);
 
   const isLesson = mode === 'lesson';
   const isTraining = mode === 'training';
@@ -19,39 +29,55 @@ const CompletionPage = () => {
   const hasCompletedBefore = completedLessons.has(lessonKey);
 
   const { claimXP } = useXP();
-  const xpAwarded = isLesson ? (hasCompletedBefore ? 0 : 50) : 30;
+  const xpAwarded = isLesson ? (hasCompletedBefore ? 0 : 80) : 30;
 
-  const hasAwardedXP = useRef(false);
+  const [hasClaimed, setHasClaimed] = useState(false);
 
-  useEffect(() => {
-    if (!hasAwardedXP.current && xpAwarded > 0) {
+  const incrementTrainingStat = useStatsStore((s) => s.incrementTrainingStat);
+
+  const { updateMissionsFromActivity } = useMissions();
+
+  const updateStreak = useStatsStore((s) => s.updateStreak);
+
+  const handleClaim = () => {
+    if (!hasClaimed && xpAwarded > 0) {
+      updateStreak(new Date());
+      playXpSound();
       claimXP(xpAwarded);
+
+      updateMissionsFromActivity('training', category, subcategory, xpAwarded);
+  
+      if (isTraining && category && subcategory) {
+        incrementTrainingStat(category as any, subcategory as string); 
+      }
+  
       if (isLesson && !hasCompletedBefore) {
         markLessonComplete(lessonKey);
       }
-      hasAwardedXP.current = true;
     }
-  }, [xpAwarded]);
 
+    setHasClaimed(true);
+  };
+  
   return (
-    <Background>
-      <CompletionScreen
-        mode={isLesson ? 'lesson' : 'training'}
-        xpAwarded={xpAwarded}
-        onNext={() =>
-          router.replace(isLesson ? '/' : '/level-select')
-        }
-        onReplay={
-          isTraining
-            ? () =>
-                router.replace({
-                  pathname: '/entry-point',
-                  params: { category, subcategory, level },
-                })
-            : undefined
-        }
-      />
-    </Background>
+    <CompletionScreen
+      mode={isLesson ? 'lesson' : 'training'}
+      xpAwarded={xpAwarded}
+      onClaim={handleClaim}
+      hasClaimed={hasClaimed}
+      onNext={() =>
+        router.replace(isLesson ? '/' : '/training')
+      }
+      onReplay={
+        isTraining
+          ? () =>
+              router.replace({
+                pathname: '/entry-point',
+                params: { category, subcategory, level },
+              })
+          : undefined
+      }
+    />
   );
 };
 
