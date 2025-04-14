@@ -6,6 +6,11 @@ import { playXpSound } from '@/hooks/useXpSound';
 import { useStatsStore } from '@/stores/useStatsStore';
 import { useMissions } from '@/hooks/useMissions';
 import { useProgressStore } from '@/stores/useProgressStore';
+import  {
+  getTrainingXP,
+  getLessonXP,
+  getLessonCompletionBonus,
+} from '@/utils/xp-utils';
 
 const CompletionPage = () => {
   const router = useRouter();
@@ -17,22 +22,22 @@ const CompletionPage = () => {
     level: string;
   }>();
   const parsedLevel = parseInt(level as string || '1');
-
-  // console.log(mode, category, subcategory, parsedLevel);
-
   const isLesson = mode === 'lesson';
   const isTraining = mode === 'training';
   const lessonKey = `${subcategory}-${parsedLevel}`;
   const { claimXP } = useXP();
   const lastCompletedLesson = useStatsStore((s) => s.lastCompletedLesson);
   const hasCompletedBefore = lastCompletedLesson && lessonKey <= lastCompletedLesson;
-  const xpAwarded = isLesson ? (hasCompletedBefore ? 0 : 80) : 30;
+  const xpAwarded = isLesson
+  ? (hasCompletedBefore
+      ? 0
+      : getLessonXP(parseInt(subcategory.split(' ')[1]), lessonKey))
+  : getTrainingXP(parsedLevel);
   const [hasClaimed, setHasClaimed] = useState(false);
   const incrementTrainingStat = useStatsStore((s) => s.incrementTrainingStat);
   const { updateMissionsFromActivity } = useMissions();
   const updateStreak = useStatsStore((s) => s.updateStreak);
   const updateLessonProgress = useStatsStore((s) => s.updateLessonProgress);
-
 
   const handleClaim = () => {
     if (hasClaimed) return;
