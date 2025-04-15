@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import NoteReadingGame from '@/app/(lessons)/note-reading/note-reading-game';
 import IntervalGame from '@/app/(lessons)/intervals/interval-game';
@@ -16,10 +16,13 @@ type Props = {
 const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
+  const [activityDescription, setActivityDescription] = useState(''); // Use state for description
+
+  const current = sequence[currentIndex];
 
   const handleActivitySuccess = () => {
     const next = currentIndex + 1;
-    setCompletedCount(prev => prev + 1);
+    setCompletedCount((prev) => prev + 1);
 
     if (next < sequence.length) {
       setCurrentIndex(next);
@@ -28,18 +31,36 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
     }
   };
 
-  const current = sequence[currentIndex];
+  // Update activity description whenever the current activity changes
+  useEffect(() => {
+    if (!current) return;
+
+    switch (current.type) {
+      case 'note-reading':
+        setActivityDescription('Identify the note on the staff');
+        break;
+      case 'interval':
+        setActivityDescription('Identify the interval');
+        break;
+      case 'key-signature-id':
+        setActivityDescription('Identify the key signature');
+        break;
+      case 'tap-rhythm':
+        setActivityDescription('Tap the given rhythm');
+        break;
+      default:
+        setActivityDescription('Null Activity Description');
+    }
+  }, [current]); // Dependency array ensures this runs when `current` changes
 
   const renderActivity = () => {
     const activityKey = `activity-${currentIndex}`;
-    // console.log('Current activity:', current);
-    // console.log('completed:', completedCount, 'current index:', currentIndex, 'sequence length:', sequence.length);
-  
+
     switch (current.type) {
       case 'note-reading':
         return (
           <NoteReadingGame
-            key={activityKey} // ✅ force re-mount
+            key={activityKey}
             clefName={current.clef}
             notes={getNoteSet(current.clef, current.level)}
             noteImages={getNoteImages(current.clef)}
@@ -50,7 +71,7 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
       case 'interval':
         return (
           <IntervalGame
-            key={activityKey} // ✅ force re-mount
+            key={activityKey}
             level={current.level}
             onSuccess={handleActivitySuccess}
           />
@@ -58,7 +79,7 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
       case 'key-signature-id':
         return (
           <KeySignatureGame
-            key={activityKey} // ✅ force re-mount
+            key={activityKey}
             level={current.level}
             onSuccess={handleActivitySuccess}
           />
@@ -66,7 +87,7 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
       case 'tap-rhythm':
         return (
           <TapRhythmGame
-            key={activityKey} // ✅ force re-mount
+            key={activityKey}
             level={current.level}
             onSuccess={handleActivitySuccess}
           />
@@ -88,7 +109,7 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
   };
 
   return (
-    <ActivityBase description={mode === 'lesson' ? 'Lesson' : 'Training'}>
+    <ActivityBase description={activityDescription}>
       <View className="w-[60%] h-[3%] bg-gray-400 rounded-full overflow-hidden mt-6">
         <View
           style={{

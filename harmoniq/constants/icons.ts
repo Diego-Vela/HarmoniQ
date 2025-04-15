@@ -8,6 +8,7 @@ import dumbbell from "@/assets/icons/dumbbell-icon.png";
 import missions from "@/assets/icons/missions-icon.png";
 import streak from "@/assets/icons/streak-icon.png";
 import lesson from "@/assets/icons/lesson-icon.png";
+import completedLesson from "@/assets/icons/lesson-complete-icon.png";
 
 import profile from "@/assets/icons/logo-2.png";
 
@@ -21,7 +22,8 @@ export const icons = {
   dumbbell,
   missions,
   streak,
-  lesson
+  lesson,
+  completedLesson,
 };
 
 export const placeholders = {

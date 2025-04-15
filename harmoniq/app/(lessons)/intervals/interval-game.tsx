@@ -25,14 +25,10 @@ const IntervalGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =>
     visibleFeedback,
     playInterval,
     checkAnswer,
-    previewInterval,
     generateNext,
+    previewInterval,
+    options, // Use options from the hook
   } = useIntervalTraining(level.toString(), levelData);
-
-  const intervalOptions = levelData.intervals;
-
-  const [visibleFeedbackState, setVisibleFeedbackState] = useState(false);
-  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false); // Track if the answer is correct
 
   const handleIntervalPress = (interval: string) => {
     if (!isChecking) return;
@@ -42,23 +38,15 @@ const IntervalGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =>
   };
 
   const handleMainButton = () => {
-    // console.log('isChecking:', isChecking, 'selectedInterval:', selectedInterval, 'currentInterval:', currentInterval);
-
     if (isChecking) {
       const isCorrectAnswer = selectedInterval === currentInterval;
-      // console.log('isCorrect:', isCorrectAnswer);
       checkAnswer();
-      setVisibleFeedbackState(true);
-      setIsAnswerCorrect(isCorrectAnswer); // Track if the answer is correct
     } else {
-      if (isAnswerCorrect) {
-        // console.log('onSuccess called');
-        onSuccess(); // Call onSuccess only when the answer was correct
+      if (isCorrect) {
+        onSuccess();
       } else {
-        generateNext(); // Generate the next interval if the answer was incorrect
+        generateNext();
       }
-      setVisibleFeedbackState(false);
-      setIsAnswerCorrect(false); // Reset the correct answer state
     }
   };
 
@@ -74,18 +62,18 @@ const IntervalGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =>
 
       <View className="flex-col bg-primary rounded-xl border border-primary w-[80%] h-[50%] items-center justify-evenly shadow-lg">
         <SimpleIntervals
-          intervals={intervalOptions}
+          intervals={options} // Use options from the hook
           selectedInterval={selectedInterval}
-          onIntervalPress={(interval) => handleIntervalPress(interval)} // Handle interval press
+          onIntervalPress={(interval) => handleIntervalPress(interval)}
           disabled={!isChecking}
         />
 
-        <Feedback isCorrect={isCorrect} visible={visibleFeedbackState} />
+        <Feedback isCorrect={isCorrect} visible={visibleFeedback} />
 
         <View className="flex w-[90%] h-[20%] bg-transparent rounded-xl items-center justify-evenly">
           <AnimatedCheckButton
             isChecking={isChecking}
-            isCorrect={isAnswerCorrect}
+            isCorrect={isCorrect}
             onPress={handleMainButton}
           />
         </View>

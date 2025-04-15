@@ -5,13 +5,6 @@ import SimpleNotes from '@/components/activities/buttons/simple-notes';
 import Feedback from '@/components/activities/feedback';
 import { NoteReadingGameProps } from '@/constants/types';
 import AnimatedCheckButton from '@/components/activities/buttons/check-answer-button';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  withSequence,
-  withSpring,
-} from 'react-native-reanimated';
 
 const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
   clefName,
@@ -34,29 +27,6 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
   const [visibleFeedback, setVisibleFeedback] = useState(false);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
 
-  // Animated values
-  const bgColorValue = useSharedValue('rgb(255, 121, 0)'); // orange (#FF7900)
-  const scaleValue = useSharedValue(1);
-  const shakeX = useSharedValue(0);
-
-  // Update background color based on correctness
-  useEffect(() => {
-    if (!isChecking && isAnswerCorrect) {
-      bgColorValue.value = withTiming('rgb(22, 163, 74)', { duration: 300 }); // green
-    } else {
-      bgColorValue.value = withTiming('rgb(255, 121, 0)', { duration: 300 }); // reset to orange
-    }
-  }, [isChecking, isAnswerCorrect]);
-
-  // Combine all animations into a style
-  const animatedButtonStyle = useAnimatedStyle(() => ({
-    backgroundColor: bgColorValue.value,
-    transform: [
-      { scale: scaleValue.value },
-      { translateX: shakeX.value },
-    ],
-  }));
-
   const handleNotePress = async (note: string) => {
     if (isChecking) {
       setSelectedNote(note);
@@ -70,21 +40,6 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
       handleCheckAnswer();
       setVisibleFeedback(true);
       setIsAnswerCorrect(isCorrect);
-
-      if (isCorrect) {
-        scaleValue.value = withSequence(
-          withSpring(1.3),
-          withSpring(1)
-        );
-      } else {
-        shakeX.value = withSequence(
-          withTiming(-15, { duration: 50 }),
-          withTiming(15, { duration: 50 }),
-          withTiming(-6, { duration: 50 }),
-          withTiming(6, { duration: 50 }),
-          withTiming(0, { duration: 50 })
-        );
-      }
     } else {
       if (isAnswerCorrect) {
         onSuccess();

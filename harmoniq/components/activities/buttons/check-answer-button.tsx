@@ -66,7 +66,16 @@ const AnimatedCheckButton: React.FC<AnimatedCheckButtonProps> = ({
       ]}
       className="justify-center shadow-md border"
     >
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity
+        onPress={onPress}
+        style={{
+          width: '100%', // Match the width of the Animated.View
+          height: '100%', // Match the height of the Animated.View
+          borderRadius: 16, // Match the borderRadius of the Animated.View
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <Text className="text-white font-bold text-center">
           {label ?? (isChecking ? 'Check Answer' : 'Continue')}
         </Text>

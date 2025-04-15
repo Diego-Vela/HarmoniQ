@@ -14,7 +14,7 @@ const MissionCard: React.FC<Props> = ({ mission, onClaim }) => {
 
 
   return (
-    <View className="flex justify-center border border-gray-600 rounded-xl mb-4 bg-transparent h-32">
+    <View className="flex justify-center border border-gray-600 rounded-xl mb-4 bg-dark-300 h-32 bg-opacity-50">
       <View className="rounded-xl shadow-lg w-full h-full opacity-95 flex-row justify-evenly items-center">
         {/* Text Section */}
         <View className="flex justify-center w-[60%] h-[100%]">

@@ -9,7 +9,7 @@ export default function RhythmDisplay({ rhythm }: RhythmDisplayProps) {
   const symbols: Record<string, string> = {
     q: '♩',
     '8': '♪',
-    h: '𝅗𝅥',
+    h: '|',
   };
 
   // Get screen dimensions

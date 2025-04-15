@@ -15,7 +15,7 @@ const CollapsibleStatSection = ({
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <View className="bg-primary px-5 py-5 rounded-2xl mb-6 mx-5 shadow-md">
+    <View className="bg-primary px-5 py-5 rounded-2xl mb-6 mx-5 shadow-sm shadow-white">
       <TouchableOpacity
         onPress={() => setExpanded(!expanded)}
         className="flex-row items-center justify-between"

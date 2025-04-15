@@ -1,15 +1,16 @@
-import { Text, View } from 'react-native';
+import { Text, View, Platform } from 'react-native';
 import React from 'react';
 
 const currentChapter = 'Chapter 1';
 const currentTopic = 'Introduction to Notation';
+const shadowClass = Platform.OS === 'ios' ? 'shadow-sm' : 'shadow-md';
 
 const Chapter = () => {
   return (
-    <View className="w-[90%] h-[10%] mt-6 rounded-2xl bg-primary px-4 self-center shadow-md border border-orange-300 flex-row items-center justify-between">
+    <View className={`w-[90%] h-[10%] mt-6 rounded-2xl bg-primary px-4 self-center flex-row items-center justify-between border-l-4 border-r-4 border-accent absolute z-10 ${shadowClass} shadow-gray-600`}>
       {/* Chapter */}
       <View className="w-[40%] items-center justify-center">
-        <Text className="text-white text-xl font-bold text-sm text-center">{currentChapter}</Text>
+        <Text className="text-white text-2xl font-bold text-center">{currentChapter}</Text>
       </View>
 
       {/* Divider */}

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, SafeAreaView, Image } from "react-native";
+import { View, SafeAreaView, Image, ImageBackground } from "react-native";
 import Topbar from "@/components/common/topbar";
 import { images } from "@/constants/images";
 
@@ -15,16 +15,22 @@ const Background: React.FC<BackgroundProps> = ({ children }) => {
         <Topbar />
       </View>
 
-      {/* Content */}
-      <View className="flex-1">
-        {/* Background Image */}
-        <Image
-          source={images.bg}
-          className="absolute w-full h-[50%] z-0"
-          resizeMode="cover"
-        />
-        {children}
-      </View>
+      {/* Content with Background */}
+      <ImageBackground
+        source={images.bgMain} // Use the new background image
+        style={{ flex: 1 }}
+        resizeMode="cover"
+      >
+        <View className="flex-1">
+          {/* Secondary Background Image */}
+          <Image
+            source={images.bg}
+            className="absolute w-full h-[50%] z-0"
+            resizeMode="cover"
+          />
+          {children}
+        </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 };

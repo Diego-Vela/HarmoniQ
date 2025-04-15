@@ -65,6 +65,7 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
   previewInterval: (interval: Interval) => Promise<void>;
   checkAnswer: () => void;
   generateNext: () => void;
+  options: string[]; // Expose the options
 } {
   const [currentInterval, setCurrentInterval] = useState<Interval>('M2');
   const [selectedInterval, setSelectedInterval] = useState<Interval | null>(null);
@@ -72,6 +73,7 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
   const [isChecking, setIsChecking] = useState(true);
   const [isCorrect, setIsCorrect] = useState(false);
   const [visibleFeedback, setVisibleFeedback] = useState(false);
+  const [options, setOptions] = useState<string[]>([]); // Store the options
   const [firstLoad, setFirstLoad] = useState(true); // Track if it's the first load
 
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
@@ -86,8 +88,6 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
       return;
     }
 
-    // console.log('Playing interval:', currentInterval);
-
     await playTone(rootMidi);
     await delay(600);
     await playTone(secondMidi);
@@ -95,7 +95,6 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
 
   const checkAnswer = () => {
     if (!selectedInterval) {
-      // console.warn('No interval selected.');
       return;
     }
 
@@ -115,9 +114,15 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
     await playTone(secondMidi);
   };
 
+  // Function to randomly select 3 incorrect options
+  const getRandomIncorrectOptions = (correctAnswer: string, options: string[]): string[] => {
+    const incorrectOptions = options.filter((option) => option !== correctAnswer);
+    const shuffled = incorrectOptions.sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 3);
+  };
+
   const generateNext = () => {
     if (!levelData) {
-      // console.log(`Level ${level} not in intervalLevels.`);
       return;
     }
 
@@ -125,13 +130,15 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
     const newRoot = rootNotes[Math.floor(Math.random() * rootNotes.length)];
     const newInterval = intervals[Math.floor(Math.random() * intervals.length)];
 
-    // console.log('Generated interval:', newInterval);
-
     setCurrentRoot(newRoot as Note);
     setCurrentInterval(newInterval as Interval);
     setSelectedInterval(null);
     setIsChecking(true);
     setVisibleFeedback(false);
+
+    // Generate options for the new interval
+    const newOptions = [newInterval, ...getRandomIncorrectOptions(newInterval, intervals)];
+    setOptions(newOptions.sort(() => Math.random() - 0.5)); // Shuffle options
   };
 
   // Play the interval whenever currentRoot or currentInterval changes
@@ -163,5 +170,6 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
     previewInterval,
     checkAnswer,
     generateNext,
+    options, // Return the options
   };
 }

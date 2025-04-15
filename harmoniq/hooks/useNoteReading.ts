@@ -24,12 +24,6 @@ export const useNoteReading = (notes: string[]) => {
     }
   };
 
-  const playFeedbackSound = async (isCorrect: boolean) => {
-    const soundFile = isCorrect ? sounds.correct : sounds.wrong;
-    const { sound } = await Audio.Sound.createAsync(soundFile);
-    await sound.playAsync();
-  };
-
   const getRandomNote = (): string => {
     const randomIndex = Math.floor(Math.random() * notes.length);
     return notes[randomIndex];
@@ -77,7 +71,6 @@ export const useNoteReading = (notes: string[]) => {
         ? `Correct! You selected: ${selectedNote.toUpperCase()}`
         : `Incorrect. The correct note was: ${randomNote?.toUpperCase()}`
     );
-    await playFeedbackSound(isCorrect);
     setIsChecking(false);
   };
 

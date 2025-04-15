@@ -1,5 +1,5 @@
 import React from 'react';
-import NoteReadingGame from '@/components/activities/note-reading/note-reading-game';
+import NoteReadingGame from '@/app/(lessons)/note-reading/note-reading-game';
 import noteData from '@/data/note-identification.json';
 import { bassClefNotes } from '@/constants/music-notes-bass';
 import { useLocalSearchParams } from 'expo-router';

@@ -6,7 +6,7 @@ import Background from '@/components/common/background';
 import ReturnHome from '@/components/common/return-home';
 
 const MAX_LEVEL = 5;
-const universallyUnlockedLevel = 1;
+const universallyUnlockedLevel = 3;
 
 const LevelSelect = () => {
   const router = useRouter();
