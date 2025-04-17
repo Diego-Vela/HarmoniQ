@@ -30,7 +30,7 @@ const LevelSelect = () => {
   };
 
   const handleLevelPress = (level: number) => {
-    console.log(`/category=${category} subcategory=${subcategory} level=${level}`);
+    // console.log(`/category=${category} subcategory=${subcategory} level=${level}`);
     router.push(`/screens/entry-point?category=${category}&subcategory=${subcategory}&level=${level}`);
   };
 

@@ -79,11 +79,10 @@ export const useTapRhythm = (category: string, level: string) => {
 
       const actualTime = performance.now();
       const delta = Math.round(actualTime - scheduledTime);
-      console.log(
+      /*console.log(
         `Note ${i + 1}: '${targetRhythm[i]}' | Expected: ${Math.round(
           scheduledTime
-        )} | Actual: ${Math.round(actualTime)} | Δ = ${delta}ms`
-      );
+        )} | Actual: ${Math.round(actualTime)} | Δ = ${delta}ms`);*/
 
       const soundToUse = isUsingARef.current ? tapSoundARef.current : tapSoundBRef.current;
       isUsingARef.current = !isUsingARef.current;

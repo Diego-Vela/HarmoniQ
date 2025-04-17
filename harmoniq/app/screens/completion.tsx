@@ -4,7 +4,7 @@ import CompletionScreen from '@/components/screens/completion-screen';
 import { useXP } from '@/hooks/useXp';
 import { playXpSound } from '@/hooks/useXpSound';
 import { useStatsStore } from '@/stores/useStatsStore';
-import { useMissions } from '@/hooks/useMissions';
+import { useMissions } from '@/stores/useMissionsStore';
 import { useProgressStore } from '@/stores/useProgressStore';
 import  {
   getTrainingXP,

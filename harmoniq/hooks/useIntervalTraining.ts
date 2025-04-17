@@ -82,11 +82,11 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
     const intervalSemis = intervalToSemitones[currentInterval];
     const secondMidi = rootMidi + intervalSemis;
 
-    console.log(`Playing interval: root=${currentRoot}, interval=${currentInterval}`);
-    console.log(`MIDI values: rootMidi=${rootMidi}, intervalSemis=${intervalSemis}, secondMidi=${secondMidi}`);
+    // console.log(`Playing interval: root=${currentRoot}, interval=${currentInterval}`);
+    // console.log(`MIDI values: rootMidi=${rootMidi}, intervalSemis=${intervalSemis}, secondMidi=${secondMidi}`);
 
     if (rootMidi === undefined || intervalSemis === undefined || isNaN(secondMidi)) {
-      console.log(`Invalid MIDI notes: rootMidi=${rootMidi}, secondMidi=${secondMidi}`);
+      // console.log(`Invalid MIDI notes: rootMidi=${rootMidi}, secondMidi=${secondMidi}`);
       return;
     }
 
@@ -125,7 +125,7 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
     const newRoot = rootNotes[Math.floor(Math.random() * rootNotes.length)];
     const newInterval = intervals[Math.floor(Math.random() * intervals.length)];
 
-    console.log(`Generated next interval: root=${newRoot}, interval=${newInterval}`);
+    // console.log(`Generated next interval: root=${newRoot}, interval=${newInterval}`);
 
     setCurrentRoot(newRoot);
     setCurrentInterval(newInterval);

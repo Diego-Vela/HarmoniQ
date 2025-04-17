@@ -3,7 +3,7 @@ import { View, Text, ScrollView, Image } from 'react-native';
 import Background from '@/components/common/background';
 import MissionCard from '@/components/mission-card';
 import { useXP } from '@/hooks/useXp';
-import { useMissions } from '@/hooks/useMissions';
+import { useMissions } from '@/stores/useMissionsStore';
 import { playXpSound } from '@/hooks/useXpSound';
 
 const Missions = () => {

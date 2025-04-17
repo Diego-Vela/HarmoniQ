@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { MissionWithProgress } from '@/constants/types';
-import { useMissions } from '@/hooks/useMissions';
+import { useMissions } from '@/stores/useMissionsStore';
 
 type Props = {
   mission: MissionWithProgress;

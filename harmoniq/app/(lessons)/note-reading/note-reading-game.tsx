@@ -41,7 +41,7 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
       const isCorrect = userMadeChoice && selectedNote === randomNote;
 
       if (!userMadeChoice) {
-        console.log('No selection made. Treating as incorrect.');
+        // console.log('No selection made. Treating as incorrect.');
       }
 
       handleCheckAnswer();

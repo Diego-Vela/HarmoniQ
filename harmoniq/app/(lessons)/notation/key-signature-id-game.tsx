@@ -43,7 +43,7 @@ const KeySignatureGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }
       const isCorrect = userMadeChoice && selectedKey === currentKey.correctAnswer;
 
       if (!userMadeChoice) {
-        console.log('No selection made. Treating as incorrect.');
+        // console.log('No selection made. Treating as incorrect.');
       }
 
       setIsAnswerCorrect(isCorrect);
@@ -51,7 +51,7 @@ const KeySignatureGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }
       setIsChecking(false);
     } else {
       if (isAnswerCorrect) {
-        console.log('onSuccess called');
+        // console.log('onSuccess called');
         onSuccess();
       } else {
         setCurrentKey(generateKey(level.toString()));

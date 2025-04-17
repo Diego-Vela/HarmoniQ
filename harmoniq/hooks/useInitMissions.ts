@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useMissions } from './useMissions';
+import { useMissions } from '@/stores/useMissionsStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isNewDay, isNewWeek } from '@/utils/date-utils';
 

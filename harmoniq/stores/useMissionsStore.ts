@@ -5,6 +5,11 @@ import {
   generateWeeklyMissions,
 } from '@/utils/mission-generator-util';
 import { MissionStore, MissionWithProgress } from '@/constants/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type MissionStorePersist = Omit<MissionStore, 'claimedMissionIds'> & {
+  claimedMissionIds: string[];
+};
 
 export const useMissions = create<MissionStore>()(
   persist(
@@ -21,7 +26,6 @@ export const useMissions = create<MissionStore>()(
         set({ weeklyMissions: generateWeeklyMissions(count) });
       },
 
-      //Unusued Utility Function
       resetAllMissions: () => {
         set({
           dailyMissions: [],
@@ -33,6 +37,7 @@ export const useMissions = create<MissionStore>()(
       resetDailyMissions: () => {
         set({ dailyMissions: [], claimedMissionIds: new Set() });
       },
+
       resetWeeklyMissions: () => {
         set({ weeklyMissions: [], claimedMissionIds: new Set() });
       },
@@ -62,9 +67,7 @@ export const useMissions = create<MissionStore>()(
       updateMissionsFromActivity: (type, category, subcategory, xpGained = 0) => {
         const updateList = (missions: MissionWithProgress[]) =>
           missions.map((m) => {
-            const isAlreadyComplete = m.progress >= m.goal;
-
-            if (isAlreadyComplete) return m;
+            if (m.progress >= m.goal) return m;
 
             if (m.type === 'xp-earned') {
               return {
@@ -95,6 +98,27 @@ export const useMissions = create<MissionStore>()(
     }),
     {
       name: 'mission-storage',
+      storage: {
+        getItem: async (name) => {
+          const value = await AsyncStorage.getItem(name);
+          return value ? JSON.parse(value) : null;
+        },
+        setItem: async (name, value) => {
+          const copy = {
+            ...value,
+            claimedMissionIds: Array.from(((value as unknown) as MissionStorePersist).claimedMissionIds || []),
+          };
+          await AsyncStorage.setItem(name, JSON.stringify(copy));
+        },
+        removeItem: AsyncStorage.removeItem,
+      },
+      merge: (persistedState, currentState) => ({
+        ...currentState,
+        ...(typeof persistedState === 'object' && persistedState !== null ? persistedState : {}),
+        claimedMissionIds: new Set(
+          (persistedState as MissionStorePersist).claimedMissionIds || []
+        ),
+      }),
     }
   )
 );
