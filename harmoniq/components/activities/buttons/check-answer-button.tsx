@@ -49,9 +49,9 @@ const AnimatedCheckButton: React.FC<AnimatedCheckButtonProps> = ({
   const animatedStyle = useAnimatedStyle(() => ({
     backgroundColor: bgColorValue.value,
     transform: [
-      { scale: scaleValue.value },
-      { translateX: shakeX.value },
-    ] as Animated.AnimatedTransform,
+      { scale: scaleValue.value as number },
+      { translateX: shakeX.value as number },
+    ],
   }));
 
   return (

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "HarmoniQ",
-    "slug": "harmoniq", 
+    "slug": "harmoniq",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
@@ -37,6 +37,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "e9cfdbc7-994a-4586-bcc2-a91b4c066375"
+      }
     }
   }
 }

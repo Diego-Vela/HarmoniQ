@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, ViewStyle } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -22,12 +22,12 @@ const AnimatedCheckButton: React.FC<Props> = ({ isChecking, isCorrect, onPress, 
 
   const hasChecked = useRef(false);
 
-  const animatedStyle = useAnimatedStyle(() => {
+  const animatedStyle = useAnimatedStyle<ViewStyle>(() => {
     return {
       transform: [
         { translateX: shakeX.value },
         { scale: scaleValue.value },
-      ] as Animated.AnimatedTransform,
+      ],
       backgroundColor: bgColorValue.value,
     };
   });
@@ -56,7 +56,7 @@ const AnimatedCheckButton: React.FC<Props> = ({ isChecking, isCorrect, onPress, 
   return (
     <Animated.View
       style={[
-        animatedStyle,
+        animatedStyle as ViewStyle,
         {
           width: '80%', // Set width to 80%
           height: '80%', // Set height to 80%
