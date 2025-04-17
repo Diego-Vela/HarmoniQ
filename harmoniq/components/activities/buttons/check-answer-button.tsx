@@ -51,7 +51,7 @@ const AnimatedCheckButton: React.FC<AnimatedCheckButtonProps> = ({
     transform: [
       { scale: scaleValue.value },
       { translateX: shakeX.value },
-    ],
+    ] as Animated.AnimatedTransform,
   }));
 
   return (

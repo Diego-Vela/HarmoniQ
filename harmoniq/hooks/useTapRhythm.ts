@@ -21,6 +21,7 @@ export const useTapRhythm = (category: string, level: string) => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [targetRhythm, setTargetRhythm] = useState<string[]>(initial.pattern);
   const [beatCount, setBeatCount] = useState<number>(initial.beats);
+  const [isPreviewing, setIsPreviewing] = useState(false); // Add state for previewing
 
   const timestampsRef = useRef<number[]>([]);
   const startTimeRef = useRef<number | null>(null);
@@ -46,16 +47,22 @@ export const useTapRhythm = (category: string, level: string) => {
   }, []);
 
   const previewRhythm = useCallback(async () => {
-    if (!tapSoundARef.current || !tapSoundBRef.current) return;
+    if (isPreviewing || !tapSoundARef.current || !tapSoundBRef.current) return;
+
+    setIsPreviewing(true);
 
     const tempo = 100;
     const quarter = 60000 / tempo;
     const noteToDelay = (note: string): number => {
       switch (note) {
-        case 'q': return quarter;
-        case '8': return quarter / 2;
-        case 'h': return quarter * 2;
-        default: return quarter;
+        case 'q':
+          return quarter;
+        case '8':
+          return quarter / 2;
+        case 'h':
+          return quarter * 2;
+        default:
+          return quarter;
       }
     };
 
@@ -72,7 +79,11 @@ export const useTapRhythm = (category: string, level: string) => {
 
       const actualTime = performance.now();
       const delta = Math.round(actualTime - scheduledTime);
-      console.log(`Note ${i + 1}: '${targetRhythm[i]}' | Expected: ${Math.round(scheduledTime)} | Actual: ${Math.round(actualTime)} | Δ = ${delta}ms`);
+      console.log(
+        `Note ${i + 1}: '${targetRhythm[i]}' | Expected: ${Math.round(
+          scheduledTime
+        )} | Actual: ${Math.round(actualTime)} | Δ = ${delta}ms`
+      );
 
       const soundToUse = isUsingARef.current ? tapSoundARef.current : tapSoundBRef.current;
       isUsingARef.current = !isUsingARef.current;
@@ -87,7 +98,9 @@ export const useTapRhythm = (category: string, level: string) => {
 
       cumulativeTime += duration;
     }
-  }, [targetRhythm]);
+
+    setIsPreviewing(false);
+  }, [isPreviewing, targetRhythm]);
 
   const handleTap = useCallback(() => {
     timestampsRef.current.push(Date.now());
@@ -133,5 +146,6 @@ export const useTapRhythm = (category: string, level: string) => {
     startTimeRef,
     timestampsRef,
     setShowFeedback,
+    isPreviewing, // Expose isPreviewing state
   };
 };

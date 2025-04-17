@@ -27,7 +27,7 @@ const AnimatedCheckButton: React.FC<Props> = ({ isChecking, isCorrect, onPress, 
       transform: [
         { translateX: shakeX.value },
         { scale: scaleValue.value },
-      ],
+      ] as Animated.AnimatedTransform,
       backgroundColor: bgColorValue.value,
     };
   });
