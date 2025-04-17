@@ -31,8 +31,8 @@ const AnimatedCheckButton: React.FC<AnimatedCheckButtonProps> = ({
       if (isCorrect) {
         bgColorValue.value = withTiming('rgb(22, 163, 74)', { duration: 200 }); // green
         scaleValue.value = withSequence(withSpring(1.2), withSpring(1));
-      } else {
-        bgColorValue.value = withTiming('rgb(255, 121, 0)', { duration: 200 }); // reset to orange
+      } else if (isCorrect === false) {
+        bgColorValue.value = withTiming('rgb(239, 68, 68)', { duration: 200 }); // red (bg-red-500)
         shakeX.value = withSequence(
           withTiming(-10, { duration: 50 }),
           withTiming(10, { duration: 50 }),

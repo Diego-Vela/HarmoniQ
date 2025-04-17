@@ -7,7 +7,9 @@ import Feedback from '@/components/activities/feedback';
 import MetronomeCountdown from '@/components/activities/rhythm/metronome-countdown';
 import { useTapRhythm } from '@/hooks/useTapRhythm';
 import { ActivityComponentProps } from '@/constants/types';
-import AnimatedCheckButton from '@/components/activities/buttons/check-answer-auto';
+import { Audio } from 'expo-av';
+import { sounds } from '@/constants/sounds';
+import AnimatedCheckButton from '@/components/activities/buttons/check-answer-button';
 
 const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) => {
   const router = useRouter();
@@ -16,15 +18,14 @@ const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =
 
   const [canTap, setCanTap] = useState(false);
   const [startCountdown, setStartCountdown] = useState(false);
+  const [justCompleted, setJustCompleted] = useState(false);
   const [isPreviewing, setIsPreviewing] = useState(false);
+  const [buttonKey, setButtonKey] = useState(0); // 👈 key for forcing button reset
 
   const {
     handleTap,
     handleSubmit,
     handleReset,
-    previewRhythm,
-    loadPreviewSounds,
-    cleanupPreviewSounds,
     isCorrect,
     showFeedback,
     targetRhythm,
@@ -34,9 +35,27 @@ const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =
     timestampsRef,
   } = useTapRhythm(category, level.toString());
 
+  const tapSoundARef = useRef<Audio.Sound | null>(null);
+  const tapSoundBRef = useRef<Audio.Sound | null>(null);
+  const isUsingARef = useRef(true);
+
   useEffect(() => {
-    loadPreviewSounds();
-    return () => cleanupPreviewSounds();
+    const loadSounds = async () => {
+      try {
+        const { sound: soundA } = await Audio.Sound.createAsync(sounds.tap);
+        const { sound: soundB } = await Audio.Sound.createAsync(sounds.tap);
+        tapSoundARef.current = soundA;
+        tapSoundBRef.current = soundB;
+      } catch (error) {
+        console.error('Error loading tap sounds:', error);
+      }
+    };
+    loadSounds();
+
+    return () => {
+      tapSoundARef.current?.unloadAsync();
+      tapSoundBRef.current?.unloadAsync();
+    };
   }, []);
 
   const handleContinue = () => {
@@ -45,6 +64,55 @@ const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =
     } else {
       handleReset();
     }
+    setButtonKey((prev) => prev + 1); // 👈 Reset the button visually
+  };
+
+  const previewRhythm = async () => {
+    if (isPreviewing || !tapSoundARef.current || !tapSoundBRef.current) return;
+
+    setIsPreviewing(true);
+
+    const tempo = 100;
+    const quarter = 60000 / tempo;
+    const noteToDelay = (note: string): number => {
+      switch (note) {
+        case 'q': return quarter;
+        case '8': return quarter / 2;
+        case 'h': return quarter * 2;
+        default: return quarter;
+      }
+    };
+
+    let cumulativeTime = 0;
+    const previewStart = performance.now();
+
+    for (let i = 0; i < targetRhythm.length; i++) {
+      const duration = noteToDelay(targetRhythm[i]);
+      const scheduledTime = previewStart + cumulativeTime;
+      const now = performance.now();
+      const wait = Math.max(0, scheduledTime - now);
+
+      await new Promise((resolve) => setTimeout(resolve, wait));
+
+      const actualTime = performance.now();
+      const delta = Math.round(actualTime - scheduledTime);
+      console.log(`Note ${i + 1}: '${targetRhythm[i]}' | Expected: ${Math.round(scheduledTime)} | Actual: ${Math.round(actualTime)} | Δ = ${delta}ms`);
+
+      const soundToUse = isUsingARef.current ? tapSoundARef.current : tapSoundBRef.current;
+      isUsingARef.current = !isUsingARef.current;
+
+      try {
+        await soundToUse.stopAsync();
+        await soundToUse.setPositionAsync(0);
+        await soundToUse.playAsync();
+      } catch (error) {
+        console.warn('Tap sound error during preview:', error);
+      }
+
+      cumulativeTime += duration;
+    }
+
+    setIsPreviewing(false);
   };
 
   return (
@@ -74,11 +142,7 @@ const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =
       <View className="flex-row w-full justify-evenly items-center">
         <TouchableOpacity
           className={`p-2 rounded ${isPreviewing || startCountdown ? 'bg-gray-300' : 'bg-blue-500'}`}
-          onPress={async () => {
-            setIsPreviewing(true);
-            await previewRhythm();
-            setIsPreviewing(false);
-          }}
+          onPress={previewRhythm}
           disabled={isPreviewing || startCountdown}
         >
           <Text className="text-white font-bold">Preview Rhythm</Text>
@@ -93,6 +157,7 @@ const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =
 
       <View className="mt-5 w-full h-[10%] items-center">
         <AnimatedCheckButton
+          key={buttonKey} // 👈 remounts button when incremented
           isChecking={startCountdown}
           isCorrect={showFeedback ? isCorrect : null}
           onPress={() => {
@@ -100,6 +165,7 @@ const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =
               timestampsRef.current = [];
               setShowFeedback(false);
               setCanTap(false);
+              setJustCompleted(false);
               setStartCountdown(true);
             } else if (showFeedback) {
               handleContinue();

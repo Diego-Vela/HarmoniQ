@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { useNoteReading } from '@/hooks/useNoteReading';
 import SimpleNotes from '@/components/activities/buttons/simple-notes';
@@ -26,6 +26,7 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
 
   const [visibleFeedback, setVisibleFeedback] = useState(false);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
+  const [buttonKey, setButtonKey] = useState(0); // 👈 key for remounting the button
 
   const handleNotePress = async (note: string) => {
     if (isChecking) {
@@ -45,7 +46,7 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
 
       handleCheckAnswer();
       setVisibleFeedback(true);
-      setIsAnswerCorrect(isCorrect); // Treat null submissions as incorrect
+      setIsAnswerCorrect(isCorrect);
     } else {
       if (isAnswerCorrect) {
         onSuccess();
@@ -55,6 +56,7 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
 
       setVisibleFeedback(false);
       setIsAnswerCorrect(null);
+      setButtonKey((prev) => prev + 1); // 👈 force remount to reset animation
     }
   };
 
@@ -82,8 +84,11 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
         <SimpleNotes
           notes={buttonNotes}
           selectedNote={selectedNote}
+          correctNote={randomNote}
           onNotePress={handleNotePress}
           disabled={!isChecking}
+          showFeedback={visibleFeedback}
+          isAnswerCorrect={isAnswerCorrect}
         />
 
         <Feedback
@@ -93,6 +98,7 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
 
         <View className="flex w-[90%] h-[20%] bg-transparent rounded-xl items-center justify-evenly">
           <AnimatedCheckButton
+            key={buttonKey} // 👈 remount button to reset animation
             isChecking={isChecking}
             isCorrect={visibleFeedback ? isAnswerCorrect : null}
             onPress={handleMainButton}

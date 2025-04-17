@@ -2,42 +2,64 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
 
 type SimpleNotesProps = {
-  notes: string[]; // Full notes like "C#", "Db", etc.
+  notes: string[];
   selectedNote: string | null;
-  onNotePress: (note: string) => void; // Function to handle note press
-  disabled: boolean; // New prop to disable buttons
+  correctNote: string | null;
+  onNotePress: (note: string) => void;
+  disabled: boolean;
+  showFeedback: boolean;
+  isAnswerCorrect: boolean | null;
 };
 
-const SimpleNotes: React.FC<SimpleNotesProps> = ({ notes, selectedNote, onNotePress, disabled }) => {
+const SimpleNotes: React.FC<SimpleNotesProps> = ({
+  notes,
+  selectedNote,
+  correctNote,
+  onNotePress,
+  disabled,
+  showFeedback,
+  isAnswerCorrect,
+}) => {
   return (
     <View className="flex-wrap flex-row w-[95%] h-[60%] justify-evenly items-center">
-      {notes.map(note => {
+      {notes.map((note) => {
         const isSelected = selectedNote === note;
+        const isCorrect = correctNote === note;
+        const isWrong = showFeedback && isSelected && !isCorrect;
 
-        // Extract the note up to the sharp (#) or flat (b) symbol
-        const displayNote = note
-        .match(/^[A-G][#b]?/)?.[0] || note.charAt(0).toUpperCase()
-        .replace('#', '♯')
-        .replace('b', '♭');
+        // Visual logic overrides default disabled color
+        let bgColor = 'bg-gray-300';
+        if (showFeedback && isCorrect) {
+          bgColor = 'bg-green-500';
+        } else if (showFeedback && isWrong) {
+          bgColor = 'bg-red-500';
+        } else if (isSelected) {
+          bgColor = 'bg-blue-500';
+        } else if (disabled && !showFeedback) {
+          bgColor = 'bg-gray-700'; // Default disabled gray
+        }
+
+        let textColor = 'text-black';
+        if ((disabled && !showFeedback) || (showFeedback && !isCorrect && !isWrong)) {
+          textColor = 'text-gray-400';
+          bgColor = 'bg-gray-500'; // Default disabled gray
+        }
+
+        // Extract note name to display (♯ and ♭)
+        const displayNote =
+          note
+            .match(/^[A-G][#b]?/)?.[0] || note.charAt(0).toUpperCase()
+            .replace('#', '♯')
+            .replace('b', '♭');
 
         return (
           <TouchableOpacity
             key={note}
-            className={`w-[45%] h-[45%] rounded-3xl justify-center mt-[2%] mb-[2%] ${
-              disabled
-                ? 'bg-gray-500' // Darker gray when disabled
-                : isSelected
-                ? 'bg-blue-500' // Highlighted when selected
-                : 'bg-gray-300' // Default background color
-            }`}
+            className={`w-[45%] h-[45%] rounded-3xl justify-center mt-[2%] mb-[2%] ${bgColor}`}
             onPress={() => onNotePress(note)}
-            disabled={disabled} // Disable button when `disabled` is true
+            disabled={disabled || showFeedback}
           >
-            <Text
-              className={`text-center text-3xl font-bold ${
-                disabled ? 'text-gray-400' : 'text-black'
-              }`} // Change text color when disabled
-            >
+            <Text className={`text-center text-3xl font-bold ${textColor}`}>
               {displayNote}
             </Text>
           </TouchableOpacity>

@@ -18,7 +18,7 @@ interface Props {
 const AnimatedCheckButton: React.FC<Props> = ({ isChecking, isCorrect, onPress, label }) => {
   const shakeX = useSharedValue(0);
   const scaleValue = useSharedValue(1);
-  const bgColorValue = useSharedValue('rgb(255, 121, 0)'); 
+  const bgColorValue = useSharedValue('rgb(255, 121, 0)'); // orange
 
   const hasChecked = useRef(false);
 
@@ -33,28 +33,25 @@ const AnimatedCheckButton: React.FC<Props> = ({ isChecking, isCorrect, onPress, 
   });
 
   useEffect(() => {
-    if (!isChecking && isCorrect !== null) {
-      if (hasChecked.current) {
-        if (isCorrect) {
-          bgColorValue.value = withTiming('rgb(22, 163, 74)', { duration: 200 }); // green
-          scaleValue.value = withSequence(withSpring(1.2), withSpring(1));
-        } else {
-          bgColorValue.value = withTiming('rgb(255, 121, 0)', { duration: 200 }); // reset to orange
-          shakeX.value = withSequence(
-            withTiming(-10, { duration: 50 }),
-            withTiming(10, { duration: 50 }),
-            withTiming(-6, { duration: 50 }),
-            withTiming(6, { duration: 50 }),
-            withTiming(0, { duration: 50 })
-          );
-        }
+    if (!isChecking) {
+      if (isCorrect) {
+        bgColorValue.value = withTiming('rgb(22, 163, 74)', { duration: 200 }); // green
+        scaleValue.value = withSequence(withSpring(1.2), withSpring(1));
+      } else if (isCorrect === false) {
+        bgColorValue.value = withTiming('rgb(239, 68, 68)', { duration: 200 }); // red
+        shakeX.value = withSequence(
+          withTiming(-10, { duration: 50 }),
+          withTiming(10, { duration: 50 }),
+          withTiming(-6, { duration: 50 }),
+          withTiming(6, { duration: 50 }),
+          withTiming(0, { duration: 50 })
+        );
       }
-      hasChecked.current = true;
-    } else if (isChecking) {
+    } else {
+      // Reset to orange when checking starts
       bgColorValue.value = withTiming('rgb(255, 121, 0)', { duration: 300 });
     }
   }, [isChecking, isCorrect]);
-  
 
   return (
     <Animated.View

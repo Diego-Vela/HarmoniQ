@@ -77,8 +77,11 @@ const KeySignatureGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }
         <SimpleNotes
           notes={currentKey.options}
           selectedNote={selectedKey}
+          correctNote={currentKey.correctAnswer}
           onNotePress={handlePress}
           disabled={!isChecking}
+          showFeedback={showFeedback}
+          isAnswerCorrect={isAnswerCorrect} 
         />
 
         <Feedback
