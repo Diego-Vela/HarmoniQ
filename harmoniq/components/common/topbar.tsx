@@ -9,12 +9,12 @@ import {
 } from 'react-native';
 import { icons } from '@/constants/icons';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { useXP } from '@/hooks/useXp';
+import { useXpStore } from '@/stores/useXpStore';
 import { useStatsStore } from "@/stores/useStatsStore";
 
 const Topbar = () => {
-  const { level, currentXP, xpToNextLevel } = useXP();
-    const { dailyStreak } = useStatsStore();
+  const { claimXP, level, currentXP, xpToNextLevel, justLeveledUp } = useXpStore();
+  const { dailyStreak } = useStatsStore();
 
   const progressPercent = Math.min(currentXP / xpToNextLevel, 1);
   const progressDisplay = `${currentXP}/${xpToNextLevel}`;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import CompletionScreen from '@/components/screens/completion-screen';
-import { useXP } from '@/hooks/useXp';
+import { useXpStore } from '@/stores/useXpStore';
 import { playXpSound } from '@/hooks/useXpSound';
 import { useStatsStore } from '@/stores/useStatsStore';
 import { useMissions } from '@/stores/useMissionsStore';
@@ -25,7 +25,7 @@ const CompletionPage = () => {
   const isLesson = mode === 'lesson';
   const isTraining = mode === 'training';
   const lessonKey = `${subcategory}-${parsedLevel}`;
-  const { claimXP } = useXP();
+  const { claimXP } = useXpStore();
   const lastCompletedLesson = useStatsStore((s) => s.lastCompletedLesson);
   const hasCompletedBefore = lastCompletedLesson && lessonKey <= lastCompletedLesson;
   const xpAwarded = isLesson

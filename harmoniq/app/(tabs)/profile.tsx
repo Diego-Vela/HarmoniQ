@@ -8,12 +8,12 @@ import Streaks from "@/components/profile/streaks";
 import CollapsibleStatSection from "@/components/profile/collapsible-stat-section";
 import { useStatsStore } from "@/stores/useStatsStore";
 import { useProgressStore } from "@/stores/useProgressStore";
-import { useXP } from "@/hooks/useXp";
+import { useXpStore } from "@/stores/useXpStore";
 
 const Profile = () => {
   const { lifetime, weekly, daily, dailyStreak, lastActivityDate } = useStatsStore();
   const completedLessons = useProgressStore((s) => s.completedLessons);
-  const { totalXP } = useXP();
+  const { totalXP } = useXpStore();
 
   return (
     <Background>

@@ -1,25 +1,22 @@
 import React from 'react';
 import { Stack } from "expo-router";
 import './globals.css';
-import { XPProvider } from '@/context/xp-context'; // ✅
 
 export default function RootLayout() {
   return (
-    <XPProvider> 
-      <Stack>
-        <Stack.Screen
-          name="(tabs)"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(lessons)"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="screens"
-          options={{ headerShown: false }}
-        />
-      </Stack>
-    </XPProvider>
+    <Stack>
+      <Stack.Screen
+        name="(tabs)"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="(lessons)"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="screens"
+        options={{ headerShown: false }}
+      />
+    </Stack>
   );
 }

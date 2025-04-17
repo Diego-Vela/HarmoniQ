@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
 import Background from '@/components/common/background';
 import MissionCard from '@/components/mission-card';
-import { useXP } from '@/hooks/useXp';
+import { useXpStore } from '@/stores/useXpStore';
 import { useMissions } from '@/stores/useMissionsStore';
 import { playXpSound } from '@/hooks/useXpSound';
 
@@ -14,7 +14,7 @@ const Missions = () => {
     claimedMissionIds,
   } = useMissions();
 
-  const { claimXP } = useXP();
+  const { claimXP, level, currentXP, xpToNextLevel, justLeveledUp } = useXpStore();
   const [xpGained, setXpGained] = useState<number | null>(null);
 
   const handleClaim = (mission: { id: string; progress: number; goal: number; xpReward: number }) => {

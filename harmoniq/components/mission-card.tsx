@@ -25,11 +25,11 @@ const MissionCard: React.FC<Props> = ({ mission, onClaim }) => {
           {/* Progress Bar */}
           <View className="relative h-[24px] w-[90%] self-center bg-gray-700 rounded-full overflow-hidden">
             <View
-              className="absolute top-0 left-0 h-full rounded-full bg-accent shadow-[0_0_10px_#FFA500]"
+              className="absolute top-0 left-0 h-full rounded-full bg-accent shadow-[0_0_10px_#FFA500] z-10"
               style={{ width: `${(mission.progress / mission.goal) * 100}%` }}
             />
             <View className="absolute w-full h-full justify-center items-center">
-              <Text className="text-white text-sm font-semibold">
+              <Text className="text-white text-sm font-semibold z-50">
                 {mission.progress} / {mission.goal}
               </Text>
             </View>

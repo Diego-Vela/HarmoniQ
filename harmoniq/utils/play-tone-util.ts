@@ -26,10 +26,23 @@ export const playTone = async (midiNote: number) => {
     return;
   }
 
+  let sound: Audio.Sound | undefined;
+
   try {
-    const { sound } = await Audio.Sound.createAsync(soundFile);
+    const { sound: createdSound } = await Audio.Sound.createAsync(soundFile);
+    sound = createdSound;
     await sound.playAsync();
+
+    // Wait for the sound to finish playing
+    sound.setOnPlaybackStatusUpdate((status) => {
+      if (status.isLoaded && status.didJustFinish) {
+        sound?.unloadAsync(); // Release resources
+      }
+    });
   } catch (error) {
     console.error('Error playing sound:', error);
+    if (sound) {
+      await sound.unloadAsync(); // Ensure resources are released in case of an error
+    }
   }
 };
