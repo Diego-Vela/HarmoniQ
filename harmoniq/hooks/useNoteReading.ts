@@ -6,7 +6,6 @@ export const useNoteReading = (notes: string[]) => {
   const [randomNote, setRandomNote] = useState<string | null>(null);
   const [selectedNote, setSelectedNote] = useState<string | null>(null);
   const [isChecking, setIsChecking] = useState(true);
-  const [resultMessage, setResultMessage] = useState('');
   const [buttonNotes, setButtonNotes] = useState<string[]>([]);
 
   const playSound = async (note: string) => {
@@ -55,22 +54,11 @@ export const useNoteReading = (notes: string[]) => {
     await playSound(note);
     setButtonNotes(generateButtonNotes(note));
     setSelectedNote(null);
-    setResultMessage('');
     setIsChecking(true);
   };
 
   const handleCheckAnswer = async () => {
-    if (!selectedNote) {
-      setResultMessage('Please select a note before checking your answer.');
-      return;
-    }
-
     const isCorrect = selectedNote === randomNote;
-    setResultMessage(
-      isCorrect
-        ? `Correct! You selected: ${selectedNote.toUpperCase()}`
-        : `Incorrect. The correct note was: ${randomNote?.toUpperCase()}`
-    );
     setIsChecking(false);
   };
 
@@ -83,7 +71,6 @@ export const useNoteReading = (notes: string[]) => {
     buttonNotes,
     selectedNote,
     setSelectedNote,
-    resultMessage,
     isChecking,
     regenerateNote,
     handleCheckAnswer,

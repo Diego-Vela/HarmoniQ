@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
-import ActivityBase from '@/components/activities/activity-base';
 import Feedback from '@/components/activities/feedback';
 import SimpleNotes from '@/components/activities/buttons/simple-notes';
 import { ActivityComponentProps } from '@/constants/types';
@@ -22,14 +21,14 @@ const KeySignatureGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [isChecking, setIsChecking] = useState(true);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false); // Track if the answer is correct
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
 
   useEffect(() => {
     setCurrentKey(generateKey(level.toString()));
     setSelectedKey(null);
     setIsChecking(true);
     setShowFeedback(false);
-    setIsAnswerCorrect(false); // Reset the correct answer state when the level changes
+    setIsAnswerCorrect(null);
   }, [level]);
 
   const handlePress = (key: string) => {
@@ -40,29 +39,32 @@ const KeySignatureGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }
 
   const handleMainButton = () => {
     if (isChecking) {
-      setIsChecking(false);
-      setShowFeedback(true);
+      const userMadeChoice = selectedKey !== null;
+      const isCorrect = userMadeChoice && selectedKey === currentKey.correctAnswer;
 
-      const isCorrect = selectedKey === currentKey.correctAnswer;
-      console.log('isCorrect:', isCorrect);
-      setIsAnswerCorrect(isCorrect); // Track if the answer is correct
+      if (!userMadeChoice) {
+        console.log('No selection made. Treating as incorrect.');
+      }
+
+      setIsAnswerCorrect(isCorrect);
+      setShowFeedback(true);
+      setIsChecking(false);
     } else {
       if (isAnswerCorrect) {
         console.log('onSuccess called');
-        onSuccess(); // Call onSuccess only when the answer was correct
+        onSuccess();
       } else {
-        setCurrentKey(generateKey(level.toString())); // Generate a new key if the answer was incorrect
+        setCurrentKey(generateKey(level.toString()));
       }
       setSelectedKey(null);
       setIsChecking(true);
       setShowFeedback(false);
-      setIsAnswerCorrect(false); // Reset the correct answer state
+      setIsAnswerCorrect(null);
     }
   };
 
   return (
     <>
-      {/* Signature Image */}
       <View className="bg-transparent w-[80%] h-[35%] items-center justify-center relative rounded-xl">
         <Image
           source={currentKey.image}
@@ -71,7 +73,6 @@ const KeySignatureGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }
         />
       </View>
 
-      {/* Buttons and Feedback */}
       <View className="flex-col bg-primary rounded-xl border border-primary w-[80%] h-[50%] items-center justify-evenly shadow-lg">
         <SimpleNotes
           notes={currentKey.options}
@@ -88,7 +89,7 @@ const KeySignatureGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }
         <View className="flex w-[90%] h-[20%] bg-transparent rounded-xl items-center justify-evenly">
           <AnimatedCheckButton
             isChecking={isChecking}
-            isCorrect={isAnswerCorrect}
+            isCorrect={showFeedback ? isAnswerCorrect : null}
             onPress={handleMainButton}
           />
         </View>

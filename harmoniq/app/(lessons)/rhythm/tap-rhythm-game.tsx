@@ -7,7 +7,7 @@ import Feedback from '@/components/activities/feedback';
 import MetronomeCountdown from '@/components/activities/rhythm/metronome-countdown';
 import { useTapRhythm } from '@/hooks/useTapRhythm';
 import { ActivityComponentProps } from '@/constants/types';
-import AnimatedCheckButton from '@/components/activities/buttons/check-answer-button';
+import AnimatedCheckButton from '@/components/activities/buttons/check-answer-auto';
 
 const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) => {
   const router = useRouter();
@@ -94,7 +94,7 @@ const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =
       <View className="mt-5 w-full h-[10%] items-center">
         <AnimatedCheckButton
           isChecking={startCountdown}
-          isCorrect={showFeedback}
+          isCorrect={showFeedback ? isCorrect : null}
           onPress={() => {
             if (!startCountdown && !showFeedback) {
               timestampsRef.current = [];

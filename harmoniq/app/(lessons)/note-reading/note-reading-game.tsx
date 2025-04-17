@@ -25,7 +25,7 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
   } = useNoteReading(notes);
 
   const [visibleFeedback, setVisibleFeedback] = useState(false);
-  const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
+  const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
 
   const handleNotePress = async (note: string) => {
     if (isChecking) {
@@ -36,10 +36,16 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
 
   const handleMainButton = () => {
     if (isChecking) {
-      const isCorrect = selectedNote === randomNote;
+      const userMadeChoice = selectedNote !== null;
+      const isCorrect = userMadeChoice && selectedNote === randomNote;
+
+      if (!userMadeChoice) {
+        console.log('No selection made. Treating as incorrect.');
+      }
+
       handleCheckAnswer();
       setVisibleFeedback(true);
-      setIsAnswerCorrect(isCorrect);
+      setIsAnswerCorrect(isCorrect); // Treat null submissions as incorrect
     } else {
       if (isAnswerCorrect) {
         onSuccess();
@@ -48,13 +54,12 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
       }
 
       setVisibleFeedback(false);
-      setIsAnswerCorrect(false);
+      setIsAnswerCorrect(null);
     }
   };
 
   return (
     <>
-      {/* Display Note */}
       <View className="bg-transparent w-[80%] h-[35%] items-center justify-center relative rounded-xl">
         {randomNote && (
           <>
@@ -73,7 +78,6 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
         )}
       </View>
 
-      {/* Buttons */}
       <View className="flex-col bg-primary rounded-xl border border-primary w-[80%] h-[50%] items-center justify-evenly shadow-lg">
         <SimpleNotes
           notes={buttonNotes}
@@ -90,8 +94,15 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
         <View className="flex w-[90%] h-[20%] bg-transparent rounded-xl items-center justify-evenly">
           <AnimatedCheckButton
             isChecking={isChecking}
-            isCorrect={isAnswerCorrect}
+            isCorrect={visibleFeedback ? isAnswerCorrect : null}
             onPress={handleMainButton}
+            label={
+              isChecking
+                ? 'Check Answer'
+                : visibleFeedback
+                ? 'Continue'
+                : 'Start'
+            }
           />
         </View>
       </View>

@@ -10,7 +10,7 @@ import Animated, {
 
 type AnimatedCheckButtonProps = {
   isChecking: boolean;
-  isCorrect: boolean;
+  isCorrect: boolean | null;
   onPress: () => void;
   label?: string;
 };
@@ -76,7 +76,7 @@ const AnimatedCheckButton: React.FC<AnimatedCheckButtonProps> = ({
           alignItems: 'center',
         }}
       >
-        <Text className="text-white font-bold text-center">
+        <Text className="text-white font-bold text-xl text-center">
           {label ?? (isChecking ? 'Check Answer' : 'Continue')}
         </Text>
       </TouchableOpacity>

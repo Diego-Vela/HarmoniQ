@@ -96,8 +96,6 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
   };
 
   const checkAnswer = () => {
-    if (!selectedInterval) return;
-
     const correct = selectedInterval === currentInterval;
     setIsCorrect(correct);
     setVisibleFeedback(true);

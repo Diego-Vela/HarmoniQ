@@ -13,10 +13,14 @@ export default function Feedback({ isCorrect, visible }: FeedbackProps) {
     let sound: Audio.Sound | null = null;
 
     const playSound = async () => {
-      if (isCorrect && visible) {
+      if (visible) {
         try {
           sound = new Audio.Sound();
-          await sound.loadAsync(sounds.correct); // Load the correct sound
+          if (isCorrect) {
+            await sound.loadAsync(sounds.correct); // Load the correct sound
+          } else {
+            await sound.loadAsync(sounds.wrong); // Load the wrong sound
+          }
           await sound.playAsync(); // Play the sound
         } catch (error) {
           console.error('Error playing sound:', error);
@@ -37,8 +41,11 @@ export default function Feedback({ isCorrect, visible }: FeedbackProps) {
   if (!visible) return null;
 
   return (
-    <View className='flex '>
-      <Text className= 'text-5xl'style={[{ color: isCorrect ? 'green' : 'red' }]}>
+    <View className="flex">
+      <Text
+        className="text-5xl"
+        style={[{ color: isCorrect ? 'green' : 'red' }]}
+      >
         {isCorrect ? '✔ Excellent!' : '✘ Oops!'}
       </Text>
     </View>
