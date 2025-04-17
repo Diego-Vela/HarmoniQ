@@ -81,18 +81,18 @@ def enableProguardInReleaseBuilds = (findProperty('android.enableProguardInRelea
 def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
-    namespace "com.dvela2.harmoniq"
-    compileSdkVersion 35
+    ndkVersion rootProject.ext.ndkVersion
+
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdk rootProject.ext.compileSdkVersion
+
+    namespace 'com.dvela2.harmoniq'
     defaultConfig {
-        applicationId "com.dvela2.harmoniq"
-        minSdkVersion 24
-        targetSdkVersion 35
+        applicationId 'com.dvela2.harmoniq'
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
-        buildConfigField "boolean", "USE_HERMES", "true"
-        ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-        }
+        versionName "1.0.0"
     }
     signingConfigs {
         debug {
