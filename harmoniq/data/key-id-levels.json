@@ -11,18 +11,19 @@
       "level": "2",
       "quality": "major",
       "staff": "treble",
-      "keys": ["C", "F", "G","Bb","A"]
+      "keys": ["D", "Bb","A", "Eb"]
     },
     {
       "level": "3",
       "quality": "major",
       "staff": "treble",
-      "keys": ["C", "F", "G","Bb", "A", "D", "Eb"]
+      "keys": ["A", "Eb", "E", "Ab"]
     },
     {
       "level": "4",
-      "quality": "both",
-      "keys": ["A", "D", "E","B"]
+      "quality": "major",
+      "staff": "treble",
+      "keys": ["C", "F", "G", "D", "Bb", "A", "Eb", "E", "Ab"]
     }
   ]
 }

@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import {
   generateDailyMissions,
   generateWeeklyMissions,
-} from '@/utils/mission-generator';
+} from '@/utils/mission-generator-util';
 import { MissionStore, MissionWithProgress } from '@/constants/types';
 
 export const useMissions = create<MissionStore>()(
@@ -21,12 +21,20 @@ export const useMissions = create<MissionStore>()(
         set({ weeklyMissions: generateWeeklyMissions(count) });
       },
 
+      //Unusued Utility Function
       resetAllMissions: () => {
         set({
           dailyMissions: [],
           weeklyMissions: [],
           claimedMissionIds: new Set(),
         });
+      },
+
+      resetDailyMissions: () => {
+        set({ dailyMissions: [], claimedMissionIds: new Set() });
+      },
+      resetWeeklyMissions: () => {
+        set({ weeklyMissions: [], claimedMissionIds: new Set() });
       },
 
       incrementMissionProgress: (scope, missionId, amount = 1) => {

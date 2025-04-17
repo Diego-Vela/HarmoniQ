@@ -9,7 +9,7 @@ const Training = () => {
   const router = useRouter();
 
   const navigateToLevelSelect = (category: string, subcategory: string) => {
-    router.push({ pathname: '../level-select', params: { category, subcategory } });
+    router.push({ pathname: '../screens/level-select', params: { category, subcategory } });
   };
 
   return (

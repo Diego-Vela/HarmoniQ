@@ -1,12 +1,12 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 const ReturnHome: React.FC = () => {
-  const router = useRouter();
+  const navigation = useNavigation(); // Use navigation hook
 
   const handlePress = () => {
-    router.push('/'); // Navigate back to the home screen
+    navigation.goBack(); // Navigate back to the previous screen
   };
 
   return (

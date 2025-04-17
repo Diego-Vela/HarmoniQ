@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Feedback from '@/components/activities/feedback';
+
 import { useIntervalTraining, LevelData } from '@/hooks/useIntervalTraining';
 import intervalLevels from '@/data/interval-levels.json';
 import type { Interval } from '@/hooks/useIntervalTraining';
+
 import { ActivityComponentProps } from '@/constants/types';
 import AnimatedCheckButton from '@/components/activities/buttons/check-answer-button';
-import SimpleNotes from '@/components/activities/buttons/simple-notes'; // Import SimpleNotes component
 import SimpleIntervals from '@/components/activities/buttons/simple-intervals';
 
 const IntervalGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) => {
@@ -39,7 +40,6 @@ const IntervalGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =>
 
   const handleMainButton = () => {
     if (isChecking) {
-      const isCorrectAnswer = selectedInterval === currentInterval;
       checkAnswer();
     } else {
       if (isCorrect) {

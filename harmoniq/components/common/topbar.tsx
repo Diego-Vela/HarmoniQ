@@ -10,9 +10,11 @@ import {
 import { icons } from '@/constants/icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useXP } from '@/hooks/useXp';
+import { useStatsStore } from "@/stores/useStatsStore";
 
 const Topbar = () => {
   const { level, currentXP, xpToNextLevel } = useXP();
+    const { dailyStreak } = useStatsStore();
 
   const progressPercent = Math.min(currentXP / xpToNextLevel, 1);
   const progressDisplay = `${currentXP}/${xpToNextLevel}`;
@@ -67,7 +69,7 @@ const Topbar = () => {
         <Text className="text-xl mb-[2px]">🔥</Text>
         <Text
           style={{ fontSize: RFValue(14), color: '#f6ad55'}}
-          className="font-bold px-1 mb-[2px] text-white">7</Text>
+          className="font-bold px-1 mb-[2px] text-white">{ dailyStreak }</Text>
       </View>
 
       {/* Level + XP Progress */}

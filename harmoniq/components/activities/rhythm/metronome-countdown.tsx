@@ -59,6 +59,7 @@ const MetronomeCountdown: React.FC<MetronomeCountdownProps> = ({
 
   useEffect(() => {
     if (countdown === null) return;
+    // console.log('Countdown:', countdown);
 
     const tick = async () => {
       if (countdown === 0) {
@@ -77,15 +78,15 @@ const MetronomeCountdown: React.FC<MetronomeCountdownProps> = ({
           console.warn('Tick sound error:', e);
         }
       }
-      console.log(countdown);
-      if (countdown === 4) {
+      // console.log(countdown);
+      if (countdown === beats+1) {
+        console.log('Ready!');
         onTapWindowStart(); // Trigger tap window start
       } 
 
       if (countdown === beats) {
         const now = Date.now();
         onStart(now); // Trigger the onStart callback with the current time
-        // console.log('Start time:', now);
       }
 
       setCountdown((prev) => (prev !== null ? prev - 1 : null)); // Decrement the countdown

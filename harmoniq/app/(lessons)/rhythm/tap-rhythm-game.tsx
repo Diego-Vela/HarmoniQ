@@ -1,25 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Button, Animated } from 'react-native';
+import { View, Animated, TouchableOpacity, Text } from 'react-native';
+import { useRouter } from 'expo-router';
 import TapPad from '@/components/activities/rhythm/tap-pad';
 import RhythmDisplay from '@/components/activities/rhythm/rhythm-display';
 import Feedback from '@/components/activities/feedback';
-import ActivityBase from '@/components/activities/activity-base';
 import MetronomeCountdown from '@/components/activities/rhythm/metronome-countdown';
-import { useRhythmSession } from '@/hooks/useRhythmSession';
+import { useTapRhythm } from '@/hooks/useTapRhythm';
 import { ActivityComponentProps } from '@/constants/types';
+import AnimatedCheckButton from '@/components/activities/buttons/check-answer-button';
 
 const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) => {
-  const category = "tap"; // optionally allow this to be dynamic too
+  const router = useRouter();
+  const category = "tap";
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
   const [canTap, setCanTap] = useState(false);
   const [startCountdown, setStartCountdown] = useState(false);
-  const [justCompleted, setJustCompleted] = useState(false); // prevent multiple triggers
+  const [isPreviewing, setIsPreviewing] = useState(false);
 
   const {
     handleTap,
     handleSubmit,
     handleReset,
+    previewRhythm,
+    loadPreviewSounds,
+    cleanupPreviewSounds,
     isCorrect,
     showFeedback,
     targetRhythm,
@@ -27,19 +32,30 @@ const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =
     setShowFeedback,
     startTimeRef,
     timestampsRef,
-  } = useRhythmSession(category, level.toString());
+  } = useTapRhythm(category, level.toString());
+
+  useEffect(() => {
+    loadPreviewSounds();
+    return () => cleanupPreviewSounds();
+  }, []);
 
   const handleContinue = () => {
     if (isCorrect) {
-      console.log('onSuccess called');
-      onSuccess(); // Trigger the next activity
+      onSuccess();
     } else {
-      handleReset(); // Reset the game if the answer was incorrect
+      handleReset();
     }
   };
 
   return (
     <>
+      <TouchableOpacity
+        className="absolute top-5 right-5 p-2 bg-blue-500 rounded"
+        onPress={() => router.push('/screens/rhythm-calibration')}
+      >
+        <Text className="text-white font-bold">Calibrate</Text>
+      </TouchableOpacity>
+
       <RhythmDisplay rhythm={targetRhythm} />
 
       <MetronomeCountdown
@@ -55,16 +71,19 @@ const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =
         }}
       />
 
-      <Button
-        title="Start Rhythm"
-        onPress={() => {
-          timestampsRef.current = [];
-          setShowFeedback(false);
-          setCanTap(false);
-          setJustCompleted(false); // reset for next round
-          setStartCountdown(true);
-        }}
-      />
+      <View className="flex-row w-full justify-evenly items-center">
+        <TouchableOpacity
+          className={`p-2 rounded ${isPreviewing || startCountdown ? 'bg-gray-300' : 'bg-blue-500'}`}
+          onPress={async () => {
+            setIsPreviewing(true);
+            await previewRhythm();
+            setIsPreviewing(false);
+          }}
+          disabled={isPreviewing || startCountdown}
+        >
+          <Text className="text-white font-bold">Preview Rhythm</Text>
+        </TouchableOpacity>
+      </View>
 
       <View className="flex-row w-[45%] h-[20%] bg-transparent items-center justify-center">
         <TapPad onTap={() => canTap && handleTap()} />
@@ -72,10 +91,29 @@ const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =
 
       <Feedback visible={showFeedback} isCorrect={isCorrect} />
 
-      <Button
-        title={isCorrect ? 'Continue' : 'Reset'}
-        onPress={handleContinue} // Call handleContinue when the button is pressed
-      />
+      <View className="mt-5 w-full h-[10%] items-center">
+        <AnimatedCheckButton
+          isChecking={startCountdown}
+          isCorrect={showFeedback}
+          onPress={() => {
+            if (!startCountdown && !showFeedback) {
+              timestampsRef.current = [];
+              setShowFeedback(false);
+              setCanTap(false);
+              setStartCountdown(true);
+            } else if (showFeedback) {
+              handleContinue();
+            }
+          }}
+          label={
+            startCountdown && !showFeedback
+              ? 'Listening...'
+              : showFeedback
+              ? 'Continue'
+              : 'Start Rhythm'
+          }
+        />
+      </View>
     </>
   );
 };

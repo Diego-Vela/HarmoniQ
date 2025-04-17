@@ -56,7 +56,7 @@ export default function TapPad({ onTap }: TapPadProps) {
     <TouchableOpacity
       onPressIn={handlePressIn}
       activeOpacity={0.7}
-      className="w-[85%] h-full bg-blue-500 rounded-full justify-center items-center shadow-lg shadow-red-500"
+      className="w-[85%] h-full bg-blue-500 rounded-xl justify-center items-center shadow-lg shadow-red-500"
     >
       <Text className="text-white text-2xl font-bold">TAP</Text>
     </TouchableOpacity>

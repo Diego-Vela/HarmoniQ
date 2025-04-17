@@ -5,8 +5,8 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import Background from '@/components/common/background';
 import ReturnHome from '@/components/common/return-home';
 
-const MAX_LEVEL = 5;
-const universallyUnlockedLevel = 3;
+const MAX_LEVEL = 3;
+const universallyUnlockedLevel = 1;
 
 const LevelSelect = () => {
   const router = useRouter();
@@ -26,12 +26,12 @@ const LevelSelect = () => {
   }
 
   const isLevelUnlocked = (level: number) => {
-    return level === universallyUnlockedLevel; // Replace with real unlock logic
+    return true; // Replace with real unlock logic
   };
 
   const handleLevelPress = (level: number) => {
     console.log(`/category=${category} subcategory=${subcategory} level=${level}`);
-    router.push(`/entry-point?category=${category}&subcategory=${subcategory}&level=${level}`);
+    router.push(`/screens/entry-point?category=${category}&subcategory=${subcategory}&level=${level}`);
   };
 
   return (

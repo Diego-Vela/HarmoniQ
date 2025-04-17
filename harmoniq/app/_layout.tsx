@@ -16,15 +16,7 @@ export default function RootLayout() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="level-select"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="entry-point"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="completion"
+          name="screens"
           options={{ headerShown: false }}
         />
       </Stack>

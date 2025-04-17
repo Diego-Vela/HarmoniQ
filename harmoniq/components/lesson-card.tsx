@@ -22,7 +22,7 @@ const LessonCard: React.FC<LessonCardProps> = ({ chapter, level }) => {
   return (
     <Link
       href={{
-        pathname: '/entry-point',
+        pathname: '/screens/entry-point',
         params: {
           category: 'lesson',
           subcategory: chapter,

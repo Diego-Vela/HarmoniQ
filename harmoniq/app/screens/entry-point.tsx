@@ -61,7 +61,7 @@ const LessonsEntryPoint = () => {
       sequence={sequence}
       onComplete={() => {
         router.replace({
-          pathname: '/completion',
+          pathname: '/screens/completion',
           params: {
             mode: isLesson ? 'lesson' : 'training',
             category,

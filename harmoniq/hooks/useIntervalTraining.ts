@@ -1,15 +1,16 @@
-import { useEffect, useState, useMemo } from 'react';
-import  intervalLevels  from '@/data/interval-levels.json';
-import { playTone } from '@/utils/play-tone-utils'; // Adjust path as needed
-
+import { useEffect, useState } from 'react';
+import intervalLevels from '@/data/interval-levels.json';
+import { playTone } from '@/utils/play-tone-util'; // Adjust path as needed
 
 export type Interval =
-  | 'M2' | 'm3' | 'M3'
+  | 'm2' | 'M2' 
+  | 'm3' | 'M3'
   | 'P4' | 'P5'
-  | 'M6' | 'm7' | 'M7'
+  | 'm6' | 'M6' 
+  | 'm7' | 'M7'
   | 'Octave';
 
-  export type Note =
+export type Note =
   | 'C' | 'C#' | 'Db'
   | 'D' | 'D#' | 'Eb'
   | 'E'
@@ -18,18 +19,19 @@ export type Interval =
   | 'A' | 'A#' | 'Bb'
   | 'B';
 
-
-  export const intervalToSemitones: Record<Interval, number> = {
-    M2: 2,
-    m3: 3,
-    M3: 4,
-    P4: 5,
-    P5: 7,
-    M6: 9,
-    m7: 10,
-    M7: 11,
-    Octave: 12,
-  };
+export const intervalToSemitones: Record<Interval, number> = {
+  m2: 1,
+  M2: 2,
+  m3: 3,
+  M3: 4,
+  P4: 5,
+  P5: 7,
+  m6: 8,
+  M6: 9,
+  m7: 10,
+  M7: 11,
+  Octave: 12,
+};
 
 export const noteToMidi: Record<Note, number> = {
   C: 60,
@@ -46,8 +48,6 @@ export const noteToMidi: Record<Note, number> = {
   B: 71,
 };
 
-
-// Define the LevelData type
 export type LevelData = {
   rootNotes: Note[];
   intervals: Interval[];
@@ -65,7 +65,7 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
   previewInterval: (interval: Interval) => Promise<void>;
   checkAnswer: () => void;
   generateNext: () => void;
-  options: string[]; // Expose the options
+  options: string[];
 } {
   const [currentInterval, setCurrentInterval] = useState<Interval>('M2');
   const [selectedInterval, setSelectedInterval] = useState<Interval | null>(null);
@@ -73,8 +73,7 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
   const [isChecking, setIsChecking] = useState(true);
   const [isCorrect, setIsCorrect] = useState(false);
   const [visibleFeedback, setVisibleFeedback] = useState(false);
-  const [options, setOptions] = useState<string[]>([]); // Store the options
-  const [firstLoad, setFirstLoad] = useState(true); // Track if it's the first load
+  const [options, setOptions] = useState<string[]>([]);
 
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -83,7 +82,10 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
     const intervalSemis = intervalToSemitones[currentInterval];
     const secondMidi = rootMidi + intervalSemis;
 
-    if (!rootMidi || !secondMidi) {
+    console.log(`Playing interval: root=${currentRoot}, interval=${currentInterval}`);
+    console.log(`MIDI values: rootMidi=${rootMidi}, intervalSemis=${intervalSemis}, secondMidi=${secondMidi}`);
+
+    if (rootMidi === undefined || intervalSemis === undefined || isNaN(secondMidi)) {
       console.log(`Invalid MIDI notes: rootMidi=${rootMidi}, secondMidi=${secondMidi}`);
       return;
     }
@@ -94,9 +96,7 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
   };
 
   const checkAnswer = () => {
-    if (!selectedInterval) {
-      return;
-    }
+    if (!selectedInterval) return;
 
     const correct = selectedInterval === currentInterval;
     setIsCorrect(correct);
@@ -110,11 +110,10 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
     const secondMidi = rootMidi + intervalSemis;
 
     await playTone(rootMidi);
-    await delay(400); // shorter delay than full question playback
+    await delay(400);
     await playTone(secondMidi);
   };
 
-  // Function to randomly select 3 incorrect options
   const getRandomIncorrectOptions = (correctAnswer: string, options: string[]): string[] => {
     const incorrectOptions = options.filter((option) => option !== correctAnswer);
     const shuffled = incorrectOptions.sort(() => Math.random() - 0.5);
@@ -122,38 +121,31 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
   };
 
   const generateNext = () => {
-    if (!levelData) {
-      return;
-    }
+    if (!levelData) return;
 
     const { rootNotes, intervals } = levelData;
     const newRoot = rootNotes[Math.floor(Math.random() * rootNotes.length)];
     const newInterval = intervals[Math.floor(Math.random() * intervals.length)];
 
-    setCurrentRoot(newRoot as Note);
-    setCurrentInterval(newInterval as Interval);
+    console.log(`Generated next interval: root=${newRoot}, interval=${newInterval}`);
+
+    setCurrentRoot(newRoot);
+    setCurrentInterval(newInterval);
     setSelectedInterval(null);
     setIsChecking(true);
     setVisibleFeedback(false);
 
-    // Generate options for the new interval
     const newOptions = [newInterval, ...getRandomIncorrectOptions(newInterval, intervals)];
-    setOptions(newOptions.sort(() => Math.random() - 0.5)); // Shuffle options
+    setOptions(newOptions.sort(() => Math.random() - 0.5));
+
+    // Play the generated interval immediately
+    setTimeout(() => {
+      playTone(noteToMidi[newRoot]);
+      delay(600).then(() => playTone(noteToMidi[newRoot] + intervalToSemitones[newInterval]));
+    }, 0);
   };
 
-  // Play the interval whenever currentRoot or currentInterval changes
-  useEffect(() => {
-    if (firstLoad) {
-      setFirstLoad(false); // Prevent further calls on subsequent renders
-      return;
-    }
-
-    if (isChecking && currentRoot && currentInterval) {
-      playInterval();
-    }
-  }, [currentRoot, currentInterval, isChecking]);
-
-  // Generate the first exercise when the screen loads
+  // Generate the first interval when the level loads
   useEffect(() => {
     generateNext();
   }, [level]);
@@ -170,6 +162,6 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
     previewInterval,
     checkAnswer,
     generateNext,
-    options, // Return the options
+    options,
   };
 }

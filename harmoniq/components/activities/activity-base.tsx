@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, Text, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ReturnHome from '@/components/common/return-home';
-import { images } from '@/constants/images';  5498
+import { images } from '@/constants/images'; 
 
 interface ActivityBaseProps {
   children: React.ReactNode; // Content to render inside the activity

@@ -25,6 +25,8 @@ export interface MissionStore {
   generateDailyMissions: (count: number) => void;
   generateWeeklyMissions: (count: number) => void;
   resetAllMissions: () => void;
+  resetDailyMissions: () => void;
+  resetWeeklyMissions: () => void;
 
   incrementMissionProgress: (
     scope: MissionScope,
@@ -117,6 +119,11 @@ export type ProgressStore = {
   claimXP: (amount: number) => void;
   incrementLessonProgress: () => void;
   resetProgress: () => void;
+};
+
+export type RhythmStore = {
+  calibrationOffset: number;
+  setCalibrationOffset: (offset: number) => void;
 };
 
 // XP

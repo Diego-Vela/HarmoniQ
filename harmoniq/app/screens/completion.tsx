@@ -76,7 +76,7 @@ const CompletionPage = () => {
         isTraining
           ? () =>
               router.replace({
-                pathname: '/entry-point',
+                pathname: '/screens/entry-point',
                 params: { category, subcategory, level },
               })
           : undefined
