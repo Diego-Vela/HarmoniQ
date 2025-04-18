@@ -2,8 +2,8 @@ import lessonData from '@/data/unlock-data.json'; // Make sure this points to yo
 import { useStatsStore } from '@/stores/useStatsStore';
 import { useXpStore } from '@/stores/useXpStore';
 
-export const getLessonData = () => {
-  const lastLesson = useStatsStore.getState().lastCompletedLesson; // e.g., "Chapter 1-3"
+export const completeLesson = () => {
+  const lastLesson = useStatsStore.getState().lastCompletedLesson;
   const xpStore = useXpStore.getState();
 
   const lessons = lessonData.lessons;

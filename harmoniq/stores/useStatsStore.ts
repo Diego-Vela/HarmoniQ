@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useXpStore } from '@/stores/useXpStore';
+import lessonData from '@/data/unlock-data.json'; 
 import type {
   StatCategory,
   TrainingStats,
@@ -38,6 +40,7 @@ export const useStatsStore = create<StatsStore>()(
       dailyStreak: 0,
       lastActivityDate: null,
       lastCompletedLesson: null,
+      nextLesson: "Chapter 1-1",
 
       incrementTrainingStat: (category: keyof TrainingStats, subcategory: string) => {
         const updateScope = (scope: TimeScopeStats) => {
@@ -75,12 +78,26 @@ export const useStatsStore = create<StatsStore>()(
         const current = get().lastCompletedLesson;
 
         if (!current || newLesson > current) {
+          const xpStore = useXpStore.getState();
+          const lessons = lessonData.lessons;
+
+          // Find the next lesson and determine the new level cap
+          const findNext = lessons.find((entry) => entry.lesson === newLesson);
+          const newCap = findNext?.['level-cap'] ?? 5;
+
+          // Increase level cap if necessary
+          if (typeof newCap === 'number' && newCap > xpStore.levelCap) {
+            xpStore.increaseLevelCap(newCap);
+          }
+
+          // Update state in a single `set` call
           set((state) => ({
             lastCompletedLesson: newLesson,
             lifetime: {
               ...state.lifetime,
               lessonProgress: newLesson,
             },
+            nextLesson: findNext?.next ? `${findNext.next}` : 'Chapter 1-1',
           }));
         }
       },

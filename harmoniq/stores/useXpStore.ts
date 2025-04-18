@@ -65,8 +65,16 @@ export const useXpStore = create<XpStore>()(
       },
 
       increaseLevelCap: (amount: number) => {
-        const { levelCap } = get();
-        set({ levelCap: levelCap + amount }); // Increase the level cap by the specified amount
+        const { levelCap, level } = get();
+        const newLevelCap = levelCap + amount;
+
+        // Recalculate xpToNextLevel based on the current level
+        const xpToNextLevel = getXPForLevel(level);
+
+        set({
+          levelCap: newLevelCap,
+          xpToNextLevel, // Update xpToNextLevel
+        });
       },
     }),
     {

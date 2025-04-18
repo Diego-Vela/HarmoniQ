@@ -1,15 +1,22 @@
-import { View, Image, ScrollView } from "react-native";
+import React from "react";
+import { View, ScrollView, Dimensions } from "react-native";
 import { useRouter } from "expo-router";
-import { images } from "@/constants/images";
+
+import lessonData from '@/data/unlock-data.json';
+
+import { useStatsStore } from '@/stores/useStatsStore';
+import { useXpStore } from '@/stores/useXpStore';
+import { initMissions } from "@/utils/init-missions-util";
+
 import Chapter from "@/components/chapter";
 import LessonCard from "@/components/lesson-card";
 import Background from "@/components/common/background";
-import { useInitMissions } from "@/hooks/useInitMissions";
-import React from "react";
+
+const { height } = Dimensions.get("window"); // Get screen height
 
 export default function Index() {
   const router = useRouter();
-  useInitMissions();
+  initMissions();
 
   return (
     <Background>
@@ -19,7 +26,10 @@ export default function Index() {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ minHeight: "100%", paddingBottom: 100 }}
       >
-        <View className="flex flex-col justify-between items-center mt-40 bg-transparent rounded-lg">
+        <View
+          className="flex flex-col justify-between items-center bg-transparent rounded-lg"
+          style={{ marginTop: height * 0.12 }} // Set marginTop to 15% of screen height
+        >
           <LessonCard chapter="Chapter 1" level="1" />
           <LessonCard chapter="Chapter 1" level="2" />
           <LessonCard chapter="Chapter 1" level="3" />

@@ -13,6 +13,7 @@ export const resetAllStores = () => {
     totalXP: 0,
     justLeveledUp: false,
     streak: 0,
+    levelCap: 1,
   });
 
   // Stats Store
@@ -39,6 +40,7 @@ export const resetAllStores = () => {
     dailyStreak: 0,
     lastActivityDate: null,
     lastCompletedLesson: null,
+    nextLesson: 'Chapter 1-1',
   });
   
 

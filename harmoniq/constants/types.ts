@@ -98,6 +98,7 @@ export type StatsStore = {
   lastActivityDate: string | null;
 
   lastCompletedLesson: string | null;
+  nextLesson: string | "Chapter 1-1";
 
   updateLessonProgress: (lessonKey: string) => void;
 
