@@ -132,8 +132,9 @@ export type XPState = {
   currentXP: number;
   xpToNextLevel: number;
   streak: number;
-  totalXP: number; // 👈 new
+  totalXP: number; 
   justLeveledUp: boolean;
+  levelCap: number;
 };
 
 export type XPContextType = Omit<XPState, 'justLeveledUp'> & {

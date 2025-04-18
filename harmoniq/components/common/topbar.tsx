@@ -13,7 +13,7 @@ import { useXpStore } from '@/stores/useXpStore';
 import { useStatsStore } from "@/stores/useStatsStore";
 
 const Topbar = () => {
-  const { claimXP, level, currentXP, xpToNextLevel, justLeveledUp } = useXpStore();
+  const { level, currentXP, xpToNextLevel, levelCap } = useXpStore();
   const { dailyStreak } = useStatsStore();
 
   const progressPercent = Math.min(currentXP / xpToNextLevel, 1);
@@ -106,9 +106,9 @@ const Topbar = () => {
           />
           <Text
             style={{ fontSize: RFValue(10), position: 'absolute'}}
-            className="w-full font-semibold text-center text-blue-900"
+            className="w-full font-semibold text-center text-blue-900 italic z-50"
           >
-            {progressDisplay}
+            {levelCap > level? progressDisplay: 'Max'}
           </Text>
         </View>
       </View>

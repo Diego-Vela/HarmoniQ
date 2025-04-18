@@ -96,7 +96,7 @@ const MetronomeCountdown: React.FC<MetronomeCountdownProps> = ({
       }
 
       if (countdown === beats + 1) {
-        console.log('Ready!');
+        // console.log('Ready!');
         onTapWindowStart(); // Trigger tap window start
       }
 

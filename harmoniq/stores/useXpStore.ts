@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 interface XpStore extends XPState {
   claimXP: (amount: number) => void;
   setJustLeveledUp: (value: boolean) => void;
+  increaseLevelCap: (amount: number) => void; // New function to increase level cap
 }
 
 export const useXpStore = create<XpStore>()(
@@ -18,20 +19,32 @@ export const useXpStore = create<XpStore>()(
       streak: 0,
       totalXP: 0,
       justLeveledUp: false,
+      levelCap: 1,
 
       claimXP: (amount: number) => {
-        const { currentXP, level, xpToNextLevel, totalXP } = get();
+        const { currentXP, level, xpToNextLevel, totalXP, levelCap } = get();
+
+        // Prevent gaining XP or leveling up beyond the level cap
+        if (level >= levelCap) {
+          set({ currentXP: 0 }); // Reset XP bar to zero if at level cap
+          return;
+        }
 
         let newXP = currentXP + amount;
         let newLevel = level;
         let xpToNext = xpToNextLevel;
         let leveledUp = false;
 
-        while (newXP >= xpToNext) {
+        while (newXP >= xpToNext && newLevel < levelCap) {
           newXP -= xpToNext;
           newLevel += 1;
           xpToNext = getXPForLevel(newLevel);
           leveledUp = true;
+        }
+
+        // Handle overflow XP if the user reaches the level cap
+        if (newLevel >= levelCap) {
+          newXP = 0; // Reset XP bar to zero
         }
 
         if (leveledUp) {
@@ -49,6 +62,11 @@ export const useXpStore = create<XpStore>()(
 
       setJustLeveledUp: (value: boolean) => {
         set({ justLeveledUp: value });
+      },
+
+      increaseLevelCap: (amount: number) => {
+        const { levelCap } = get();
+        set({ levelCap: levelCap + amount }); // Increase the level cap by the specified amount
       },
     }),
     {

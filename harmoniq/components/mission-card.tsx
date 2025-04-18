@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import { MissionWithProgress } from '@/constants/types';
 import { useMissions } from '@/stores/useMissionsStore';
 
@@ -24,9 +24,11 @@ const MissionCard: React.FC<Props> = ({ mission, onClaim }) => {
     >
       <View className="rounded-xl shadow-lg w-full h-full opacity-95 flex-row justify-evenly items-center">
         {/* Text Section */}
-        <View className="flex-col justify-evenly w-[60%] h-[100%]">
-          <View className="flex justify-center items-center h-[50%]">
-            <Text className="text-white text-center font-semibold text-" adjustsFontSizeToFit numberOfLines={2}>{mission.title}</Text>
+        <View className="flex-col justify-evenly w-[65%] h-[100%] items-center">
+          <View className="flex justify-center items-center h-[50%] w-[95%]">
+            <Text adjustsFontSizeToFit numberOfLines={2} className="text-white text-center font-semibold text-xl w-full " >
+              {mission.title}
+            </Text>
           </View>
 
           {/* Progress Bar */}
@@ -47,7 +49,7 @@ const MissionCard: React.FC<Props> = ({ mission, onClaim }) => {
         <TouchableOpacity
           onPress={() => onClaim(mission)}
           disabled={!isComplete || isClaimed}
-          className={`rounded-lg justify-center w-[25%] h-[80%] ${
+          className={`rounded-lg justify-center w-[30%] h-[80%] ${
             isClaimed
               ? 'bg-gray-600'
               : isComplete
@@ -55,7 +57,12 @@ const MissionCard: React.FC<Props> = ({ mission, onClaim }) => {
               : 'bg-gray-600'
           }`}
         >
-          <Text className="text-white text-center text-sm font-semibold">
+          <Text
+            className="text-white text-center font-semibold"
+            style={{
+              fontSize: Platform.OS === 'android' ? 14 : 18, // text-md for Android, text-lg for iOS
+            }}
+          >
             {isClaimed ? 'Claimed' : 'Claim'}
           </Text>
         </TouchableOpacity>

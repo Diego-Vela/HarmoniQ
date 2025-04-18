@@ -4,16 +4,19 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import Background from '@/components/common/background';
 import ReturnHome from '@/components/common/return-home';
+import unlockData from '@/data/unlock-data.json';
+import { useXpStore } from '@/stores/useXpStore';
 
-const MAX_LEVEL = 3;
-const universallyUnlockedLevel = 1;
+const TOTAL_LEVELS = 5;
 
 const LevelSelect = () => {
   const router = useRouter();
   const { category, subcategory } = useLocalSearchParams<{
-    category: string;
-    subcategory: string;
+    category: keyof typeof unlockData.trainings;
+    subcategory: keyof typeof unlockData.trainings[keyof typeof unlockData.trainings];
   }>();
+
+  const userLevel = useXpStore((state) => state.level);
 
   if (!category || !subcategory) {
     return (
@@ -25,20 +28,28 @@ const LevelSelect = () => {
     );
   }
 
+  const trainingLevels: { unlocked: number; required: number }[] = unlockData.trainings?.[category]?.[subcategory] ?? [];
+
+  const getRequiredLevel = (level: number) => {
+    const match = trainingLevels.find((entry) => entry.unlocked >= level);
+    return match?.required ?? Infinity; // default to never unlocked
+  };
+
   const isLevelUnlocked = (level: number) => {
-    return true; // Replace with real unlock logic
+    return userLevel >= getRequiredLevel(level);
   };
 
   const handleLevelPress = (level: number) => {
-    // console.log(`/category=${category} subcategory=${subcategory} level=${level}`);
     router.push(`/screens/entry-point?category=${category}&subcategory=${subcategory}&level=${level}`);
   };
 
   return (
     <Background>
+      <ReturnHome />
       <View className="flex-1 justify-center items-center px-4">
         <Text className="text-white text-2xl font-bold mb-6 text-center">Select Level</Text>
-        {[...Array(MAX_LEVEL)].map((_, i) => {
+
+        {[...Array(TOTAL_LEVELS)].map((_, i) => {
           const level = i + 1;
           const unlocked = isLevelUnlocked(level);
 
@@ -47,9 +58,16 @@ const LevelSelect = () => {
               key={level}
               onPress={() => handleLevelPress(level)}
               disabled={!unlocked}
-              className={`w-[80%] py-4 mb-4 rounded-xl ${unlocked ? 'bg-accent' : 'bg-gray-600'}`}
+              className={`flex items-center justify-center w-[80%] h-[10%] py-4 mb-4 rounded-xl ${unlocked ? 'bg-accent' : 'bg-gray-600'}`}
             >
-              <Text className="text-white text-center text-lg">Level {level}</Text>
+              <Text className="text-white text-center text-lg" adjustsFontSizeToFit numberOfLines={1}>
+                Level {level}
+              </Text>
+              {!unlocked && (
+                <Text className="text-white text-sm text-center mt-1 opacity-70" adjustsFontSizeToFit numberOfLines={1}>
+                  Requires Level {getRequiredLevel(level)}
+                </Text>
+              )}
             </TouchableOpacity>
           );
         })}
