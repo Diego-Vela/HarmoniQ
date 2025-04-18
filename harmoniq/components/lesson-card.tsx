@@ -39,8 +39,8 @@ const LessonCard: React.FC<LessonCardProps> = ({ chapter, level }) => {
           items-center
         `}
         style={{
-          width: width * 0.4, // 40% of the screen width
-          height: height * 0.2, // 20% of the screen height
+          width: width * 0.5, // 40% of the screen width
+          height: height * 0.25, // 20% of the screen height
         }}
         activeOpacity={0.3}
       >
@@ -54,8 +54,8 @@ const LessonCard: React.FC<LessonCardProps> = ({ chapter, level }) => {
           }}
           resizeMode="contain"
         />
-        <Text className="text-white font-bold text-xl mb-1">Lesson {level}</Text>
-        <Text className={`${completedColor} italic text-lg`}>
+        <Text className="text-white font-bold text-xl mb-1" adjustsFontSizeToFit numberOfLines={1}>Lesson {level}</Text>
+        <Text className={`${completedColor} italic text-lg` } adjustsFontSizeToFit numberOfLines={1}>
           {hasCompletedBefore ? 'Completed' : 'Not Completed'}
         </Text>
       </TouchableOpacity>

@@ -9,27 +9,36 @@ import { icons } from "@/constants/icons";
 const TabIcon = ({ focused, icon, title }: { focused: boolean, icon: any, title: string }) => {
   if (focused) {
     return (
-      <ImageBackground
-        source={images.highlight}
-        className="flex flex-row w-full flex-1 min-w-[112px] min-h-16 mt-4 justify-center items-center rounded-full overflow-hidden"
+      <View
+        className="flex-row w-full bg-accent justify-center items-center rounded-full overflow-hidden"
+        style={{
+          height: RFValue(45),
+          width: RFValue(100),
+          paddingBottom: 0,
+          paddingTop: 0,
+        }}
       >
         <Image
           source={icon}
           tintColor="#00244E"
-          className="size-7"
+          className="size-7 self-center"
           resizeMode="contain"
         />
         <Text
-          style={{ fontSize: RFValue(11) }} // Adjust the value as needed
-          className="text-primary font-semibold ml-2"
+          style={{ 
+            fontSize: RFValue(11),
+            paddingBottom: 0,
+            paddingTop: 0,
+           }} // Adjust the value as needed
+          className="text-primary font-semibold text-center ml-[5%]" adjustsFontSizeToFit numberOfLines={1}
         >
           {title}
         </Text>
-      </ImageBackground>
+      </View>
     );
   } else {
     return (
-      <View className="size-full justify-center items-center mt-4 rounded-full overflow-hidden">
+      <View className="size-full justify-center items-center rounded-full overflow-hidden">
         <Image
           source={icon}
           tintColor="#FF7900"
@@ -50,17 +59,23 @@ const _Layout = () => {
           height: '100%',
           justifyContent: 'center',
           alignItems: 'center',
+          alignSelf: 'center',
+          flexDirection: 'row',
         },
         tabBarStyle: {
           backgroundColor: '#00244E',
-          borderRadius: 50,
-          marginHorizontal: 10,
-          marginBottom: 36,
-          height: '6%',
+          borderRadius: RFValue(22.5),
+          marginHorizontal: '2%',
+          marginBottom: RFValue(32),
+          height: RFValue(45),
           position: 'absolute',
           overflow: 'hidden',
           borderWidth: 2,
-          borderColor: '#0d1a2b',
+          borderColor: 'black',
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingBottom: 0,
+          paddingTop: 0,
 
         }
       }}

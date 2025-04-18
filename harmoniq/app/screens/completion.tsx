@@ -28,11 +28,16 @@ const CompletionPage = () => {
   const { claimXP } = useXpStore();
   const lastCompletedLesson = useStatsStore((s) => s.lastCompletedLesson);
   const hasCompletedBefore = lastCompletedLesson && lessonKey <= lastCompletedLesson;
-  const xpAwarded = isLesson
-  ? (hasCompletedBefore
-      ? 0
-      : getLessonXP(parseInt(subcategory.split(' ')[1]), lessonKey))
-  : getTrainingXP(parsedLevel);
+
+  // Static state for xpAwarded
+  const [xpAwarded, setXpAwarded] = useState(() =>
+    isLesson
+      ? hasCompletedBefore
+        ? 0
+        : getLessonXP(parseInt(subcategory.split(' ')[1]), lessonKey)
+      : getTrainingXP(parsedLevel)
+  );
+
   const [hasClaimed, setHasClaimed] = useState(false);
   const incrementTrainingStat = useStatsStore((s) => s.incrementTrainingStat);
   const { updateMissionsFromActivity } = useMissions();
@@ -41,32 +46,31 @@ const CompletionPage = () => {
 
   const handleClaim = () => {
     if (hasClaimed) return;
-  
+
     updateStreak(new Date());
-  
+
     if (isLesson && !hasCompletedBefore) {
       updateLessonProgress(lessonKey);
       incrementLessonProgress(); // Pass the required argument
     }
-  
+
     if (xpAwarded > 0) {
       playXpSound();
       claimXP(xpAwarded);
       updateMissionsFromActivity('training', category, subcategory, xpAwarded);
-  
+
       if (isTraining && category && subcategory) {
         incrementTrainingStat(category as any, subcategory);
       }
     }
-  
+
     setHasClaimed(true);
   };
-  
-  
+
   return (
     <CompletionScreen
       mode={isLesson ? 'lesson' : 'training'}
-      xpAwarded={xpAwarded}
+      xpAwarded={xpAwarded} // Pass the static xpAwarded value
       onClaim={handleClaim}
       hasClaimed={hasClaimed}
       onNext={() =>

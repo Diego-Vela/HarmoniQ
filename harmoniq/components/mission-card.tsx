@@ -16,7 +16,7 @@ const MissionCard: React.FC<Props> = ({ mission, onClaim }) => {
 
   return (
     <View
-      className="flex justify-center border border-gray-600 rounded-xl mb-4 bg-dark-300 bg-opacity-30"
+      className="flex-col justify-center border border-gray-600 rounded-xl mb-4 bg-dark-300 bg-opacity-30"
       style={{
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
         height: height * 0.15, // Set height as 15% of the screen height
@@ -24,9 +24,9 @@ const MissionCard: React.FC<Props> = ({ mission, onClaim }) => {
     >
       <View className="rounded-xl shadow-lg w-full h-full opacity-95 flex-row justify-evenly items-center">
         {/* Text Section */}
-        <View className="flex justify-center w-[60%] h-[100%]">
-          <View className="flex justify-center items-center h-[60%] px-2">
-            <Text className="text-white text-center font-semibold text-lg">{mission.title}</Text>
+        <View className="flex-col justify-evenly w-[60%] h-[100%]">
+          <View className="flex justify-center items-center h-[50%]">
+            <Text className="text-white text-center font-semibold text-" adjustsFontSizeToFit numberOfLines={2}>{mission.title}</Text>
           </View>
 
           {/* Progress Bar */}

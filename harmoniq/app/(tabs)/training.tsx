@@ -16,36 +16,36 @@ const Training = () => {
     <Background>
       <ScrollView className="flex-1 px-4" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
         {/* Note Reading Section */}
-        <Text className="text-2xl font-bold text-white mt-4 mb-2">Note Reading</Text>
+        <Text className="text-2xl font-bold text-white mt-4 mb-2" adjustsFontSizeToFit numberOfLines={1}>Note Reading</Text>
         <View className="w-full h-[1px] bg-gray-600 mb-4" />
         <View className="flex-column justify-evenly">
           <TouchableOpacity onPress={() => navigateToLevelSelect('note-reading', 'treble-clef')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-orange-600">
-            <Text className="text-primary font-semibold text-xl">Treble</Text>
+            <Text className="text-primary font-semibold text-xl" adjustsFontSizeToFit numberOfLines={1}>Treble</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigateToLevelSelect('note-reading', 'bass-clef')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-orange-600">
-            <Text className="text-primary font-semibold text-xl">Bass</Text>
+            <Text className="text-primary font-semibold text-xl" adjustsFontSizeToFit numberOfLines={1}>Bass</Text>
           </TouchableOpacity>
         </View>
 
         {/* Notation Section */}
-        <Text className="text-2xl font-bold text-white mt-4 mb-2">Notation</Text>
+        <Text className="text-2xl font-bold text-white mt-4 mb-2" adjustsFontSizeToFit numberOfLines={1}>Notation</Text>
         <View className="w-full h-[1px] bg-gray-600 mb-4" />
         <TouchableOpacity onPress={() => navigateToLevelSelect('notation', 'key-signature-id')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-red-600">
-          <Text className="text-primary font-semibold text-xl">Key Signature Identification</Text>
+          <Text className="text-primary font-semibold text-xl" adjustsFontSizeToFit numberOfLines={1}>Key Signature Identification</Text>
         </TouchableOpacity>
 
         {/* Rhythm Section */}
-        <Text className="text-2xl font-bold text-white mt-4 mb-2">Rhythm</Text>
+        <Text className="text-2xl font-bold text-white mt-4 mb-2" adjustsFontSizeToFit numberOfLines={1}>Rhythm</Text>
         <View className="w-full h-[1px] bg-gray-600 mb-4" />
         <TouchableOpacity onPress={() => navigateToLevelSelect('rhythm', 'tap-rhythm')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-blue-600">
-          <Text className="text-primary font-semibold text-xl">Tap Rhythm</Text>
+          <Text className="text-primary font-semibold text-xl" adjustsFontSizeToFit numberOfLines={1}>Tap Rhythm</Text>
         </TouchableOpacity>
 
         {/* Interval Section */}
-        <Text className="text-2xl font-bold text-white mt-4 mb-2">Intervals</Text>
+        <Text className="text-2xl font-bold text-white mt-4 mb-2" adjustsFontSizeToFit numberOfLines={1}>Intervals</Text>
         <View className="w-full h-[1px] bg-gray-600 mb-4" />
         <TouchableOpacity onPress={() => navigateToLevelSelect('intervals', 'interval')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-green-600">
-          <Text className="text-primary font-semibold text-xl">Interval Ear Training</Text>
+          <Text className="text-primary font-semibold text-xl" adjustsFontSizeToFit numberOfLines={1}>Interval Ear Training</Text>
         </TouchableOpacity>
       </ScrollView>
     </Background>

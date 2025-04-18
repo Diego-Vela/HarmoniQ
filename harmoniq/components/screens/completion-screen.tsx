@@ -45,8 +45,8 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
   return (
     <Background>
       <View className="flex-1 justify-center items-center px-6">
-      <Text className="text-yellow-400 text-4xl font-extrabold animate-pulse mb-4">{title}</Text>
-        <Text className="text-white text-xl mb-10">{subtitle}</Text>
+      <Text className="text-yellow-400 text-4xl font-extrabold animate-pulse mb-4 text-center">{title}</Text>
+        <Text className="text-white text-xl mb-10 text-center">{subtitle}</Text>
 
         {hasClaimed && xpAwarded > 0 && (
           <Animated.View
@@ -56,7 +56,7 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
             }}
             className="mb-6"
           >
-            <Text className="text-yellow-400 text-3xl font-bold animate-pulse">
+            <Text className="text-yellow-400 text-3xl font-bold animate-pulse text-center">
               +{xpAwarded} XP!
             </Text>
           </Animated.View>
@@ -67,7 +67,7 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
             onPress={onClaim}
             className="bg-green-600 w-[80%] py-4 rounded-xl mt-4"
           >
-            <Text className="text-white text-center font-semibold text-lg">
+            <Text className="text-white text-center font-semibold text-lg ">
               Claim XP
             </Text>
           </TouchableOpacity>
@@ -78,7 +78,7 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
                 className="bg-primary w-[90%] py-5 rounded-2xl mb-5 mt-4"
                 onPress={onReplay}
               >
-                <Text className="text-white text-center font-semibold text-lg">
+                <Text className="text-white text-center font-semibold text-lg text-center">
                   Replay Training
                 </Text>
               </TouchableOpacity>
@@ -88,7 +88,7 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
               className="bg-accent w-[90%] py-5 rounded-2xl"
               onPress={onNext}
             >
-              <Text className="text-white text-center font-semibold text-lg">
+              <Text className="text-white text-center font-semibold text-lg text-center">
                 {mode === 'training' ? 'Back to Training Select' : 'Back to Home'}
               </Text>
             </TouchableOpacity>
