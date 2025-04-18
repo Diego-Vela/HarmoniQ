@@ -23,27 +23,39 @@ const MetronomeCountdown: React.FC<MetronomeCountdownProps> = ({
   pulseAnim,
 }) => {
   const [countdown, setCountdown] = useState<number | null>(null);
-  const tickSoundRef = useRef<Audio.Sound | null>(null);
+  const tickSoundARef = useRef<Audio.Sound | null>(null);
+  const tickSoundBRef = useRef<Audio.Sound | null>(null);
+  const isUsingARef = useRef(true); // Tracks which sound instance to use
   const timerRef = useRef<NodeJS.Timeout | null>(null); // Ref to store the timer ID
 
   useEffect(() => {
-    const loadSound = async () => {
+    const loadSounds = async () => {
       try {
-        const { sound } = await Audio.Sound.createAsync(sounds.metronome);
-        tickSoundRef.current = sound;
+        const { sound: soundA } = await Audio.Sound.createAsync(sounds.metronome);
+        const { sound: soundB } = await Audio.Sound.createAsync(sounds.metronome);
+        tickSoundARef.current = soundA;
+        tickSoundBRef.current = soundB;
       } catch (error) {
-        console.error('Error loading tick sound:', error);
+        console.error('Error loading tick sounds:', error);
       }
     };
 
-    loadSound();
+    loadSounds();
 
     return () => {
-      if (tickSoundRef.current) {
-        tickSoundRef.current.unloadAsync();
+      // Cleanup: Unload both sound instances and clear timers
+      if (tickSoundARef.current) {
+        tickSoundARef.current.unloadAsync().catch((error) =>
+          console.error('Error unloading tickSoundA:', error)
+        );
+      }
+      if (tickSoundBRef.current) {
+        tickSoundBRef.current.unloadAsync().catch((error) =>
+          console.error('Error unloading tickSoundB:', error)
+        );
       }
       if (timerRef.current) {
-        clearTimeout(timerRef.current); // Clear any active timers
+        clearTimeout(timerRef.current);
       }
     };
   }, []);
@@ -59,7 +71,6 @@ const MetronomeCountdown: React.FC<MetronomeCountdownProps> = ({
 
   useEffect(() => {
     if (countdown === null) return;
-    // console.log('Countdown:', countdown);
 
     const tick = async () => {
       if (countdown === 0) {
@@ -68,21 +79,26 @@ const MetronomeCountdown: React.FC<MetronomeCountdownProps> = ({
         return;
       }
 
-      if (tickSoundRef.current) {
+      const currentSound = isUsingARef.current
+        ? tickSoundARef.current
+        : tickSoundBRef.current;
+      isUsingARef.current = !isUsingARef.current; // Alternate between sound instances
+
+      if (currentSound) {
         try {
           triggerFlash();
-          await tickSoundRef.current.stopAsync();
-          await tickSoundRef.current.setPositionAsync(0);
-          await tickSoundRef.current.playAsync();
+          await currentSound.stopAsync();
+          await currentSound.setPositionAsync(0);
+          await currentSound.playAsync();
         } catch (e) {
           console.warn('Tick sound error:', e);
         }
       }
-      // console.log(countdown);
-      if (countdown === beats+1) {
+
+      if (countdown === beats + 1) {
         console.log('Ready!');
         onTapWindowStart(); // Trigger tap window start
-      } 
+      }
 
       if (countdown === beats) {
         const now = Date.now();
@@ -133,7 +149,13 @@ const MetronomeCountdown: React.FC<MetronomeCountdownProps> = ({
         }}
       />
       <Text className="text-5xl text-white">
-        {countdown === 4 + beats ? 'Ready!' : countdown > beats ? countdown - beats : countdown === beats ? 'Go!' : "Tap!"}
+        {countdown === 4 + beats
+          ? 'Ready!'
+          : countdown > beats
+          ? countdown - beats
+          : countdown === beats
+          ? 'Go!'
+          : 'Tap!'}
       </Text>
     </View>
   ) : null;

@@ -37,7 +37,7 @@ export function compareRhythm(
   calibrationOffset = 0 // Adjustment for user calibration
 ): boolean {
   if (!startTime || userTimestamps.length !== targetRhythm.length) {
-    console.log('Mismatch in rhythm length or invalid start time.');
+    // console.log('Mismatch in rhythm length or invalid start time.');
     return false;
   }
 
@@ -72,18 +72,18 @@ export function compareRhythm(
     const offset = actual - expected;
 
     offsets.push(offset);
-    console.log(`Beat ${i + 1}: Actual=${actual}, Expected=${expected}, Offset=${offset}ms`);
+    // console.log(`Beat ${i + 1}: Actual=${actual}, Expected=${expected}, Offset=${offset}ms`);
 
     // Check if the offset is within the tolerance
     if (Math.abs(offset) > tolerance) {
-      console.log(`Beat ${i + 1} is outside tolerance: ${Math.abs(offset)}ms > ${tolerance}ms`);
+      //console.log(`Beat ${i + 1} is outside tolerance: ${Math.abs(offset)}ms > ${tolerance}ms`);
       isWithinTolerance = false;
     }
   }
 
   // Calculate and log the average offset
   const averageOffset = offsets.reduce((sum, offset) => sum + offset, 0) / offsets.length;
-  console.log(`Average Offset: ${averageOffset.toFixed(2)}ms`);
+  // console.log(`Average Offset: ${averageOffset.toFixed(2)}ms`);
 
   return isWithinTolerance; // Return whether all beats are within tolerance
 }

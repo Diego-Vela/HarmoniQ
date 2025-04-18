@@ -9,6 +9,8 @@ export const useNoteReading = (notes: string[]) => {
   const [buttonNotes, setButtonNotes] = useState<string[]>([]);
 
   const playSound = async (note: string) => {
+    let sound: Audio.Sound | undefined;
+
     try {
       const soundFile = sounds[note.toLowerCase()];
       if (!soundFile) {
@@ -16,10 +18,21 @@ export const useNoteReading = (notes: string[]) => {
         return;
       }
 
-      const { sound } = await Audio.Sound.createAsync(soundFile);
+      const { sound: createdSound } = await Audio.Sound.createAsync(soundFile);
+      sound = createdSound;
       await sound.playAsync();
+
+      // Wait for the sound to finish playing and release resources
+      sound.setOnPlaybackStatusUpdate((status) => {
+        if (status.isLoaded && status.didJustFinish) {
+          sound?.unloadAsync();
+        }
+      });
     } catch (error) {
       console.error('Error playing sound:', error);
+      if (sound) {
+        await sound.unloadAsync(); // Ensure resources are released in case of an error
+      }
     }
   };
 

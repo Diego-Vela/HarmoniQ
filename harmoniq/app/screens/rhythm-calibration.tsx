@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, Animated, Easing, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Animated, Easing } from 'react-native';
 import { Audio } from 'expo-av';
 import { useRhythmStore } from '@/stores/useRhythmStore';
 import { useNavigation } from 'expo-router';
 import { sounds } from '@/constants/sounds';
-import  ActivityBase from '@/components/activities/activity-base'; // Import ActivityBase
+import ActivityBase from '@/components/activities/activity-base';
 
 const REQUIRED_TAPS = 8;
 const BEAT_INTERVAL = 1000; // ms
@@ -17,7 +17,7 @@ const RhythmCalibrationScreen = () => {
   const [tapTimes, setTapTimes] = useState<number[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [calibrationComplete, setCalibrationComplete] = useState(false);
-  const [isWithinWindow, setIsWithinWindow] = useState(false); // New state to track if within tap window
+  const [isWithinWindow, setIsWithinWindow] = useState(false);
   const frameRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(0);
   const navigation = useNavigation();
@@ -48,7 +48,12 @@ const RhythmCalibrationScreen = () => {
     loadSounds();
 
     return () => {
-      soundPool.current.forEach((sound) => sound.unloadAsync());
+      // Cleanup: Unload all sound instances in the pool
+      soundPool.current.forEach((sound) => {
+        sound.unloadAsync().catch((error) => {
+          console.error('Error unloading tap sound:', error);
+        });
+      });
     };
   }, []);
 
@@ -90,7 +95,7 @@ const RhythmCalibrationScreen = () => {
     setIsPlaying(true);
     setCalibrationComplete(false);
 
-    const cleanupPulse = startRingPulse();
+    startRingPulse();
 
     setTimeout(() => {
       startTimeRef.current = performance.now();
@@ -103,7 +108,6 @@ const RhythmCalibrationScreen = () => {
         if (currentBeat >= REQUIRED_TAPS && now - startTimeRef.current > REQUIRED_TAPS * BEAT_INTERVAL + TAP_LEEWAY) {
           setIsPlaying(false);
           stopRingPulse();
-          cleanupPulse;
           return;
         }
 
@@ -168,28 +172,6 @@ const RhythmCalibrationScreen = () => {
       ]
     );
   };
-
-  // useEffect to update the button's color dynamically
-  useEffect(() => {
-    if (!isPlaying || calibrationComplete) return;
-  
-    const interval = setInterval(() => {
-      const now = performance.now();
-      const expectedTime = startTimeRef.current + (beatCount + 1) * BEAT_INTERVAL;
-      const difference = now - expectedTime;
-  
-      if (difference < 0 && Math.abs(difference) <= PULSE_WINDOW) {
-        setIsWithinWindow(true); // Early tap
-      } else if (difference >= 0 && difference <= PULSE_WINDOW) {
-        setIsWithinWindow(true); // Late tap
-      } else {
-        setIsWithinWindow(false); // Out of window
-      }
-    }, 50);
-  
-    return () => clearInterval(interval);
-  }, [isPlaying, calibrationComplete, beatCount]);
-  
 
   useEffect(() => {
     return () => {

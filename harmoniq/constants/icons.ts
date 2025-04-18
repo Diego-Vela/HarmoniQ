@@ -10,7 +10,7 @@ import streak from "@/assets/icons/streak-icon.png";
 import lesson from "@/assets/icons/lesson-icon.png";
 import completedLesson from "@/assets/icons/lesson-complete-icon.png";
 
-import profile from "@/assets/icons/logo-2.png";
+import profile from "@/assets/icons/logoIcon.png";
 
 export const icons = {
   home,

@@ -37,7 +37,11 @@ const TapRhythmGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) =
 
   useEffect(() => {
     loadPreviewSounds();
-    return () => cleanupPreviewSounds();
+    return () => {
+      cleanupPreviewSounds().catch((error) => {
+        console.error('Error during cleanup:', error);
+      });
+    };
   }, []);
 
   const handleContinue = () => {

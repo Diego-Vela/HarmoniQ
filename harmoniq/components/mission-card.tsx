@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { MissionWithProgress } from '@/constants/types';
 import { useMissions } from '@/stores/useMissionsStore';
+
+const { height } = Dimensions.get('window'); // Get screen height
 
 type Props = {
   mission: MissionWithProgress;
@@ -12,9 +14,14 @@ const MissionCard: React.FC<Props> = ({ mission, onClaim }) => {
   const isComplete = mission.progress >= mission.goal;
   const isClaimed = useMissions((state) => state.claimedMissionIds.has(mission.id));
 
-
   return (
-    <View className="flex justify-center border border-gray-600 rounded-xl mb-4 bg-dark-300 h-32 bg-opacity-50">
+    <View
+      className="flex justify-center border border-gray-600 rounded-xl mb-4 bg-dark-300 bg-opacity-30"
+      style={{
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        height: height * 0.15, // Set height as 15% of the screen height
+      }}
+    >
       <View className="rounded-xl shadow-lg w-full h-full opacity-95 flex-row justify-evenly items-center">
         {/* Text Section */}
         <View className="flex justify-center w-[60%] h-[100%]">

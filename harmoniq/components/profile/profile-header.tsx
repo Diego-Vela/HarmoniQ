@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, Dimensions } from 'react-native';
 import { placeholders } from '@/constants/icons';
+
+const { width, height } = Dimensions.get('window'); // Get screen dimensions
 
 const ProfileHeader = () => {
   const user = {
@@ -10,14 +12,42 @@ const ProfileHeader = () => {
   };
 
   return (
-    <View className="items-center justify-center mt-10 mb-7">
+    <View
+      className="flex items-center justify-center self-center "
+      style={{
+        width: width * 0.5, // 50% of the screen width
+        height: height * 0.3, // 30% of the screen height
+        marginTop: height * 0.015, 
+        marginBottom: height * 0.015, 
+      }}
+    >
       <Image
         source={user.profilePicture}
-        className="w-32 h-32 rounded-full border-4 border-white"
-        resizeMode="cover"
+        style={{
+          width: '100%',
+          height: '60%',
+          borderRadius: (width * 0.5) / 2, // Ensure the image remains circular
+        }}
+        resizeMode="contain"
       />
-      <Text className="text-white text-2xl font-bold mt-4">{user.username}</Text>
-      <Text className="text-gray-400 text-base mt-1">Account Age: {user.accountAge}</Text>
+      <Text
+        className="text-white font-bold"
+        style={{
+          fontSize: width * 0.05, // 5% of the screen width
+          marginTop: height * 0.02, // 2% of the screen height
+        }}
+      >
+        {user.username}
+      </Text>
+      <Text
+        className="text-gray-400"
+        style={{
+          fontSize: width * 0.035, // 3.5% of the screen width
+          marginTop: height * 0.01, // 1% of the screen height
+        }}
+      >
+        Account Age: {user.accountAge}
+      </Text>
     </View>
   );
 };

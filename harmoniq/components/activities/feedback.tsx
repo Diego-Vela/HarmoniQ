@@ -16,12 +16,16 @@ export default function Feedback({ isCorrect, visible }: FeedbackProps) {
       if (visible) {
         try {
           sound = new Audio.Sound();
-          if (isCorrect) {
-            await sound.loadAsync(sounds.correct); // Load the correct sound
-          } else {
-            await sound.loadAsync(sounds.wrong); // Load the wrong sound
-          }
+          const soundFile = isCorrect ? sounds.correct : sounds.wrong;
+          await sound.loadAsync(soundFile); // Load the appropriate sound
           await sound.playAsync(); // Play the sound
+
+          // Automatically unload the sound when it finishes playing
+          sound.setOnPlaybackStatusUpdate((status) => {
+            if (status.isLoaded && status.didJustFinish) {
+              sound?.unloadAsync();
+            }
+          });
         } catch (error) {
           console.error('Error playing sound:', error);
         }
@@ -33,7 +37,9 @@ export default function Feedback({ isCorrect, visible }: FeedbackProps) {
     // Cleanup: Unload the sound when the component unmounts or props change
     return () => {
       if (sound) {
-        sound.unloadAsync();
+        sound.unloadAsync().catch((error) => {
+          console.error('Error unloading sound:', error);
+        });
       }
     };
   }, [isCorrect, visible]); // Re-run when `isCorrect` or `visible` changes

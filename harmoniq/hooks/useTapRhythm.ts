@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { Audio } from 'expo-av';
 import { selectRandomRhythm, compareRhythm } from '@/utils/rhythm-utils';
 import { useRhythmStore } from '@/stores/useRhythmStore';
@@ -21,7 +21,7 @@ export const useTapRhythm = (category: string, level: string) => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [targetRhythm, setTargetRhythm] = useState<string[]>(initial.pattern);
   const [beatCount, setBeatCount] = useState<number>(initial.beats);
-  const [isPreviewing, setIsPreviewing] = useState(false); // Add state for previewing
+  const [isPreviewing, setIsPreviewing] = useState(false);
 
   const timestampsRef = useRef<number[]>([]);
   const startTimeRef = useRef<number | null>(null);
@@ -41,9 +41,19 @@ export const useTapRhythm = (category: string, level: string) => {
     }
   }, []);
 
-  const cleanupPreviewSounds = useCallback(() => {
-    tapSoundARef.current?.unloadAsync();
-    tapSoundBRef.current?.unloadAsync();
+  const cleanupPreviewSounds = useCallback(async () => {
+    try {
+      if (tapSoundARef.current) {
+        await tapSoundARef.current.unloadAsync();
+        tapSoundARef.current = null;
+      }
+      if (tapSoundBRef.current) {
+        await tapSoundBRef.current.unloadAsync();
+        tapSoundBRef.current = null;
+      }
+    } catch (error) {
+      console.error('Error unloading tap sounds:', error);
+    }
   }, []);
 
   const previewRhythm = useCallback(async () => {
@@ -77,20 +87,11 @@ export const useTapRhythm = (category: string, level: string) => {
 
       await new Promise((resolve) => setTimeout(resolve, wait));
 
-      const actualTime = performance.now();
-      const delta = Math.round(actualTime - scheduledTime);
-      /*console.log(
-        `Note ${i + 1}: '${targetRhythm[i]}' | Expected: ${Math.round(
-          scheduledTime
-        )} | Actual: ${Math.round(actualTime)} | Δ = ${delta}ms`);*/
-
       const soundToUse = isUsingARef.current ? tapSoundARef.current : tapSoundBRef.current;
       isUsingARef.current = !isUsingARef.current;
 
       try {
-        await soundToUse.stopAsync();
-        await soundToUse.setPositionAsync(0);
-        await soundToUse.playAsync();
+        await soundToUse?.playFromPositionAsync(0); // Optimized playback
       } catch (error) {
         console.warn('Tap sound error during preview:', error);
       }
@@ -129,6 +130,14 @@ export const useTapRhythm = (category: string, level: string) => {
     setBeatCount(newRhythm.beats);
   }, [category, level]);
 
+  // Automatically load and clean up sounds
+  useEffect(() => {
+    loadPreviewSounds();
+    return () => {
+      cleanupPreviewSounds();
+    };
+  }, [loadPreviewSounds, cleanupPreviewSounds]);
+
   return {
     handleTap,
     handleSubmit,
@@ -145,6 +154,6 @@ export const useTapRhythm = (category: string, level: string) => {
     startTimeRef,
     timestampsRef,
     setShowFeedback,
-    isPreviewing, // Expose isPreviewing state
+    isPreviewing,
   };
 };

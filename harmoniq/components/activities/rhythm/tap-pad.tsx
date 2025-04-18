@@ -8,8 +8,8 @@ interface TapPadProps {
 }
 
 export default function TapPad({ onTap }: TapPadProps) {
-  const soundPool = useRef<Audio.Sound[]>([]);
-  const poolIndex = useRef(0);
+  const soundPool = useRef<Audio.Sound[]>([]); // Pool of preloaded sounds
+  const poolIndex = useRef(0); // Tracks the current sound instance to use
 
   useEffect(() => {
     const loadSounds = async () => {
@@ -28,20 +28,25 @@ export default function TapPad({ onTap }: TapPadProps) {
     loadSounds();
 
     return () => {
-      soundPool.current.forEach((sound) => sound.unloadAsync());
+      // Cleanup: Unload all sound instances in the pool
+      soundPool.current.forEach((sound) => {
+        sound.unloadAsync().catch((error) => {
+          console.error('Error unloading tap sound:', error);
+        });
+      });
     };
   }, []);
 
   const playTapSound = async () => {
     const sound = soundPool.current[poolIndex.current];
-    poolIndex.current = (poolIndex.current + 1) % soundPool.current.length;
+    poolIndex.current = (poolIndex.current + 1) % soundPool.current.length; // Alternate sound instance
 
     if (!sound) return;
 
     try {
-      await sound.stopAsync();
-      await sound.setPositionAsync(0);
-      await sound.playAsync();
+      await sound.stopAsync(); // Stop the sound if it’s already playing
+      await sound.setPositionAsync(0); // Reset the sound position
+      await sound.playAsync(); // Play the sound
     } catch (error) {
       console.error('Error playing tap sound from pool:', error);
     }
