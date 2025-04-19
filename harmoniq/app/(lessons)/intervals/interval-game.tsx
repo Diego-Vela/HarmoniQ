@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import Feedback from '@/components/activities/feedback';
+import Feedback from '@/components/activities/common/feedback';
 
 import { useIntervalTraining, LevelData } from '@/hooks/useIntervalTraining';
-import intervalLevels from '@/data/interval-levels.json';
+import intervalLevels from '@/data/activities/interval-levels.json';
 import type { Interval } from '@/hooks/useIntervalTraining';
 
 import { ActivityComponentProps } from '@/constants/types';

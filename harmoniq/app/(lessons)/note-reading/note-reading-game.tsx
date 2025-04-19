@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { useNoteReading } from '@/hooks/useNoteReading';
 import SimpleNotes from '@/components/activities/buttons/simple-notes';
-import Feedback from '@/components/activities/feedback';
+import Feedback from '@/components/activities/common/feedback';
 import { NoteReadingGameProps } from '@/constants/types';
 import AnimatedCheckButton from '@/components/activities/buttons/check-answer-button';
 

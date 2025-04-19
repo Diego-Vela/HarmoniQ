@@ -1,9 +1,10 @@
+// Unused in the app but kept for reference
+
 import React from 'react';
 import NoteReadingGame from '@/app/(lessons)/note-reading/note-reading-game';
-import noteData from '@/data/note-identification.json';
+import noteData from '@/data/activities/note-identification.json';
 import { trebleClefNotes } from '@/constants/music-notes-treble';
 import { useLocalSearchParams } from 'expo-router';
-
 
 const TrebleClefGame = () => {
   const { level } = useLocalSearchParams();

@@ -3,7 +3,7 @@ import { View, Animated, TouchableOpacity, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import TapPad from '@/components/activities/rhythm/tap-pad';
 import RhythmDisplay from '@/components/activities/rhythm/rhythm-display';
-import Feedback from '@/components/activities/feedback';
+import Feedback from '@/components/activities/common/feedback';
 import MetronomeCountdown from '@/components/activities/rhythm/metronome-countdown';
 import { useTapRhythm } from '@/hooks/useTapRhythm';
 import { ActivityComponentProps } from '@/constants/types';

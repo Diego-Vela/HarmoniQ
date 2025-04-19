@@ -4,7 +4,7 @@ import { Audio } from 'expo-av';
 import { useRhythmStore } from '@/stores/useRhythmStore';
 import { useNavigation } from 'expo-router';
 import { sounds } from '@/constants/sounds';
-import ActivityBase from '@/components/activities/activity-base';
+import ActivityBase from '@/components/activities/common/activity-base';
 
 const REQUIRED_TAPS = 8;
 const BEAT_INTERVAL = 1000; // ms

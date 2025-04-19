@@ -20,7 +20,7 @@ const LessonsEntryPoint = () => {
     level: string;
   }>();
 
-  const parsedLessonData = lessonData as LessonsData;
+  const parsedLessonData = lessonData as unknown as LessonsData;
   const parsedLevel = parseInt(level || '1');
 
   const lessonSequence = parsedLessonData?.[subcategory]?.[parsedLevel.toString()];

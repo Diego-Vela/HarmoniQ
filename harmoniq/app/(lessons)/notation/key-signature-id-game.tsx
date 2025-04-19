@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
-import Feedback from '@/components/activities/feedback';
+import Feedback from '@/components/activities/common/feedback';
 import SimpleNotes from '@/components/activities/buttons/simple-notes';
 import { ActivityComponentProps } from '@/constants/types';
 import AnimatedCheckButton from '@/components/activities/buttons/check-answer-button';
@@ -14,7 +14,7 @@ import {
   BassSharpMinors,
   BassFlatMinors,
 } from '@/constants/keys';
-import keyIdLevels from '@/data/key-id-levels.json';
+import keyIdLevels from '@/data/activities/key-id-levels.json';
 
 const KeySignatureGame: React.FC<ActivityComponentProps> = ({ level, onSuccess }) => {
   const [currentKey, setCurrentKey] = useState(() => generateKey(level.toString()));

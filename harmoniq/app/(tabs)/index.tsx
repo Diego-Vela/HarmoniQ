@@ -19,8 +19,7 @@ export default function Index() {
     isUnlocked: !!status.isUnlocked, // Has to be boolean for some reason
   }));
   const { currentChapterKey, setCurrentChapterKey } = useChapterTracker();
-  const currentLessons = getLessonsForChapter(currentChapterKey || "Chapter 1");
-  
+  const currentLessons = getLessonsForChapter(currentChapterKey || "Chapter 1"); 
 
   return (
     <Background>

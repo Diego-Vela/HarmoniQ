@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity, Dimensions, Platform, Animated } from 'react-native';
 
 interface ChapterStatus {
@@ -19,11 +19,22 @@ const { width, height } = Dimensions.get('window');
 
 const Chapter: React.FC<ChapterProps> = ({ currentChapter, chapterStatus, onSelectChapter }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [expandAnim] = useState(new Animated.Value(0)); 
+  const [expandAnim] = useState(new Animated.Value(0));
   const [selectedChapter, setSelectedChapter] = useState({
     chapterKey: currentChapter,
     topic: chapterStatus.find((c) => c.chapterKey === currentChapter)?.topic || '',
   });
+
+  // Update selectedChapter when currentChapter prop changes
+  useEffect(() => {
+    const newChapter = chapterStatus.find((c) => c.chapterKey === currentChapter);
+    if (newChapter) {
+      setSelectedChapter({
+        chapterKey: newChapter.chapterKey,
+        topic: newChapter.topic,
+      });
+    }
+  }, [currentChapter, chapterStatus]);
 
   const handleChapterClick = (chapterKey: string, topic: string) => {
     setSelectedChapter({ chapterKey, topic }); // Update the selected chapter and topic
@@ -33,13 +44,13 @@ const Chapter: React.FC<ChapterProps> = ({ currentChapter, chapterStatus, onSele
 
   const toggleExpansion = (forceCollapse = false) => {
     const toValue = forceCollapse ? 0 : isExpanded ? 0 : 1;
-  
+
     Animated.timing(expandAnim, {
       toValue,
       duration: 250,
       useNativeDriver: false,
     }).start();
-  
+
     setIsExpanded(!forceCollapse && !isExpanded);
   };
 

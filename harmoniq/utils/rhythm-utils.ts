@@ -1,4 +1,4 @@
-import rhythmsData from '@/data/rhythms.json';
+import rhythmsData from '@/data/activities/rhythms.json';
 
 interface RhythmPattern {
   pattern: string[];
