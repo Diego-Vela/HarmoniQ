@@ -57,5 +57,43 @@
     { "lesson": "Chapter 3-2", "next": "Chapter 3-3", "level-cap": 15},
     { "lesson": "Chapter 3-3", "next": "Chapter 3-4", "level-cap": 15},
     { "lesson": "Chapter 3-4", "next": null, "level-cap": 20}
+  ],
+  "chapter": [
+    {
+      "chapterKey": "Chapter 1",
+      "topicName": "Introduction to Clefs and Intervals",
+      "unlockRequirement": "",
+      "lessons": [
+        { "chapter": "Chapter 1", "section": 1 },
+        { "chapter": "Chapter 1", "section": 2 },
+        { "chapter": "Chapter 1", "section": 3 },
+        { "chapter": "Chapter 1", "section": 4 },
+        { "chapter": "Chapter 1", "section": 5 }
+      ]
+    },
+    {
+      "chapterKey": "Chapter 2",
+      "topicName": "Notation and Rhythm Basics",
+      "unlockRequirement": "Chapter 1-5",
+      "lessons": [
+        { "chapter": "Chapter 2", "section": 1 },
+        { "chapter": "Chapter 2", "section": 2 },
+        { "chapter": "Chapter 2", "section": 3 },
+        { "chapter": "Chapter 2", "section": 4 },
+        { "chapter": "Chapter 2", "section": 5 }
+      ]
+    },
+    {
+      "chapterKey": "Chapter 3",
+      "topicName": "Accidentals and Key Signatures",
+      "unlockRequirement": "Chapter 2-5",
+      "lessons": [
+        { "chapter": "Chapter 3", "section": 1 },
+        { "chapter": "Chapter 3", "section": 2 },
+        { "chapter": "Chapter 3", "section": 3 },
+        { "chapter": "Chapter 3", "section": 4 },
+        { "chapter": "Chapter 3", "section": 5 }
+      ]
+    }
   ]
 }

@@ -173,6 +173,11 @@ const RhythmCalibrationScreen = () => {
     );
   };
 
+  const resetToDefault = () => {
+    setCalibrationOffset(0); // Reset calibration offset to 0
+    Alert.alert('Reset Complete', 'Calibration offset has been reset to default (0ms).');
+  };
+
   useEffect(() => {
     return () => {
       if (frameRef.current !== null) {
@@ -229,6 +234,14 @@ const RhythmCalibrationScreen = () => {
             </TouchableOpacity>
           </View>
         )}
+
+        {/* Reset to Default Button */}
+        <TouchableOpacity
+          className="mt-6 px-6 py-3 bg-red-600 rounded-xl"
+          onPress={resetToDefault}
+        >
+          <Text className="text-white text-lg">Reset to Default</Text>
+        </TouchableOpacity>
       </View>
     </ActivityBase>
   );

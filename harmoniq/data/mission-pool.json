@@ -47,7 +47,7 @@
     },
     {
       "id": "d6",
-      "title": "Complete 2 trainings of any type",
+      "title": "Complete 2 activities",
       "type": "training",
       "category": "any",
       "subcategory": "any",
@@ -76,7 +76,7 @@
     },
     {
       "id": "w2",
-      "title": "Earn 25 XP from trainings",
+      "title": "Earn 25 XP",
       "type": "xp-earned",
       "category": "any",
       "subcategory": "any",

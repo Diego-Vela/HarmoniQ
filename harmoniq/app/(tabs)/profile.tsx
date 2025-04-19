@@ -44,7 +44,7 @@ const Profile = () => {
         <CollapsibleStatSection title="Daily Training Stats" stats={daily} />
 
         {/* Reset Button */}
-        <View className="mt-10 items-center">
+        <View className="mt-5 items-center mb-10">
           <TouchableOpacity
             onPress={handleReset}
             className="bg-red-600 py-3 px-6 rounded-lg"

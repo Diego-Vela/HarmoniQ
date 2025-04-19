@@ -47,6 +47,16 @@ const Training = () => {
         <TouchableOpacity onPress={() => navigateToLevelSelect('intervals', 'interval')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-green-600">
           <Text className="text-primary font-semibold text-xl" adjustsFontSizeToFit numberOfLines={1}>Interval Ear Training</Text>
         </TouchableOpacity>
+
+        {/* Temporary Link */}
+        <TouchableOpacity
+          onPress={() => router.push('../screens/temp')}
+          className="bg-gray-800 p-5 mt-4 mb-4 rounded-xl border-l-4 border-yellow-600"
+        >
+          <Text className="text-yellow-400 font-semibold text-xl" adjustsFontSizeToFit numberOfLines={1}>
+            Temporary Link
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </Background>
   );
