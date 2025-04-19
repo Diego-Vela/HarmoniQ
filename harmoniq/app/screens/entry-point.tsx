@@ -59,7 +59,7 @@ const LessonsEntryPoint = () => {
     <ActivitySequenceManager
       mode={isLesson ? 'lesson' : 'training'}
       sequence={sequence}
-      onComplete={() => {
+      onComplete={(results) => {
         router.replace({
           pathname: '/screens/completion',
           params: {
@@ -67,6 +67,7 @@ const LessonsEntryPoint = () => {
             category,
             subcategory,
             level: parsedLevel.toString(),
+            ...(results && { results: JSON.stringify(results) }), // ✅ Send only if results exist
           },
         });
       }}

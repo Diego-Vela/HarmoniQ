@@ -10,6 +10,7 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
   onReplay,
   hasClaimed,
   onClaim,
+  results
 }) => {
   const title = mode === 'training' ? '🎯 Training Complete!' : '📘 Lesson Complete!';
   const subtitle = `You earned ${xpAwarded} XP!`;
@@ -42,10 +43,29 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
     }
   }, [hasClaimed]);
 
+  const heightClass = results && results.length > 0 ? 'h-[40%]' : 'h-[35%]';
+
   return (
     <Background>
-      <View className="flex-1 justify-center items-center px-6">
-      <Text className="text-yellow-400 text-4xl font-extrabold animate-pulse mb-4 text-center">{title}</Text>
+      {/* Top Center Results Section */}
+      <View className={`flex justify-center w-full items-center ${heightClass}`}>
+      {results && (
+        <View>
+          <Text className="text-green-400 text-3xl font-bold text-center mb-[2%]">
+            {results[0]} Correct
+          </Text>
+          <Text className="text-cyan-400 text-xl font-semibold text-center">
+            {results[1]} Accuracy!
+          </Text>
+        </View>
+      )}
+      </View>
+
+      {/* Main Content */}
+      <View className="flex-1 justify-start items-center px-6 ">
+        <Text className="text-yellow-400 text-4xl font-extrabold animate-pulse mb-4 text-center">
+          {title}
+        </Text>
         <Text className="text-white text-xl mb-10 text-center">{subtitle}</Text>
 
         {hasClaimed && xpAwarded > 0 && (
@@ -67,7 +87,7 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
             onPress={onClaim}
             className="bg-green-600 w-[80%] py-4 rounded-xl mt-4"
           >
-            <Text className="text-white text-center font-semibold text-lg ">
+            <Text className="text-white text-center font-semibold text-lg">
               Claim XP
             </Text>
           </TouchableOpacity>

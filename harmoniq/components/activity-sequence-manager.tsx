@@ -10,7 +10,7 @@ import { resolveActivityComponent } from '@/utils/activity-resolver';
 type Props = {
   mode: 'training' | 'lesson';
   sequence: ActivityDefinition[];
-  onComplete: () => void;
+  onComplete: (results?: string[]) => void;
 };
 
 const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }) => {
@@ -20,17 +20,17 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
 
   const current = sequence[currentIndex];
 
-  const handleActivitySuccess = () => {
+  const handleActivitySuccess = (results?: string[]) => {
     const next = currentIndex + 1;
     setCompletedCount((prev) => prev + 1);
-
+  
     if (next < sequence.length) {
       setCurrentIndex(next);
     } else {
-      onComplete();
+      onComplete(results); 
     }
   };
-
+  
   useEffect(() => {
     if (!current) return;
     setActivityDescription(getActivityDescription(current.type));

@@ -73,10 +73,10 @@ export interface NoteReadingGameProps extends ActivityComponentProps {
 }
 
 export interface NoteReadingTimedProps extends ActivityComponentProps {
-  clef: 'Treble' | 'Bass' ;
+  clef: 'Treble' | 'Bass';
   notes: string[];
   noteImages: Record<string, any>;
-  onComplete: () => void;
+  onComplete: (results: string[]) => void;
 }
 
 // Data Stores
@@ -158,4 +158,5 @@ export type CompletionScreenProps = {
   onReplay?: () => void;
   onClaim: () => void;
   hasClaimed: boolean;
+  results?: string[];
 };

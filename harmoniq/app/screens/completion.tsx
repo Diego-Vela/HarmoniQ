@@ -15,11 +15,12 @@ import  {
 const CompletionPage = () => {
   const router = useRouter();
   const incrementLessonProgress = useProgressStore((s) => s.incrementLessonProgress);
-  const { mode, category, subcategory, level } = useLocalSearchParams<{
+  const { mode, category, subcategory, level, results } = useLocalSearchParams<{
     mode: string;
     category: string;
     subcategory: string;
     level: string;
+    results?: string;
   }>();
   const parsedLevel = parseInt(level as string || '1');
   const isLesson = mode === 'lesson';
@@ -28,6 +29,7 @@ const CompletionPage = () => {
   const { claimXP } = useXpStore();
   const lastCompletedLesson = useStatsStore((s) => s.lastCompletedLesson);
   const hasCompletedBefore = lastCompletedLesson && lessonKey <= lastCompletedLesson;
+  const parsedResults: string[] | undefined = results ? JSON.parse(results) : undefined;
 
   // Static state for xpAwarded
   const [xpAwarded, setXpAwarded] = useState(() =>
@@ -85,6 +87,7 @@ const CompletionPage = () => {
               })
           : undefined
       }
+      results={parsedResults} 
     />
   );
 };
