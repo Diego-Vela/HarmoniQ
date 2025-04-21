@@ -14,23 +14,22 @@ const REQUIRED_CORRECT = 15;
 const REQUIRED_ACCURACY = 80;
 
 const NoteReadingTimed: React.FC<NoteReadingTimedProps> = ({
-  clef,
   notes,
   noteImages,
-  level = 1,
   onComplete,
 }) => {
   const [results, setResults] = useState<boolean[]>([]);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
   const [selectedNote, setSelectedNote] = useState<string | null>(null);
+  const [currentChallenge, setCurrentChallenge] = useState<{
+    correctAnswer: string;
+    options: string[];
+  } | null>(null);
 
   const {
-    randomNote,
     isChecking,
-    regenerateNote,
-    handleCheckAnswer,
-    buttonNotes,
     playSound,
+    generateNoteChallenge,
   } = useNoteReading(notes);
 
   if (!notes || notes.length === 0) {
@@ -41,6 +40,12 @@ const NoteReadingTimed: React.FC<NoteReadingTimedProps> = ({
     );
   }
 
+  // Generate the initial challenge on mount
+  React.useEffect(() => {
+    const challenge = generateNoteChallenge(1); // Pass the level if needed
+    setCurrentChallenge(challenge);
+  }, []);
+
   const handleAnswer = async (note: string) => {
     if (!isChecking) return;
 
@@ -50,7 +55,7 @@ const NoteReadingTimed: React.FC<NoteReadingTimedProps> = ({
 
   const handleNext = () => {
     if (selectedNote !== null) {
-      const correct = selectedNote === randomNote;
+      const correct = selectedNote === currentChallenge?.correctAnswer;
       setIsAnswerCorrect(correct);
       setResults((prev) => [...prev, correct]);
 
@@ -58,7 +63,10 @@ const NoteReadingTimed: React.FC<NoteReadingTimedProps> = ({
       setTimeout(() => {
         setSelectedNote(null);
         setIsAnswerCorrect(null);
-        regenerateNote();
+
+        // Generate a new challenge
+        const newChallenge = generateNoteChallenge(1);
+        setCurrentChallenge(newChallenge);
       }, 100); // delay for visual feedback
     }
   };
@@ -66,13 +74,6 @@ const NoteReadingTimed: React.FC<NoteReadingTimedProps> = ({
   const getCorrectCount = () => results.filter(Boolean).length;
   const getAccuracy = () =>
     results.length > 0 ? ((getCorrectCount() / results.length) * 100).toFixed(0) : '0';
-
-  const didPassTrial = () => {
-    return (
-      getCorrectCount() >= REQUIRED_CORRECT &&
-      parseFloat(getAccuracy()) >= REQUIRED_ACCURACY
-    );
-  };
 
   const handleComplete = () => {
     onComplete([
@@ -86,21 +87,21 @@ const NoteReadingTimed: React.FC<NoteReadingTimedProps> = ({
       {/* Timer */}
       <Timer
         duration={MAX_TIME}
-        onComplete={handleComplete} // Call onComplete directly when the timer ends
+        onComplete={handleComplete}
       />
 
       {/* Note Display */}
       <View className="bg-transparent w-[80%] h-[35%] items-center justify-center relative rounded-xl">
-        {randomNote && (
+        {currentChallenge?.correctAnswer && (
           <>
             <Image
-              source={noteImages[randomNote]}
+              source={noteImages[currentChallenge.correctAnswer]}
               className="w-[90%] h-[60%] z-0"
               resizeMode="contain"
             />
             <TouchableOpacity
               className="flex items-center justify-center mt-10 w-[20%] h-[22%] bg-accent border border-primary rounded-full shadow-lg"
-              onPress={() => playSound(randomNote)}
+              onPress={() => playSound(currentChallenge.correctAnswer)}
             >
               <Text className="text-white font-bold text-center text-3xl">🔊</Text>
             </TouchableOpacity>
@@ -111,13 +112,13 @@ const NoteReadingTimed: React.FC<NoteReadingTimedProps> = ({
       {/* Answer Buttons */}
       <View className="flex-col bg-primary rounded-xl border border-primary w-[80%] h-[50%] items-center justify-evenly shadow-lg">
         <SimpleNotes
-          notes={buttonNotes}
+          notes={currentChallenge?.options || []}
           selectedNote={selectedNote}
-          correctNote={randomNote}
+          correctNote={currentChallenge?.correctAnswer || ''}
           onNotePress={handleAnswer}
           disabled={!isChecking}
           showFeedback={false} // Feedback is excluded
-          isAnswerCorrect={selectedNote === randomNote}
+          isAnswerCorrect={selectedNote === currentChallenge?.correctAnswer}
         />
 
         <View className="flex w-[90%] h-[20%] bg-transparent rounded-xl items-center justify-evenly z-1">

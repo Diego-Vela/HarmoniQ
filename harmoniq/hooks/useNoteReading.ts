@@ -61,11 +61,41 @@ export const useNoteReading = (notes: string[]) => {
     return [...selectedNotes, correctNote].sort(() => 0.5 - Math.random());
   };
 
+  const generateNoteChallenge = (level: number): { correctAnswer: string; options: string[] } => {
+    const correctNote = notes[Math.floor(Math.random() * notes.length)];
+    const correctAnswer = correctNote; // Declare and initialize correctAnswer
+    const correctNoteLetter = correctNote[0].toLowerCase();
+  
+    const uniqueLetters = new Set<string>();
+    uniqueLetters.add(correctNoteLetter);
+  
+    const filteredNotes = notes.filter(
+      (n) => !uniqueLetters.has(n[0].toLowerCase()) && n !== correctNote
+    );
+  
+    const selectedNotes: string[] = [];
+    for (const note of filteredNotes) {
+      const noteLetter = note[0].toLowerCase();
+      if (!uniqueLetters.has(noteLetter)) {
+        selectedNotes.push(note);
+        uniqueLetters.add(noteLetter);
+      }
+      if (selectedNotes.length === 3) break;
+    }
+  
+    const rawOptions = [...selectedNotes, correctNote].sort(() => 0.5 - Math.random());
+  
+    return {
+      correctAnswer,
+      options: rawOptions, // Return unformatted options
+    };
+  };
+
   const regenerateNote = async () => {
-    const note = getRandomNote();
-    setRandomNote(note);
-    await playSound(note);
-    setButtonNotes(generateButtonNotes(note));
+    const { correctAnswer, options } = generateNoteChallenge(1); // Pass the level if needed
+    setRandomNote(correctAnswer);
+    await playSound(correctAnswer);
+    setButtonNotes(options);
     setSelectedNote(null);
     setIsChecking(true);
   };
@@ -88,5 +118,6 @@ export const useNoteReading = (notes: string[]) => {
     regenerateNote,
     handleCheckAnswer,
     playSound,
+    generateNoteChallenge,
   };
 };

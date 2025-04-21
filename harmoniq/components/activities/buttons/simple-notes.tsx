@@ -18,7 +18,6 @@ const SimpleNotes: React.FC<SimpleNotesProps> = ({
   onNotePress,
   disabled,
   showFeedback,
-  isAnswerCorrect,
 }) => {
   return (
     <View className="flex-wrap flex-row w-[95%] h-[60%] justify-evenly items-center">
@@ -45,12 +44,14 @@ const SimpleNotes: React.FC<SimpleNotesProps> = ({
           bgColor = 'bg-gray-500'; // Default disabled gray
         }
 
-        // Extract note name to display (♯ and ♭)
-        const displayNote =
-          note
-            .match(/^[A-G][#b]?/)?.[0] || note.charAt(0).toUpperCase()
-            .replace('#', '♯')
-            .replace('b', '♭');
+        const displayNoteName = (note: string): string => {
+          const base = note.toLowerCase();
+        
+          const pitch = base[0].toUpperCase();
+          if (base.includes("sharp")) return pitch + "♯";
+          if (base.includes("flat")) return pitch + "♭";
+          return pitch;
+        };
 
         return (
           <TouchableOpacity
@@ -60,7 +61,7 @@ const SimpleNotes: React.FC<SimpleNotesProps> = ({
             disabled={disabled || showFeedback}
           >
             <Text className={`text-center text-3xl font-bold ${textColor}`}>
-              {displayNote}
+              {displayNoteName(note)}
             </Text>
           </TouchableOpacity>
         );
