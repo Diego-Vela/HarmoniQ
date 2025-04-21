@@ -9,6 +9,7 @@ import AnimatedNextButton from '@/components/activities/buttons/animated-next-bu
 import { NoteReadingTimedProps } from '@/constants/types';
 
 const MAX_TIME = 60;
+
 const REQUIRED_CORRECT = 15;
 const REQUIRED_ACCURACY = 80;
 

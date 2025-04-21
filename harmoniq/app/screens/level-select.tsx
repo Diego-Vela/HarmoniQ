@@ -7,8 +7,6 @@ import ReturnHome from '@/components/common/return-home';
 import unlockData from '@/data/unlock-data.json';
 import { useXpStore } from '@/stores/useXpStore';
 
-const TOTAL_LEVELS = 5;
-
 const LevelSelect = () => {
   const router = useRouter();
   const { category, subcategory } = useLocalSearchParams<{
@@ -28,7 +26,9 @@ const LevelSelect = () => {
     );
   }
 
-  const trainingLevels: { unlocked: number; required: number }[] = unlockData.trainings?.[category]?.[subcategory] ?? [];
+  // Dynamically calculate the total number of levels
+  const trainingLevels = (unlockData.trainings?.[category]?.[subcategory] ?? []) as Array<{ unlocked: number; required: number }>;
+  const totalLevels = trainingLevels.length;
 
   const getRequiredLevel = (level: number) => {
     const match = trainingLevels.find((entry) => entry.unlocked >= level);
@@ -49,7 +49,7 @@ const LevelSelect = () => {
       <View className="flex-1 justify-center items-center px-4">
         <Text className="text-white text-2xl font-bold mb-6 text-center">Select Level</Text>
 
-        {[...Array(TOTAL_LEVELS)].map((_, i) => {
+        {[...Array(totalLevels)].map((_, i) => {
           const level = i + 1;
           const unlocked = isLevelUnlocked(level);
 

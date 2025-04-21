@@ -19,6 +19,7 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
   const [activityDescription, setActivityDescription] = useState('');
 
   const current = sequence[currentIndex];
+  console.log('Current activity:', current);
 
   const handleActivitySuccess = (results?: string[]) => {
     const next = currentIndex + 1;
@@ -33,7 +34,7 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
   
   useEffect(() => {
     if (!current) return;
-    setActivityDescription(getActivityDescription(current.type));
+    setActivityDescription(getActivityDescription(current.type, 'clef' in current ? current.clef : null));
   }, [current]);
 
   return (

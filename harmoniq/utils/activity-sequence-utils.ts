@@ -22,7 +22,7 @@ export const getNoteImages = (clef: string) => {
     : require('@/constants/music-notes-bass').bassClefNotes;
 };
 
-export const getActivityDescription = (type: string): string => {
+export const getActivityDescription = (type: string, clef: string | null): string => {
   switch (type) {
     case 'note-reading':
       return 'Identify the note on the staff';

@@ -3,14 +3,14 @@
     "note-reading": {
       "treble-clef": [
         { "unlocked": 1, "required": 1 },
-        { "unlocked": 2, "required": 3 },
+        { "unlocked": 2, "required": 1 },
         { "unlocked": 3, "required": 3 },
         { "unlocked": 4, "required": 5 },
         { "unlocked": 5, "required": 8 }
       ],
-      "bass": [
+      "bass-clef": [
         { "unlocked": 1, "required": 1 },
-        { "unlocked": 2, "required": 3 },
+        { "unlocked": 2, "required": 1 },
         { "unlocked": 3, "required": 3 },
         { "unlocked": 4, "required": 5 },
         { "unlocked": 5, "required": 8 }
@@ -20,9 +20,7 @@
       "interval": [
       { "unlocked": 1, "required": 1 },
       { "unlocked": 2, "required": 3 },
-      { "unlocked": 3, "required": 5 },
-      { "unlocked": 4, "required": 7 },
-      { "unlocked": 5, "required": 10 }
+      { "unlocked": 3, "required": 5 }
     ]},
     "notation": {
       "key-signature-id": [
@@ -36,9 +34,7 @@
       "tap-rhythm": [
       { "unlocked": 1, "required": 1 },
       { "unlocked": 2, "required": 3 },
-      { "unlocked": 3, "required": 7 },
-      { "unlocked": 4, "required": 10 },
-      { "unlocked": 5, "required": 15 }
+      { "unlocked": 3, "required": 7 }
     ]}
   },
   "lessons": [
@@ -73,7 +69,7 @@
     },
     {
       "chapterKey": "Chapter 2",
-      "topicName": "Notation and Rhythm Basics",
+      "topicName": "Accidentals and Key Signatures",
       "unlockRequirement": "Chapter 1-5",
       "lessons": [
         { "chapter": "Chapter 2", "section": 1 },
@@ -82,18 +78,20 @@
         { "chapter": "Chapter 2", "section": 4 },
         { "chapter": "Chapter 2", "section": 5 }
       ]
-    },
-    {
-      "chapterKey": "Chapter 3",
-      "topicName": "Accidentals and Key Signatures",
-      "unlockRequirement": "Chapter 2-5",
-      "lessons": [
-        { "chapter": "Chapter 3", "section": 1 },
-        { "chapter": "Chapter 3", "section": 2 },
-        { "chapter": "Chapter 3", "section": 3 },
-        { "chapter": "Chapter 3", "section": 4 },
-        { "chapter": "Chapter 3", "section": 5 }
-      ]
     }
-  ]
+
+  ],
+  "chapter-locked": [    {
+    "chapterKey": "Chapter 3",
+    "topicName": "Accidentals and Key Signatures",
+    "unlockRequirement": "Chapter 2-5",
+    "lessons": [
+      { "chapter": "Chapter 3", "section": 1 },
+      { "chapter": "Chapter 3", "section": 2 },
+      { "chapter": "Chapter 3", "section": 3 },
+      { "chapter": "Chapter 3", "section": 4 },
+      { "chapter": "Chapter 3", "section": 5 }
+    ]
+  }]
 }
+

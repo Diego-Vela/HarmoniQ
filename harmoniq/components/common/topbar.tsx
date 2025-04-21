@@ -81,14 +81,12 @@ const Topbar = () => {
           Lv: {level}
         </Text>
 
-        <View className="relative w-[60%] h-[50%] bg-gray-500 rounded-xl justify-center z-0">
+        <View className="relative w-[60%] h-[50%] bg-gray-500 rounded-xl overflow-hidden z-0">
           <Animated.View
             style={[
               {
                 position: 'absolute',
                 height: '100%',
-                borderRadius: 10,
-                marginTop: 1,
                 backgroundColor: glowAnim.interpolate({
                   inputRange: [0.8, 1],
                   outputRange: ['#4dc3ff', '#36b2d0'], // Soft blue to lighter blue
@@ -104,12 +102,14 @@ const Topbar = () => {
               { width: barWidth }, // Interpolated width
             ]}
           />
-          <Text
-            style={{ fontSize: RFValue(10), position: 'absolute'}}
-            className="w-full font-semibold text-center text-blue-900 italic z-50"
-          >
-            {levelCap > level? progressDisplay: 'Max'}
-          </Text>
+          <View className="absolute w-full h-full flex justify-center items-center z-50">
+            <Text
+              style={{ fontSize: RFValue(10) }}
+              className="font-semibold text-center text-blue-900 italic"
+            >
+              {levelCap > level ? progressDisplay : 'Max'}
+            </Text>
+          </View>
         </View>
       </View>
     </View>
