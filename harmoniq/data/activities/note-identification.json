@@ -12,19 +12,25 @@
       "1": ["e2", "f2", "g2", "a2", "b2", "c3", "d3"],
       "2": ["e3", "f3", "g3", "a3", "b3", "c4"],
       "3": ["e2", "f2", "g2", "a2", "b2", "c3", "d3", "e3", "f3", "g3"],
-      "4": ["fsharp2", "gsharp2", "asharp2", "bsharp2", "csharp3", "dsharp3", "fsharp3", "gsharp3"],
-      "5": ["fflat2", "gflat2", "aflat2", "bflat2", "dflat3", "eflat3", "gflat3", "aflat3"],
+      "4": ["fsharp2", "gsharp2", "asharp2", "csharp3", "dsharp3", "fsharp3", "gsharp3"],
+      "5": ["eflat2", "gflat2", "aflat2", "bflat2", "dflat3", "eflat3", "gflat3", "aflat3"],
       "6": ["e2", "f2", "g2", "a2", "b2", "c3", "d3", "e3", "f3", "g3", "fsharp2", "gsharp2", "asharp2", "bsharp2", "csharp3", "dsharp3", "fsharp3", "gsharp3", "fflat2", "gflat2", "aflat2", "bflat2", "dflat3", "eflat3", "gflat3", "aflat3"]
     },
     "trebletimed": {
       "1": ["c4", "d4", "e4", "f4", "g4", "a4", "b4", "c5", "d5", "e5", "f5", "g5", "a5"],
-      "2": ["c4", "c#4", "d4", "d#4", "e4", "f4", "f#4", "g4", "g#4", "a4", "a#4", "b4", "c5", "d5", "e5", "f5", "g5", "a5"],
-      "3": ["cb4", "c4", "c#4", "db4", "d4", "d#4", "eb4", "e4", "fb4", "f4", "f#4", "gb4", "g4", "g#4", "ab4", "a4", "a#4", "bb4", "b4", "b#4", "c5"]
+      "2": ["c4", "csharp4", "d4", "dsharp4", "e4", "f4", "fsharp4", "g4", "gsharp4", "a4", "asharp4", "b4", "c5", "d5", "e5", "f5", "g5", "a5"],
+      "3": ["cflat4", "c4", "csharp4", "dflat4", "d4", "dsharp4", "eflat4", "e4", "fflat4", "f4", "fsharp4", "gflat4", "g4", "gsharp4", "aflat4", "a4", "asharp4", "bflat4", "b4", "bsharp4", "c5"]
     },
     "basstimed": {
       "1": ["e2", "f2", "g2", "a2", "b2", "c3", "d3", "e3", "f3", "g3", "a3", "b3", "c4"],
-      "2": ["e2", "f2", "f#2", "g2", "g#2", "a2", "a#2", "b2", "c3", "c#3", "d3", "d#3", "e3", "f3", "g3", "a3", "b3", "c4"],
-      "3": ["db2", "d2", "d#2", "eb2", "e2", "fb2", "f2", "f#2", "gb2", "g2", "g#2", "ab2", "a2", "a#2", "bb2", "b2", "b#2", "c3", "c#3", "d3", "e3", "f3", "g3", "a3", "b3", "c4"]
+      "2": ["e2", "f2", "fsharp2", "g2", "gsharp2", "a2", "asharp2", "b2", "c3", "csharp3", "d3", "dsharp3", "e3", "f3", "g3", "a3", "b3", "c4"],
+      "3": ["eflat2", "e2", "fflat2", "f2", "fsharp2", "gflat2", "g2", "gsharp2", "aflat2", "a2", "asharp2", "bflat2", "b2", "bsharp2", "c3", "csharp3", "d3", "e3", "f3", "g3", "a3", "b3", "c4"]
+    },
+    "silentTreble": {
+      "1": ["c4", "d4", "e4", "f4", "g4", "a4", "b4", "c5", "d5", "e5", "f5", "g5", "a5"]
+    },
+    "silentBass": {
+      "1": ["e2", "f2", "g2", "a2", "b2", "c3", "d3", "e3", "f3", "g3", "a3", "b3", "c4"]
     }
   }
 }

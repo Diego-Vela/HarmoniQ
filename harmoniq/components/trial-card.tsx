@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Text, TouchableOpacity, Image, View, Dimensions, Animated, StyleSheet, Platform } from 'react-native';
 import { Link } from 'expo-router';
 import { useStatsStore } from '@/stores/useStatsStore';
@@ -15,8 +15,11 @@ const { width, height } = Dimensions.get('window');
 
 const TrialCard: React.FC<TrialCardProps> = ({ chapter, level }) => {
   const [flipped, setFlipped] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const lessonKey = `${chapter}-${level}`;
+  const medal = useMedalStore((state) => state.medals[lessonKey]?.medal || 'none');
+
   const lastCompletedLesson = useStatsStore((s) => s.lastCompletedLesson);
   const isNext = useStatsStore((s) => s.nextLesson) === lessonKey;
   const hasCompletedBefore = lastCompletedLesson && lessonKey <= lastCompletedLesson;
@@ -33,7 +36,6 @@ const TrialCard: React.FC<TrialCardProps> = ({ chapter, level }) => {
     ? 'shadow-blue-400'
     : 'shadow-white';
 
-  // Border is now always red-400
   const border = 'border border-red-600';
 
   const completedColor = hasCompletedBefore
@@ -86,6 +88,11 @@ const TrialCard: React.FC<TrialCardProps> = ({ chapter, level }) => {
     },
   });
 
+  // useEffect to ensure medal image updates on load
+  useEffect(() => {
+    setRefreshKey((prev) => prev + 1); // Force re-render when medal changes
+  }, [medal]);
+
   const FrontContent = (
     <TouchableOpacity
       className={`self-center py-6 mb-10 rounded-2xl justify-center bg-primary w-full h-full ${border} ${shadowClass} ${shadowColor} items-center`}
@@ -93,7 +100,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ chapter, level }) => {
       onPress={flipCard}
     >
       {(() => {
-        const medalKey = useMedalStore.getState().medals[lessonKey]?.medal;
+        const medalKey = medal;
         const medalImage = medalKey
           ? medals[medalKey.toLowerCase() as keyof typeof medals]
           : medals.none;
@@ -200,7 +207,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ chapter, level }) => {
               asChild
             >
               <TouchableOpacity className="bg-green-600 px-4 py-2 rounded-lg">
-                <Text className="text-white font-bold text-lg">Begin Lesson</Text>
+                <Text className="text-white font-bold text-lg">Challenge</Text>
               </TouchableOpacity>
             </Link>
           )}
@@ -210,7 +217,7 @@ const TrialCard: React.FC<TrialCardProps> = ({ chapter, level }) => {
   );
 
   return (
-    <View style={cardSize}>
+    <View key={refreshKey} style={cardSize}>
       <Animated.View
         style={[styles.cardFace, frontStyle]}
         pointerEvents={!flipped ? 'auto' : 'none'}

@@ -121,25 +121,29 @@ const LessonCard: React.FC<LessonCardProps> = ({ chapter, level }) => {
       className={`self-center rounded-2xl bg-primary w-full h-full ${border} ${shadowClass} ${shadowColor}`}
       activeOpacity={0.8}
     >
-      {/* Reward Info Section */}
+      {/* Back Content Section */}
       <View className="flex w-full h-full justify-evenly items-center">
         <View className="flex justify-evenly align-center w-full h-[60%]">
           <Text
-            className="text-amber-400 font-bold text-2xl mb-2 text-center"
+            className={`${
+              hasCompletedBefore ? 'text-amber-400' : 'text-amber-400'
+            } font-bold text-2xl mb-2 text-center`}
             adjustsFontSizeToFit
             numberOfLines={1}
           >
-            Rewards
+            {hasCompletedBefore ? 'Complete' : 'Rewards'}
           </Text>
           <View className="w-full h-[60%]">
-            <Text
-              className="text-white text-lg text-center"
-              adjustsFontSizeToFit
-              numberOfLines={1}
-            >
-              Exp: {xpReward}
-            </Text>
-            {increaseLevelCap && (
+            {!hasCompletedBefore && (
+              <Text
+                className="text-white text-lg text-center"
+                adjustsFontSizeToFit
+                numberOfLines={1}
+              >
+                Exp: {xpReward}
+              </Text>
+            )}
+            {increaseLevelCap && !hasCompletedBefore && (
               <Text
                 className="text-white text-lg text-center"
                 adjustsFontSizeToFit
@@ -167,7 +171,9 @@ const LessonCard: React.FC<LessonCardProps> = ({ chapter, level }) => {
               asChild
             >
               <TouchableOpacity className="bg-green-600 px-4 py-2 rounded-lg">
-                <Text className="text-white font-bold text-lg">Begin Lesson</Text>
+                <Text className="text-white font-bold text-lg">
+                  {hasCompletedBefore ? 'Replay' : 'Begin Lesson'}
+                </Text>
               </TouchableOpacity>
             </Link>
           )}

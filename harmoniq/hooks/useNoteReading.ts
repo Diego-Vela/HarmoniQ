@@ -36,31 +36,6 @@ export const useNoteReading = (notes: string[]) => {
     }
   };
 
-  const getRandomNote = (): string => {
-    const randomIndex = Math.floor(Math.random() * notes.length);
-    return notes[randomIndex];
-  };
-
-  const generateButtonNotes = (correctNote: string): string[] => {
-    const correctNoteLetter = correctNote[0].toLowerCase();
-    const uniqueLetters = new Set<string>();
-    uniqueLetters.add(correctNoteLetter);
-
-    const filteredNotes = notes.filter((n) => !uniqueLetters.has(n[0].toLowerCase()));
-
-    const selectedNotes: string[] = [];
-    for (const note of filteredNotes) {
-      const noteLetter = note[0].toLowerCase();
-      if (!uniqueLetters.has(noteLetter)) {
-        selectedNotes.push(note);
-        uniqueLetters.add(noteLetter);
-      }
-      if (selectedNotes.length === 3) break;
-    }
-
-    return [...selectedNotes, correctNote].sort(() => 0.5 - Math.random());
-  };
-
   const generateNoteChallenge = (level: number): { correctAnswer: string; options: string[] } => {
     const correctNote = notes[Math.floor(Math.random() * notes.length)];
     const correctAnswer = correctNote; // Declare and initialize correctAnswer
@@ -105,6 +80,21 @@ export const useNoteReading = (notes: string[]) => {
     }
   };
 
+  const silentRegenerateNote = async (
+    setChallenge?: (challenge: { correctAnswer: string; options: string[] }) => void
+  ) => {
+    const { correctAnswer, options } = generateNoteChallenge(1); // Pass the level if needed
+    setRandomNote(correctAnswer);
+    setButtonNotes(options);
+    setSelectedNote(null);
+    setIsChecking(true);
+  
+    // If a callback is provided, update the challenge in the component
+    if (setChallenge) {
+      setChallenge({ correctAnswer, options });
+    }
+  };
+
   const handleCheckAnswer = async () => {
     const isCorrect = selectedNote === randomNote;
     setIsChecking(false);
@@ -117,6 +107,7 @@ export const useNoteReading = (notes: string[]) => {
     setSelectedNote,
     isChecking,
     regenerateNote,
+    silentRegenerateNote,
     handleCheckAnswer,
     playSound,
     generateNoteChallenge,

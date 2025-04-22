@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image } from 'react-native';
 import { useNoteReading } from '@/hooks/useNoteReading';
 import SimpleNotes from '@/components/activities/buttons/simple-notes';
 import Feedback from '@/components/activities/common/feedback';
 import { NoteReadingGameProps } from '@/constants/types';
 import AnimatedCheckButton from '@/components/activities/buttons/check-answer-button';
 
-const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
+const SilentNoteReading: React.FC<NoteReadingGameProps> = ({
   notes,
   noteImages,
   onSuccess,
@@ -15,9 +15,8 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
     selectedNote,
     setSelectedNote,
     isChecking,
-    regenerateNote,
+    silentRegenerateNote,
     handleCheckAnswer,
-    playSound,
   } = useNoteReading(notes);
 
   const [visibleFeedback, setVisibleFeedback] = useState(false);
@@ -29,13 +28,12 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
   } | null>(null);
 
   useEffect(() => {
-    regenerateNote(setCurrentChallenge); // Pass the state updater for currentChallenge
+    silentRegenerateNote(setCurrentChallenge); // Pass the state updater for currentChallenge
   }, []);
 
-  const handleNotePress = async (note: string) => {
+  const handleNotePress = (note: string) => {
     if (isChecking) {
       setSelectedNote(note.toLowerCase());
-      await playSound(note.toLowerCase());
     }
   };
 
@@ -51,7 +49,7 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
       if (isAnswerCorrect) {
         onSuccess();
       } else {
-        regenerateNote(setCurrentChallenge);
+        silentRegenerateNote(setCurrentChallenge);
       }
 
       setVisibleFeedback(false);
@@ -64,19 +62,11 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
     <>
       <View className="bg-transparent w-[80%] h-[35%] items-center justify-center relative rounded-xl">
         {currentChallenge?.correctAnswer && (
-          <>
-            <Image
-              source={noteImages[currentChallenge.correctAnswer]}
-              className="w-[90%] h-[50%] z-0"
-              resizeMode="contain"
-            />
-            <TouchableOpacity
-              className="flex items-center justify-center mt-10 w-[20%] h-[22%] bg-accent border border-primary rounded-full shadow-lg"
-              onPress={() => playSound(currentChallenge.correctAnswer)}
-            >
-              <Text className="text-white font-bold text-center text-3xl">🔊</Text>
-            </TouchableOpacity>
-          </>
+          <Image
+            source={noteImages[currentChallenge.correctAnswer]}
+            className="w-[90%] h-[50%] z-0"
+            resizeMode="contain"
+          />
         )}
       </View>
 
@@ -116,4 +106,4 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
   );
 };
 
-export default NoteReadingGame;
+export default SilentNoteReading;
