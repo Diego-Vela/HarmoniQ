@@ -92,16 +92,21 @@ const TrialCard: React.FC<TrialCardProps> = ({ chapter, level }) => {
       activeOpacity={0.7}
       onPress={flipCard}
     >
-      <Image
-        source={
-          useMedalStore.getState().medals[lessonKey]?.medal
-            ? medals[useMedalStore.getState().medals[lessonKey].medal.toLowerCase() as keyof typeof medals]
-            : medals.none
-        }
-        tintColor={hasCompletedBefore ? '' : 'black'}
-        style={{ width: '50%', height: '50%', marginBottom: 12 }}
-        resizeMode="contain"
-      />
+      {(() => {
+        const medalKey = useMedalStore.getState().medals[lessonKey]?.medal;
+        const medalImage = medalKey
+          ? medals[medalKey.toLowerCase() as keyof typeof medals]
+          : medals.none;
+
+        return (
+          <Image
+            source={medalImage}
+            tintColor={hasCompletedBefore ? '' : 'black'}
+            style={{ width: '50%', height: '50%', marginBottom: 12 }}
+            resizeMode="contain"
+          />
+        );
+      })()}
       <Text className="text-white font-bold text-xl mb-1" adjustsFontSizeToFit numberOfLines={1}>
         Lesson {level}
       </Text>
@@ -117,32 +122,64 @@ const TrialCard: React.FC<TrialCardProps> = ({ chapter, level }) => {
       className={`self-center rounded-2xl bg-primary w-full h-full ${border} ${shadowClass} ${shadowColor}`}
       activeOpacity={0.8}
     >
-      {/* Reward Info Section */}
+      {/* Back Content Section */}
       <View className="flex w-full h-full justify-evenly items-center">
         <View className="flex justify-evenly align-center w-full h-[60%]">
           <Text
-            className="text-amber-400 font-bold text-2xl mb-2 text-center"
+            className={`${
+              hasCompletedBefore ? 'text-blue-400' : 'text-amber-400'
+            } font-bold text-2xl mb-2 text-center`}
             adjustsFontSizeToFit
             numberOfLines={1}
           >
-            Rewards
+            {hasCompletedBefore ? 'Record' : 'Rewards'}
           </Text>
           <View className="w-full h-[60%]">
-            <Text
-              className="text-white text-lg text-center"
-              adjustsFontSizeToFit
-              numberOfLines={1}
-            >
-              Exp: {xpReward}
-            </Text>
-            {increaseLevelCap && (
-              <Text
-                className="text-white text-lg text-center"
-                adjustsFontSizeToFit
-                numberOfLines={1}
-              >
-                Level Cap Up
-              </Text>
+            {hasCompletedBefore ? (
+              // Display Record Information
+              <>
+                <Text
+                  className="text-white text-lg text-center"
+                  adjustsFontSizeToFit
+                  numberOfLines={1}
+                >
+                  Score: {useMedalStore.getState().medals[lessonKey]?.score || 'N/A'}
+                </Text>
+                <Text
+                  className="text-white text-lg text-center"
+                  adjustsFontSizeToFit
+                  numberOfLines={1}
+                >
+                  Accuracy: {useMedalStore.getState().medals[lessonKey]?.accuracy || 'N/A'}%
+                </Text>
+                <Text
+                  className="text-gray-400 text-sm text-center italic"
+                  adjustsFontSizeToFit
+                  numberOfLines={2}
+                >
+                  {useMedalStore.getState().medals[lessonKey]?.nextRequirements || 'N/A'}
+                </Text>
+              </>
+            ) : (
+              // Display Rewards Information
+              <>
+                <Text
+                  className="text-white text-lg text-center"
+                  adjustsFontSizeToFit
+                  numberOfLines={1}
+                >
+                  Exp: {xpReward}
+                </Text>
+                {increaseLevelCap && (
+                  <Text
+                    className="text-white text-lg text-center"
+                    adjustsFontSizeToFit
+                    numberOfLines={1}
+                  >
+                    Level Cap Up
+                  </Text>
+                )}
+              </>
             )}
           </View>
         </View>

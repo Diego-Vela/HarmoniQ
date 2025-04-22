@@ -25,6 +25,9 @@
       { "type": "note-reading", "clef": "Treble", "level": 2 }
     ],
     "3": [
+      { "type": "note-reading", "clef": "TrebleTimed", "level": 1 }
+    ],
+    "4": [
       { "type": "note-reading", "clef": "Bass", "level": 1 },
       { "type": "note-reading", "clef": "Bass", "level": 1 },
       { "type": "interval", "level": 1 },
@@ -36,7 +39,7 @@
       { "type": "interval", "level": 1 },
       { "type": "note-reading", "clef": "Bass", "level": 1 }
     ],
-    "4": [
+    "5": [
       { "type": "note-reading", "clef": "Bass", "level": 2 },
       { "type": "note-reading", "clef": "Bass", "level": 2 },
       { "type": "interval", "level": 1 },
@@ -48,8 +51,8 @@
       { "type": "interval", "level": 1 },
       { "type": "note-reading", "clef": "Bass", "level": 2 }
     ],
-    "5": [
-      { "type": "note-reading", "clef": "TrebleTimed", "level": 1 }
+    "6": [
+      { "type": "note-reading", "clef": "BassTimed", "level": 1 }
     ]
   },
 
@@ -83,37 +86,6 @@
     "5": [
       { "type": "key-signature-id", "level": 1, "timed": true }
     ]
-  },
-
-  "Chapter 3": {
-    "1": [
-      { "type": "note-reading", "clef": "Treble", "level": 4 },
-      { "type": "key-signature-id", "level": 3 },
-      { "type": "note-reading", "clef": "Bass", "level": 4 },
-      { "type": "note-reading", "clef": "Treble", "level": 5 },
-      { "type": "key-signature-id", "level": 3 },
-      { "type": "note-reading", "clef": "Bass", "level": 5 },
-      { "type": "key-signature-id", "level": 4 },
-      { "type": "key-signature-id", "level": 4 },
-      { "type": "note-reading", "clef": "Treble", "level": 5 },
-      { "type": "key-signature-id", "level": 5 }
-    ],
-    "2": [
-      { "type": "note-reading", "clef": "Bass", "level": 5 },
-      { "type": "key-signature-id", "level": 4 },
-      { "type": "note-reading", "clef": "Treble", "level": 5 },
-      { "type": "key-signature-id", "level": 4 },
-      { "type": "note-reading", "clef": "Bass", "level": 4 },
-      { "type": "note-reading", "clef": "Treble", "level": 4 },
-      { "type": "key-signature-id", "level": 5 },
-      { "type": "note-reading", "clef": "Bass", "level": 5 },
-      { "type": "key-signature-id", "level": 5 },
-      { "type": "note-reading", "clef": "Treble", "level": 4 }
-    ],
-    "3": [],
-    "4": [],
-    "5": [
-      { "type": "note-reading", "clef": "MixedTimed", "level": 1 }
-    ]
   }
+
 }

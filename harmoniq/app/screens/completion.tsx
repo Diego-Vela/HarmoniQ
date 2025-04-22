@@ -8,6 +8,7 @@ import { useStatsStore } from '@/stores/useStatsStore';
 import { useMissions } from '@/stores/useMissionsStore';
 import { useProgressStore } from '@/stores/useProgressStore';
 import { awardNoteReadingMedal } from '@/utils/compare-medals-util';
+import { specialLessonKeys } from '@/constants/lesson-keys';
 import  {
   getTrainingXP,
   getLessonXP,
@@ -32,7 +33,13 @@ const CompletionPage = () => {
   const { claimXP } = useXpStore();
   const lastCompletedLesson = useStatsStore((s) => s.lastCompletedLesson);
   const hasCompletedBefore = lastCompletedLesson && lessonKey <= lastCompletedLesson;
-  const parsedResults: string[] | undefined = results ? JSON.parse(results) : undefined;
+
+  // Use state to persist parsedResults
+  const [parsedResults, setParsedResults] = useState<string[] | undefined>(
+    results ? JSON.parse(results) : undefined
+  );
+
+  console.log('Parsed Results:', parsedResults);
 
   // Static state for xpAwarded
   const [xpAwarded, setXpAwarded] = useState(() =>
@@ -73,18 +80,34 @@ const CompletionPage = () => {
   };
 
   useEffect(() => {
-    // Ensure results are only evaluated once and medal isn't already set
-    if (!medal && subcategory === 'Chapter 1' && level === '5' && results) {
+    if (
+      !medal &&
+      specialLessonKeys.has(`${subcategory}-${level}`) &&
+      results
+    ) {
       try {
         const parsed = JSON.parse(results);
+
+        // Award the medal
         const awardedMedalObject = awardNoteReadingMedal(lessonKey, parsed[0], parsed[1]);
+        console.log('Awarded Medal:', awardedMedalObject);
+
+        // Set the medal state
         setMedal(awardedMedalObject);
+
+        // Update parsedResults[2] with the awarded medal
+        setParsedResults((prevResults) => {
+          const updatedResults = prevResults ? [...prevResults] : [];
+          updatedResults[2] = awardedMedalObject.medal;
+          return updatedResults;
+        });
+
+        console.log('Parsed Results after medal:', parsedResults);
       } catch (e) {
         console.warn('Failed to parse results or evaluate medal:', e);
       }
     }
   }, [medal, results, subcategory, level, lessonKey]);
-  
 
   // Render FailScreen if medal is "None"
   if (medal && medal.medal === 'None') {
@@ -97,7 +120,7 @@ const CompletionPage = () => {
           })
         }
         onReturnHome={() => router.replace('/')}
-        results={parsedResults && parsedResults.length === 2 ? [parsedResults[0], parsedResults[1]] : ['N/A', 'N/A']}
+        results={parsedResults && parsedResults.length === 3 ? [parsedResults[0], parsedResults[1], parsedResults[3]] : ['N/A', 'N/A', 'N/A']}
         passRequirement={medal.nextRequirements}
       />
     );

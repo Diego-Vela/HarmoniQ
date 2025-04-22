@@ -7,13 +7,13 @@
     },
     {
       "level": 2,
-      "rootNotes": ["C3", "F3", "G3", "C4"],
-      "intervals": ["M2", "P4", "P5", "Octave"]
+      "rootNotes": ["C3", "C4"],
+      "intervals": ["M2", "M6", "P5", "M7"]
     },
     {
       "level": 3,
-      "rootNotes": ["C3", "F3", "G3", "C4"],
-      "intervals": ["M2", "M3", "P5", "M6", "M7", "Octave"]
+      "rootNotes": ["C3", "C4"],
+      "intervals": ["M2", "P4", "P5", "Octave", "M6", "M7"]
     }
   ]
 }

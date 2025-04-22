@@ -1,7 +1,8 @@
-import { View, Text, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, TouchableOpacity, Animated, Image } from 'react-native';
 import { CompletionScreenProps } from '@/constants/types';
 import React, { useEffect, useRef } from 'react';
 import Background from '@/components/common/background';
+import { medals } from '@/constants/animations';
 
 const CompletionScreen: React.FC<CompletionScreenProps> = ({
   mode,
@@ -10,10 +11,10 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
   onReplay,
   hasClaimed,
   onClaim,
-  results
+  results,
 }) => {
   const title = mode === 'training' ? '🎯 Training Complete!' : '📘 Lesson Complete!';
-  const subtitle = `You earned ${xpAwarded} XP!`;
+  const subtitle = xpAwarded > 0 ? `You earned ${xpAwarded} XP!` : null;
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(20)).current;
@@ -44,21 +45,37 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
   }, [hasClaimed]);
 
   const heightClass = results && results.length > 0 ? 'h-[40%]' : 'h-[35%]';
+  console.log('results:', results);
 
   return (
     <Background>
       {/* Top Center Results Section */}
       <View className={`flex justify-center w-full items-center ${heightClass}`}>
-      {results && (
-        <View>
-          <Text className="text-green-400 text-3xl font-bold text-center mb-[2%]">
-            {results[0]} Correct
-          </Text>
-          <Text className="text-cyan-400 text-xl font-semibold text-center">
-            {results[1]} Accuracy!
-          </Text>
-        </View>
-      )}
+        {results && (
+          <View>
+            <Text className="text-green-400 text-3xl font-bold text-center mb-[2%]">
+              {results[0]} Correct
+            </Text>
+            <Text className="text-cyan-400 text-xl font-semibold text-center">
+              {results[1]} Accuracy!
+            </Text>
+            {results[2] && (
+              <View className="flex flex-row justify-center items-center mt-2">
+                <Text className="text-yellow-400 text-xl font-bold text-center">
+                  You've earned a{' '}
+                </Text>
+                <Image
+                  source={medals[results[2].toLowerCase() as keyof typeof medals]}
+                  style={{ width: 24, height: 24, marginHorizontal: 4 }}
+                  resizeMode="contain"
+                />
+                <Text className="text-yellow-400 text-xl font-bold text-center">
+                  medal!
+                </Text>
+              </View>
+            )}
+          </View>
+        )}
       </View>
 
       {/* Main Content */}
@@ -66,7 +83,7 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
         <Text className="text-yellow-400 text-4xl font-extrabold animate-pulse mb-4 text-center">
           {title}
         </Text>
-        <Text className="text-white text-xl mb-10 text-center">{subtitle}</Text>
+        {subtitle && <Text className="text-white text-xl mb-10 text-center">{subtitle}</Text>}
 
         {hasClaimed && xpAwarded > 0 && (
           <Animated.View
@@ -105,7 +122,7 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
             )}
 
             <TouchableOpacity
-              className="bg-accent w-[90%] py-5 rounded-2xl"
+              className="bg-accent w-[90%] py-5 rounded-2xl mt-5"
               onPress={onNext}
             >
               <Text className="text-white text-center font-semibold text-lg text-center">

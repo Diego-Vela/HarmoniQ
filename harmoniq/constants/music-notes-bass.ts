@@ -1,85 +1,50 @@
-import c2 from "@/assets/images/music/no-time-sig/bass/c2.png";
-import d2 from "@/assets/images/music/no-time-sig/bass/d2.png";
-import e2 from "@/assets/images/music/no-time-sig/bass/e2.png";
-import f2 from "@/assets/images/music/no-time-sig/bass/f2.png";
-import g2 from "@/assets/images/music/no-time-sig/bass/g2.png";
-import a2 from "@/assets/images/music/no-time-sig/bass/a2.png";
-import b2 from "@/assets/images/music/no-time-sig/bass/b2.png";
-import c3 from "@/assets/images/music/no-time-sig/bass/c3.png";
-import d3 from "@/assets/images/music/no-time-sig/bass/d3.png";
-import e3 from "@/assets/images/music/no-time-sig/bass/e3.png";
-import f3 from "@/assets/images/music/no-time-sig/bass/f3.png";
-import g3 from "@/assets/images/music/no-time-sig/bass/g3.png";
-import a3 from "@/assets/images/music/no-time-sig/bass/a3.png";
-import b3 from "@/assets/images/music/no-time-sig/bass/b3.png";
-import c4 from "@/assets/images/music/no-time-sig/bass/c4.png";
-
-import csharp2 from "@/assets/images/music/no-time-sig/bass/csharp2.png";
-import dsharp2 from "@/assets/images/music/no-time-sig/bass/dsharp2.png";
-import fsharp2 from "@/assets/images/music/no-time-sig/bass/fsharp2.png";
-import gsharp2 from "@/assets/images/music/no-time-sig/bass/gsharp2.png";
-import asharp2 from "@/assets/images/music/no-time-sig/bass/asharp2.png";
-import csharp3 from "@/assets/images/music/no-time-sig/bass/csharp3.png";
-import dsharp3 from "@/assets/images/music/no-time-sig/bass/dsharp3.png";
-import fsharp3 from "@/assets/images/music/no-time-sig/bass/fsharp3.png";
-import gsharp3 from "@/assets/images/music/no-time-sig/bass/gsharp3.png";
-import asharp3 from "@/assets/images/music/no-time-sig/bass/asharp3.png";
-
-import dflat2 from "@/assets/images/music/no-time-sig/bass/dflat2.png";
-import eflat2 from "@/assets/images/music/no-time-sig/bass/eflat2.png";
-import gflat2 from "@/assets/images/music/no-time-sig/bass/gflat2.png";
-import aflat2 from "@/assets/images/music/no-time-sig/bass/aflat2.png";
-import bflat2 from "@/assets/images/music/no-time-sig/bass/bflat2.png";
-import dflat3 from "@/assets/images/music/no-time-sig/bass/dflat3.png";
-import eflat3 from "@/assets/images/music/no-time-sig/bass/eflat3.png";
-import gflat3 from "@/assets/images/music/no-time-sig/bass/gflat3.png";
-import aflat3 from "@/assets/images/music/no-time-sig/bass/aflat3.png";
-import bflat3 from "@/assets/images/music/no-time-sig/bass/bflat3.png";
-
-import base from "@/assets/images/music/time-sig/rythm/rythm-empty.png";
-
 export const bassClefNotes = {
-  c2,
-  d2,
-  e2,
-  f2,
-  g2,
-  a2,
-  b2,
-  c3,
-  d3,
-  e3,
-  f3,
-  g3,
-  a3,
-  b3,
-  c4,
+  // Natural Notes
+  e2: require('@/assets/images/music/no-time-sig/bass/e2.png'),
+  f2: require('@/assets/images/music/no-time-sig/bass/f2.png'),
+  g2: require('@/assets/images/music/no-time-sig/bass/g2.png'),
+  a2: require('@/assets/images/music/no-time-sig/bass/a2.png'),
+  b2: require('@/assets/images/music/no-time-sig/bass/b2.png'),
+  c3: require('@/assets/images/music/no-time-sig/bass/c3.png'),
+  d3: require('@/assets/images/music/no-time-sig/bass/d3.png'),
+  e3: require('@/assets/images/music/no-time-sig/bass/e3.png'),
+  f3: require('@/assets/images/music/no-time-sig/bass/f3.png'),
+  g3: require('@/assets/images/music/no-time-sig/bass/g3.png'),
+  a3: require('@/assets/images/music/no-time-sig/bass/a3.png'),
+  b3: require('@/assets/images/music/no-time-sig/bass/b3.png'),
+  c4: require('@/assets/images/music/no-time-sig/bass/c4.png'),
 
   // Sharps
-  csharp2,
-  dsharp2,
-  fsharp2,
-  gsharp2,
-  asharp2,
-  csharp3,
-  dsharp3,
-  fsharp3,
-  gsharp3,
-  asharp3,
+  esharp2: require('@/assets/images/music/no-time-sig/bass/esharp2.png'),
+  fsharp2: require('@/assets/images/music/no-time-sig/bass/fsharp2.png'),
+  gsharp2: require('@/assets/images/music/no-time-sig/bass/gsharp2.png'),
+  asharp2: require('@/assets/images/music/no-time-sig/bass/asharp2.png'),
+  bsharp2: require('@/assets/images/music/no-time-sig/bass/bsharp2.png'),
+  csharp3: require('@/assets/images/music/no-time-sig/bass/csharp3.png'),
+  dsharp3: require('@/assets/images/music/no-time-sig/bass/dsharp3.png'),
+  esharp3: require('@/assets/images/music/no-time-sig/bass/esharp3.png'),
+  fsharp3: require('@/assets/images/music/no-time-sig/bass/fsharp3.png'),
+  gsharp3: require('@/assets/images/music/no-time-sig/bass/gsharp3.png'),
+  asharp3: require('@/assets/images/music/no-time-sig/bass/asharp3.png'),
+  bsharp3: require('@/assets/images/music/no-time-sig/bass/bsharp3.png'),
+  csharp4: require('@/assets/images/music/no-time-sig/bass/csharp4.png'),
 
   // Flats
-  dflat2,
-  eflat2,
-  gflat2,
-  aflat2,
-  bflat2,
-  dflat3,
-  eflat3,
-  gflat3,
-  aflat3,
-  bflat3,
-}
+  eflat2: require('@/assets/images/music/no-time-sig/bass/eflat2.png'),
+  fflat2: require('@/assets/images/music/no-time-sig/bass/fflat2.png'),
+  gflat2: require('@/assets/images/music/no-time-sig/bass/gflat2.png'),
+  aflat2: require('@/assets/images/music/no-time-sig/bass/aflat2.png'),
+  bflat2: require('@/assets/images/music/no-time-sig/bass/bflat2.png'),
+  cflat3: require('@/assets/images/music/no-time-sig/bass/cflat3.png'),
+  dflat3: require('@/assets/images/music/no-time-sig/bass/dflat3.png'),
+  eflat3: require('@/assets/images/music/no-time-sig/bass/eflat3.png'),
+  fflat3: require('@/assets/images/music/no-time-sig/bass/fflat3.png'),
+  gflat3: require('@/assets/images/music/no-time-sig/bass/gflat3.png'),
+  aflat3: require('@/assets/images/music/no-time-sig/bass/aflat3.png'),
+  bflat3: require('@/assets/images/music/no-time-sig/bass/bflat3.png'),
+  cflat4: require('@/assets/images/music/no-time-sig/bass/cflat4.png')
+};
 
 export const rythmNotes = {
-  base
-}
+  base: require('@/assets/images/music/time-sig/rythm/rythm-empty.png'),
+};

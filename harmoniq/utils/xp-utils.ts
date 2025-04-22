@@ -10,8 +10,8 @@ export function getTrainingXP(level: number): number {
 
 const levelCapKeys = new Set<string>([
   'Chapter 1-1',
-  'Chapter 1-5',
-  'Chapter 2-5',
+  'Chapter 1-3',
+  'Chapter 1-6',
   'Chapter 3-5',
   'Chapter 4-5'
 ]);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, ScrollView, Dimensions, Image } from "react-native";
 
 import { useChapterTracker } from '@/hooks/useChapterTracker';
@@ -10,6 +10,7 @@ import LessonCard from "@/components/lesson-card";
 import Background from "@/components/common/background";
 import TrialCard from "@/components/trial-card";
 
+import { useMedalStore } from "@/stores/useMedalStore";
 
 export default function Index() {
   const chapterStatus = getChapterStatus().map(status => ({

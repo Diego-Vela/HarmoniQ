@@ -5,7 +5,7 @@ import Background from '@/components/common/background';
 interface FailScreenProps {
   onRetry: () => void;
   onReturnHome: () => void;
-  results: [string, string];
+  results: [string, string, string];
   passRequirement: string;
 }
 

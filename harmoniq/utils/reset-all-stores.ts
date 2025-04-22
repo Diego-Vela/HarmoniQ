@@ -3,6 +3,7 @@ import { useStatsStore } from '@/stores/useStatsStore';
 import { useProgressStore } from '@/stores/useProgressStore';
 import { useRhythmStore } from '@/stores/useRhythmStore';
 import { useMissions } from '@/stores/useMissionsStore';
+import { useMedalStore } from '@/stores/useMedalStore';
 
 export const resetAllStores = () => {
   // XP Store
@@ -42,7 +43,6 @@ export const resetAllStores = () => {
     lastCompletedLesson: null,
     nextLesson: 'Chapter 1-1',
   });
-  
 
   // Progress Store
   useProgressStore.setState({
@@ -58,6 +58,11 @@ export const resetAllStores = () => {
   // Missions Store
   const missions = useMissions.getState();
   missions.resetAllMissions();
+
+  // Medal Store
+  useMedalStore.setState({
+    medals: {}, // Reset medals to an empty object
+  });
 };
 
 export const defaultLifetimeStats = {

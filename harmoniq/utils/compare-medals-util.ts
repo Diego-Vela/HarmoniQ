@@ -1,18 +1,25 @@
 import { useMedalStore } from '@/stores/useMedalStore';
 
-export const isHigherScoreOrAccuracy = (trial: string, score: number, accuracy: number): boolean => {
-  const { medals } = useMedalStore.getState();
-
+export const isHigherScoreOrAccuracy = (
+  trial: string,
+  score: number,
+  accuracy: number,
+  acquiredMedal: 'None' | 'Bronze' | 'Silver' | 'Gold' | 'Platinum',
+  nextRequirements: string // Added nextRequirements parameter
+): boolean => {
+  const { medals, setMedal } = useMedalStore.getState(); // Access setMedal from the store
   const savedMedal = medals[trial];
 
   if (!savedMedal) {
+    // If no medal exists, save the new score, accuracy, acquired medal, and next requirements
+    setMedal(trial, { medal: acquiredMedal, score, accuracy, nextRequirements });
     return true;
   }
 
   // Compare score and accuracy
-  if (score > savedMedal.score) {
-    return true;
-  } else if (score === savedMedal.score && accuracy > savedMedal.accuracy) {
+  if (score > savedMedal.score || (score === savedMedal.score && accuracy > savedMedal.accuracy)) {
+    // Update the medal store with the new score, accuracy, acquired medal, and next requirements
+    setMedal(trial, { medal: acquiredMedal, score, accuracy, nextRequirements });
     return true;
   }
 
@@ -26,24 +33,30 @@ export const awardNoteReadingMedal = (
 ): { medal: 'None' | 'Bronze' | 'Silver' | 'Gold' | 'Platinum'; nextRequirements: string } => {
   const { score, accuracy } = parseScoreAndAccuracy(rawScore, rawAccuracy);
 
-  // Check if the new score or accuracy is higher
-  const isHigher = isHigherScoreOrAccuracy(trial, score, accuracy);
-
-  if (!isHigher) {
-    return { medal: 'None', nextRequirements: 'Your score or accuracy did not improve.' };
-  }
+  let acquiredMedal: 'None' | 'Bronze' | 'Silver' | 'Gold' | 'Platinum';
+  let nextRequirements: string;
 
   if (score >= 45 && accuracy >= 95) {
-    return { medal: 'Platinum', nextRequirements: 'You have mastered this category!' };
+    acquiredMedal = 'Platinum';
+    nextRequirements = 'You have mastered this category!';
   } else if (score >= 30 && accuracy >= 90) {
-    return { medal: 'Gold', nextRequirements: 'Platinum at 45 Correct 95% Accuracy' };
-  } else if (score >= 25 && accuracy >= 80) {
-    return { medal: 'Silver', nextRequirements: 'Gold at 30 Correct 90% Accuracy' };
-  } else if (score >= 20 && accuracy >= 70) {
-    return { medal: 'Bronze', nextRequirements: 'Silver at 25 Correct 80% Accuracy' };
+    acquiredMedal = 'Gold';
+    nextRequirements = 'Platinum at 45 Correct 95% Accuracy';
+  } else if (score >= 20 && accuracy >= 80) {
+    acquiredMedal = 'Silver';
+    nextRequirements = 'Gold at 30 Correct 90% Accuracy';
+  } else if (score >= 15 && accuracy >= 70) {
+    acquiredMedal = 'Bronze';
+    nextRequirements = 'Silver at 25 Correct 80% Accuracy';
   } else {
-    return { medal: 'None', nextRequirements: 'Pass with 20 Correct and 70% Accuracy' };
+    acquiredMedal = 'None';
+    nextRequirements = 'Pass with 15 Correct and 70% Accuracy';
   }
+
+  // Check if the new score or accuracy is higher and update the medal store if necessary
+  const isHigher = isHigherScoreOrAccuracy(trial, score, accuracy, acquiredMedal, nextRequirements);
+
+  return { medal: acquiredMedal, nextRequirements };
 };
 
 // Internal function to parse score and accuracy strings
