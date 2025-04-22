@@ -4,15 +4,17 @@
       "1": ["c4", "d4", "e4", "f4", "g4", "a4", "b4"],
       "2": ["c5", "d5", "e5", "f5", "g5", "a5"],
       "3": ["c4", "d4", "e4", "f4", "g4", "a4", "b4", "c5", "d5", "e5", "f5", "g5", "a5"],
-      "4": ["csharp4", "dsharp4", "esharp4", "fsharp4", "gsharp4", "asharp4", "bsharp4", "csharp5", "dsharp5", "esharp5", "fsharp5", "gsharp5", "asharp5"],
-      "5": ["cflat4", "dflat4", "eflat4", "fflat4", "gflat4", "aflat4", "bflat4", "cflat5", "dflat5", "eflat5", "fflat5", "gflat5", "aflat5"]
+      "4": ["csharp4", "dsharp4", "fsharp4", "gsharp4", "asharp4", "csharp5", "dsharp5", "fsharp5", "gsharp5"],
+      "5": ["dflat4", "eflat4", "gflat4", "aflat4", "bflat4"  , "dflat5", "eflat5", "gflat5", "aflat5"],
+      "6": ["c4", "d4", "e4", "f4", "g4", "a4", "b4", "c5", "d5", "e5", "f5", "g5", "a5","csharp4", "dsharp4", "fsharp4", "gsharp4", "asharp4", "csharp5", "dsharp5", "fsharp5", "gsharp5", "dflat4", "eflat4", "gflat4", "aflat4", "bflat4"  , "dflat5", "eflat5", "gflat5", "aflat5"]
     },
     "bass": {
       "1": ["e2", "f2", "g2", "a2", "b2", "c3", "d3"],
       "2": ["e3", "f3", "g3", "a3", "b3", "c4"],
       "3": ["e2", "f2", "g2", "a2", "b2", "c3", "d3", "e3", "f3", "g3"],
-      "4": ["a2", "b2", "c3", "d3", "e3", "f3", "g3", "a3", "b3", "c4"],
-      "5": ["e2", "f2", "g2", "a2", "b2", "c3", "d3", "e3", "f3", "g3", "a3", "b3", "c4"]
+      "4": ["fsharp2", "gsharp2", "asharp2", "bsharp2", "csharp3", "dsharp3", "fsharp3", "gsharp3"],
+      "5": ["fflat2", "gflat2", "aflat2", "bflat2", "dflat3", "eflat3", "gflat3", "aflat3"],
+      "6": ["e2", "f2", "g2", "a2", "b2", "c3", "d3", "e3", "f3", "g3", "fsharp2", "gsharp2", "asharp2", "bsharp2", "csharp3", "dsharp3", "fsharp3", "gsharp3", "fflat2", "gflat2", "aflat2", "bflat2", "dflat3", "eflat3", "gflat3", "aflat3"]
     },
     "trebletimed": {
       "1": ["c4", "d4", "e4", "f4", "g4", "a4", "b4", "c5", "d5", "e5", "f5", "g5", "a5"],

@@ -5,3 +5,7 @@ export const finalLessonKeys = new Set<string>([
   'Chapter 4-5',
   'Chapter 5-1'
 ]);
+
+export const specialLessonKeys = new Set<string>([
+  'Chapter 1-5',
+]);

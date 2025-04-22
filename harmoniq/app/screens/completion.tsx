@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import CompletionScreen from '@/components/screens/completion-screen';
+import FailScreen from '@/components/screens/fail-screen';
 import { useXpStore } from '@/stores/useXpStore';
 import { playXpSound } from '@/hooks/useXpSound';
 import { useStatsStore } from '@/stores/useStatsStore';
 import { useMissions } from '@/stores/useMissionsStore';
 import { useProgressStore } from '@/stores/useProgressStore';
+import { awardNoteReadingMedal } from '@/utils/compare-medals-util';
 import  {
   getTrainingXP,
   getLessonXP,
@@ -15,6 +17,7 @@ import  {
 const CompletionPage = () => {
   const router = useRouter();
   const incrementLessonProgress = useProgressStore((s) => s.incrementLessonProgress);
+  const [medal, setMedal] = useState<{ medal: "None" | "Bronze" | "Silver" | "Gold" | "Platinum"; nextRequirements: string } | null>(null);
   const { mode, category, subcategory, level, results } = useLocalSearchParams<{
     mode: string;
     category: string;
@@ -69,6 +72,38 @@ const CompletionPage = () => {
     setHasClaimed(true);
   };
 
+  useEffect(() => {
+    // Ensure results are only evaluated once and medal isn't already set
+    if (!medal && subcategory === 'Chapter 1' && level === '5' && results) {
+      try {
+        const parsed = JSON.parse(results);
+        const awardedMedalObject = awardNoteReadingMedal(lessonKey, parsed[0], parsed[1]);
+        setMedal(awardedMedalObject);
+      } catch (e) {
+        console.warn('Failed to parse results or evaluate medal:', e);
+      }
+    }
+  }, [medal, results, subcategory, level, lessonKey]);
+  
+
+  // Render FailScreen if medal is "None"
+  if (medal && medal.medal === 'None') {
+    return (
+      <FailScreen
+        onRetry={() =>
+          router.replace({
+            pathname: '/screens/entry-point',
+            params: { category, subcategory, level },
+          })
+        }
+        onReturnHome={() => router.replace('/')}
+        results={parsedResults && parsedResults.length === 2 ? [parsedResults[0], parsedResults[1]] : ['N/A', 'N/A']}
+        passRequirement={medal.nextRequirements}
+      />
+    );
+  }
+
+  // Render CompletionScreen otherwise
   return (
     <CompletionScreen
       mode={isLesson ? 'lesson' : 'training'}
@@ -87,7 +122,7 @@ const CompletionPage = () => {
               })
           : undefined
       }
-      results={parsedResults} 
+      results={parsedResults}
     />
   );
 };

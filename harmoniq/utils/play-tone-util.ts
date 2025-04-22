@@ -5,10 +5,12 @@ import { sounds } from '@/constants/sounds';
 const noteNames = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
 export const midiToNoteName: Record<number, string> = {};
 
+// Generate note names with proper formatting for file names
 for (let midi = 48; midi <= 84; midi++) {
   const octave = Math.floor(midi / 12) - 1;
   const name = noteNames[midi % 12];
-  midiToNoteName[midi] = `${name}${octave}`;
+  const formattedName = name.replace('#', 'sharp'); // Replace '#' with 'sharp'
+  midiToNoteName[midi] = `${formattedName}${octave}`;
 }
 
 // Play sound for a given MIDI note number
@@ -18,8 +20,8 @@ export const playTone = async (midiNote: number) => {
     return;
   }
 
-  const noteKey = midiToNoteName[midiNote];
-  const soundFile = sounds[noteKey];
+  const noteKey = midiToNoteName[midiNote]; // Get the formatted note name
+  const soundFile = sounds[noteKey]; // Use the formatted note name to fetch the sound file
 
   if (!soundFile) {
     console.warn(`Sound for MIDI note ${midiNote} (${noteKey}) not found.`);

@@ -4,16 +4,18 @@
       "treble-clef": [
         { "unlocked": 1, "required": 1 },
         { "unlocked": 2, "required": 1 },
-        { "unlocked": 3, "required": 3 },
-        { "unlocked": 4, "required": 5 },
-        { "unlocked": 5, "required": 8 }
+        { "unlocked": 3, "required": 2 },
+        { "unlocked": 4, "required": 6 },
+        { "unlocked": 5, "required": 6 },
+        { "unlocked": 6, "required": 10 }
       ],
       "bass-clef": [
         { "unlocked": 1, "required": 1 },
         { "unlocked": 2, "required": 1 },
         { "unlocked": 3, "required": 3 },
-        { "unlocked": 4, "required": 5 },
-        { "unlocked": 5, "required": 8 }
+        { "unlocked": 4, "required": 7 },
+        { "unlocked": 5, "required": 7 },
+        { "unlocked": 6, "required": 10 }
       ]
     },
     "intervals": {
@@ -27,8 +29,7 @@
       { "unlocked": 1, "required": 1 },
       { "unlocked": 2, "required": 2 },
       { "unlocked": 3, "required": 5 },
-      { "unlocked": 4, "required": 7 },
-      { "unlocked": 5, "required": 9 }
+      { "unlocked": 4, "required": 7 }
     ]},
     "rhythm": {
       "tap-rhythm": [

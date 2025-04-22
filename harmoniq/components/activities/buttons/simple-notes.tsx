@@ -19,6 +19,25 @@ const SimpleNotes: React.FC<SimpleNotesProps> = ({
   disabled,
   showFeedback,
 }) => {
+  const displayNoteName = (note: string): string => {
+    const base = note.toLowerCase();
+  
+    const pitch = base[0].toUpperCase();
+    const isSharp = base.includes("sharp");
+    const isFlat = base.includes("flat");
+    const isMajor = base.includes("major");
+    const isMinor = base.includes("minor");
+  
+    let displayName = pitch;
+  
+    if (isSharp) displayName += "♯";
+    if (isFlat) displayName += "♭";
+    if (isMajor) displayName += " Major";
+    if (isMinor) displayName += " minor";
+  
+    return displayName;
+  };
+
   return (
     <View className="flex-wrap flex-row w-[95%] h-[60%] justify-evenly items-center">
       {notes.map((note) => {
@@ -43,15 +62,6 @@ const SimpleNotes: React.FC<SimpleNotesProps> = ({
           textColor = 'text-gray-400';
           bgColor = 'bg-gray-500'; // Default disabled gray
         }
-
-        const displayNoteName = (note: string): string => {
-          const base = note.toLowerCase();
-        
-          const pitch = base[0].toUpperCase();
-          if (base.includes("sharp")) return pitch + "♯";
-          if (base.includes("flat")) return pitch + "♭";
-          return pitch;
-        };
 
         return (
           <TouchableOpacity

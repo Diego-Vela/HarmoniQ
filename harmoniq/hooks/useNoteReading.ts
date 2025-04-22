@@ -91,23 +91,24 @@ export const useNoteReading = (notes: string[]) => {
     };
   };
 
-  const regenerateNote = async () => {
+  const regenerateNote = async (setChallenge?: (challenge: { correctAnswer: string; options: string[] }) => void) => {
     const { correctAnswer, options } = generateNoteChallenge(1); // Pass the level if needed
     setRandomNote(correctAnswer);
     await playSound(correctAnswer);
     setButtonNotes(options);
     setSelectedNote(null);
     setIsChecking(true);
+  
+    // If a callback is provided, update the challenge in the component
+    if (setChallenge) {
+      setChallenge({ correctAnswer, options });
+    }
   };
 
   const handleCheckAnswer = async () => {
     const isCorrect = selectedNote === randomNote;
     setIsChecking(false);
   };
-
-  useEffect(() => {
-    regenerateNote();
-  }, []);
 
   return {
     randomNote,

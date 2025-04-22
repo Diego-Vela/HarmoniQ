@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import intervalLevels from '@/data/interval-levels.json';
 import { playTone } from '@/utils/play-tone-util'; // Adjust path as needed
 
 export type Interval =
@@ -11,13 +10,21 @@ export type Interval =
   | 'Octave';
 
 export type Note =
-  | 'C' | 'C#' | 'Db'
-  | 'D' | 'D#' | 'Eb'
-  | 'E'
-  | 'F' | 'F#' | 'Gb'
-  | 'G' | 'G#' | 'Ab'
-  | 'A' | 'A#' | 'Bb'
-  | 'B';
+  | 'C3' | 'C#3' | 'Db3'
+  | 'D3' | 'D#3' | 'Eb3'
+  | 'E3'
+  | 'F3' | 'F#3' | 'Gb3'
+  | 'G3' | 'G#3' | 'Ab3'
+  | 'A3' | 'A#3' | 'Bb3'
+  | 'B3'
+  | 'C4' | 'C#4' | 'Db4'
+  | 'D4' | 'D#4' | 'Eb4'
+  | 'E4'
+  | 'F4' | 'F#4' | 'Gb4'
+  | 'G4' | 'G#4' | 'Ab4'
+  | 'A4' | 'A#4' | 'Bb4'
+  | 'B4'
+  | 'C5';
 
 export const intervalToSemitones: Record<Interval, number> = {
   m2: 1,
@@ -34,25 +41,28 @@ export const intervalToSemitones: Record<Interval, number> = {
 };
 
 export const noteToMidi: Record<Note, number> = {
-  C: 60,
-  'C#': 61, Db: 61,
-  D: 62,
-  'D#': 63, Eb: 63,
-  E: 64,
-  F: 65,
-  'F#': 66, Gb: 66,
-  G: 67,
-  'G#': 68, Ab: 68,
-  A: 69,
-  'A#': 70, Bb: 70,
-  B: 71,
+  C3: 48, 'C#3': 49, Db3: 49,
+  D3: 50, 'D#3': 51, Eb3: 51,
+  E3: 52,
+  F3: 53, 'F#3': 54, Gb3: 54,
+  G3: 55, 'G#3': 56, Ab3: 56,
+  A3: 57, 'A#3': 58, Bb3: 58,
+  B3: 59,
+  C4: 60, 'C#4': 61, Db4: 61,
+  D4: 62, 'D#4': 63, Eb4: 63,
+  E4: 64,
+  F4: 65, 'F#4': 66, Gb4: 66,
+  G4: 67, 'G#4': 68, Ab4: 68,
+  A4: 69, 'A#4': 70, Bb4: 70,
+  B4: 71,
+  C5: 72,
 };
 
 export type LevelData = {
   rootNotes: Note[];
   intervals: Interval[];
 };
-
+ 
 export function useIntervalTraining(level: string, levelData: LevelData): {
   currentInterval: string;
   currentRoot: string;
@@ -82,11 +92,8 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
     const intervalSemis = intervalToSemitones[currentInterval];
     const secondMidi = rootMidi + intervalSemis;
 
-    // console.log(`Playing interval: root=${currentRoot}, interval=${currentInterval}`);
-    // console.log(`MIDI values: rootMidi=${rootMidi}, intervalSemis=${intervalSemis}, secondMidi=${secondMidi}`);
-
     if (rootMidi === undefined || intervalSemis === undefined || isNaN(secondMidi)) {
-      // console.log(`Invalid MIDI notes: rootMidi=${rootMidi}, secondMidi=${secondMidi}`);
+      console.warn(`Invalid MIDI notes: rootMidi=${rootMidi}, secondMidi=${secondMidi}`);
       return;
     }
 
@@ -122,10 +129,12 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
     if (!levelData) return;
 
     const { rootNotes, intervals } = levelData;
-    const newRoot = rootNotes[Math.floor(Math.random() * rootNotes.length)];
-    const newInterval = intervals[Math.floor(Math.random() * intervals.length)];
 
-    // console.log(`Generated next interval: root=${newRoot}, interval=${newInterval}`);
+    // Select a random root note from C3 to C5
+    const newRoot = rootNotes[Math.floor(Math.random() * rootNotes.length)];
+
+    // Select a random interval
+    const newInterval = intervals[Math.floor(Math.random() * intervals.length)];
 
     setCurrentRoot(newRoot);
     setCurrentInterval(newInterval);
@@ -133,13 +142,18 @@ export function useIntervalTraining(level: string, levelData: LevelData): {
     setIsChecking(true);
     setVisibleFeedback(false);
 
+    // Generate options (correct answer + 3 incorrect options)
     const newOptions = [newInterval, ...getRandomIncorrectOptions(newInterval, intervals)];
     setOptions(newOptions.sort(() => Math.random() - 0.5));
 
     // Play the generated interval immediately
+    const rootMidi = noteToMidi[newRoot];
+    const intervalSemis = intervalToSemitones[newInterval];
+    const secondMidi = rootMidi + intervalSemis;
+
     setTimeout(() => {
-      playTone(noteToMidi[newRoot]);
-      delay(600).then(() => playTone(noteToMidi[newRoot] + intervalToSemitones[newInterval]));
+      playTone(rootMidi);
+      delay(600).then(() => playTone(secondMidi));
     }, 0);
   };
 

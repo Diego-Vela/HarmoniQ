@@ -19,7 +19,7 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
   const [activityDescription, setActivityDescription] = useState('');
 
   const current = sequence[currentIndex];
-  console.log('Current activity:', current);
+  //console.log('Current activity:', current);
 
   const handleActivitySuccess = (results?: string[]) => {
     const next = currentIndex + 1;

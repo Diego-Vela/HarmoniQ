@@ -42,6 +42,7 @@ export const useXpStore = create<XpStore>()(
           leveledUp = true;
         }
 
+        console.log(levelCap);
         // Handle overflow XP if the user reaches the level cap
         if (newLevel >= levelCap) {
           newXP = 0; // Reset XP bar to zero
@@ -66,7 +67,7 @@ export const useXpStore = create<XpStore>()(
 
       increaseLevelCap: (amount: number) => {
         const { levelCap, level } = get();
-        const newLevelCap = levelCap + amount;
+        const newLevelCap = amount;
 
         // Recalculate xpToNextLevel based on the current level
         const xpToNextLevel = getXPForLevel(level);

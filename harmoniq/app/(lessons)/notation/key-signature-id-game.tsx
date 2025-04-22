@@ -130,13 +130,33 @@ function generateKey(level: string) {
   const correctKey = filteredKeys[Math.floor(Math.random() * filteredKeys.length)];
   const incorrectKeys = filteredKeys.filter((key) => key !== correctKey);
   const randomIncorrectKeys = shuffle(incorrectKeys).slice(0, 3);
-  const options = shuffle([...randomIncorrectKeys, correctKey]);
+  const options = shuffle([...randomIncorrectKeys, correctKey]).map(transformKeyName); // Apply transformation
+
 
   return {
     image: availableKeys[correctKey],
-    correctAnswer: correctKey,
+    correctAnswer: transformKeyName(correctKey), // Transform the correct answer as well
     options,
   };
+}
+
+// Function to transform key names
+function transformKeyName(key: string): string {
+  return key
+    .replace('Bb', 'Bflat')
+    .replace('Eb', 'Eflat')
+    .replace('Ab', 'Aflat')
+    .replace('Db', 'Dflat')
+    .replace('Gb', 'Gflat')
+    .replace('Fb', 'Fflat')
+    .replace('Cb', 'Cflat')
+    .replace('F#', 'Fsharp')
+    .replace('C#', 'Csharp')
+    .replace('G#', 'Gsharp')
+    .replace('D#', 'Dsharp')
+    .replace('A#', 'Asharp')
+    .replace('E#', 'Esharp')
+    .replace('B#', 'Bsharp');
 }
 
 function shuffle<T>(array: T[]): T[] {

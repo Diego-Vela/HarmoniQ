@@ -29,7 +29,7 @@ const NoteReadingTimed: React.FC<NoteReadingTimedProps> = ({
   const {
     isChecking,
     playSound,
-    generateNoteChallenge,
+    regenerateNote,
   } = useNoteReading(notes);
 
   if (!notes || notes.length === 0) {
@@ -42,8 +42,7 @@ const NoteReadingTimed: React.FC<NoteReadingTimedProps> = ({
 
   // Generate the initial challenge on mount
   React.useEffect(() => {
-    const challenge = generateNoteChallenge(1); // Pass the level if needed
-    setCurrentChallenge(challenge);
+    regenerateNote(setCurrentChallenge); // Use regenerateNote to initialize the challenge
   }, []);
 
   const handleAnswer = async (note: string) => {
@@ -64,9 +63,8 @@ const NoteReadingTimed: React.FC<NoteReadingTimedProps> = ({
         setSelectedNote(null);
         setIsAnswerCorrect(null);
 
-        // Generate a new challenge
-        const newChallenge = generateNoteChallenge(1);
-        setCurrentChallenge(newChallenge);
+        // Generate a new challenge using regenerateNote
+        regenerateNote(setCurrentChallenge);
       }, 100); // delay for visual feedback
     }
   };

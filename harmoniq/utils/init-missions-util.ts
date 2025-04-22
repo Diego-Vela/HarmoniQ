@@ -40,7 +40,7 @@ export async function initMissions() {
 
     if (shouldResetWeekly || hasNoMissions) {
       resetWeeklyMissions();
-      generateWeeklyMissions(2);
+      generateWeeklyMissions(1);
       await AsyncStorage.setItem(LAST_WEEKLY_KEY, todayStr);
     }
   }

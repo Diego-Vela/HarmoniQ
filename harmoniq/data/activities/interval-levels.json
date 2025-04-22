@@ -2,18 +2,18 @@
   "levels": [
     {
       "level": "1",
-      "rootNotes": ["C"],
+      "rootNotes": ["C3", "C4"],
       "intervals": ["M2", "P4", "P5", "Octave"]
     },
     {
       "level": 2,
-      "rootNotes": ["C", "F", "G"],
+      "rootNotes": ["C3", "F3", "G3", "C4"],
       "intervals": ["M2", "P4", "P5", "Octave"]
     },
     {
       "level": 3,
-      "rootNotes": ["C", "F", "G"],
-      "intervals": ["M2", "M3", "P4", "P5", "M6", "M7", "Octave"]
+      "rootNotes": ["C3", "F3", "G3", "C4"],
+      "intervals": ["M2", "M3", "P5", "M6", "M7", "Octave"]
     }
   ]
 }

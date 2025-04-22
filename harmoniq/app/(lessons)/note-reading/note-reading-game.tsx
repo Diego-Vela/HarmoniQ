@@ -18,7 +18,6 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
     regenerateNote,
     handleCheckAnswer,
     playSound,
-    generateNoteChallenge,
   } = useNoteReading(notes);
 
   const [visibleFeedback, setVisibleFeedback] = useState(false);
@@ -29,10 +28,8 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
     options: string[];
   } | null>(null);
 
-  // Generate the initial challenge on mount
   useEffect(() => {
-    const challenge = generateNoteChallenge(1); // Pass the level if needed
-    setCurrentChallenge(challenge);
+    regenerateNote(setCurrentChallenge); // Pass the state updater for currentChallenge
   }, []);
 
   const handleNotePress = async (note: string) => {
@@ -54,9 +51,7 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
       if (isAnswerCorrect) {
         onSuccess();
       } else {
-        const newChallenge = generateNoteChallenge(1); // Generate a new challenge
-        setCurrentChallenge(newChallenge);
-        regenerateNote(); // Reset the state for the next challenge
+        regenerateNote();
       }
 
       setVisibleFeedback(false);

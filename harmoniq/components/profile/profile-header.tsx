@@ -7,8 +7,8 @@ const { width, height } = Dimensions.get('window'); // Get screen dimensions
 const ProfileHeader = () => {
   const user = {
     profilePicture: placeholders.profile,
-    username: 'JohnDoe123',
-    accountAge: '2 years',
+    username: 'Placeholder',
+    accountAge: 'Not Needed',
   };
 
   return (
@@ -30,6 +30,7 @@ const ProfileHeader = () => {
         }}
         resizeMode="contain"
       />
+      {/*
       <Text
         className="text-white font-bold"
         style={{
@@ -47,7 +48,7 @@ const ProfileHeader = () => {
         }}
       >
         Account Age: {user.accountAge}
-      </Text>
+      </Text>*/}
     </View>
   );
 };
