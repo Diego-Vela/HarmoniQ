@@ -28,24 +28,6 @@
       "xpReward": 5
     },
     {
-      "id": "d4",
-      "title": "Complete 1 rhythm training",
-      "type": "training",
-      "category": "rhythm",
-      "subcategory": "any",
-      "goal": 1,
-      "xpReward": 5
-    },
-    {
-      "id": "d5",
-      "title": "Complete 1 rhythm tap rhythm training",
-      "type": "training",
-      "category": "rhythm",
-      "subcategory": "tap-rhythm",
-      "goal": 1,
-      "xpReward": 5
-    },
-    {
       "id": "d6",
       "title": "Complete 2 activities",
       "type": "training",
@@ -109,15 +91,6 @@
       "subcategory": "bass-clef",
       "goal": 7,
       "xpReward": 15
-    },
-    {
-      "id": "w6",
-      "title": "Complete 7 rhythm trainings",
-      "type": "training",
-      "category": "rhythm",
-      "subcategory": "any",
-      "goal": 7,
-      "xpReward": 1
     }
   ]
 }
