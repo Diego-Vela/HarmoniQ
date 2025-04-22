@@ -35,11 +35,13 @@ const Training = () => {
         </TouchableOpacity>
 
         {/* Rhythm Section */}
+        {/*
         <Text className="text-2xl font-bold text-white mt-4 mb-2" adjustsFontSizeToFit numberOfLines={1}>Rhythm</Text>
         <View className="w-full h-[1px] bg-gray-600 mb-4" />
         <TouchableOpacity onPress={() => navigateToLevelSelect('rhythm', 'tap-rhythm')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-blue-600">
           <Text className="text-primary font-semibold text-xl" adjustsFontSizeToFit numberOfLines={1}>Tap Rhythm</Text>
         </TouchableOpacity>
+        */}
 
         {/* Interval Section */}
         <Text className="text-2xl font-bold text-white mt-4 mb-2" adjustsFontSizeToFit numberOfLines={1}>Intervals</Text>
