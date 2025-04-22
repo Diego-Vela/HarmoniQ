@@ -38,6 +38,14 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "manifestPath": "./android-manifest.xml"
+          }
+        }
       ]
     ],
     "experiments": {
