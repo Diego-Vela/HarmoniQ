@@ -19,9 +19,8 @@ const Missions = () => {
 
   const handleClaim = (mission: { id: string; progress: number; goal: number; xpReward: number }) => {
     const isComplete = mission.progress >= mission.goal;
-    const isClaimed = claimedMissionIds.has(mission.id);
 
-    if (isComplete && !isClaimed) {
+    if (isComplete) {
       claimXP(mission.xpReward);
       playXpSound();
       claimMission(mission.id);

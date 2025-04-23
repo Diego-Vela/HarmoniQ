@@ -45,7 +45,7 @@ const CompletionScreen: React.FC<CompletionScreenProps> = ({
   }, [hasClaimed]);
 
   const heightClass = results && results.length > 0 ? 'h-[40%]' : 'h-[35%]';
-  console.log('results:', results);
+  //console.log('results:', results);
 
   return (
     <Background>

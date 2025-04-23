@@ -16,6 +16,18 @@
         { "unlocked": 4, "required": 7 },
         { "unlocked": 5, "required": 7 },
         { "unlocked": 6, "required": 10 }
+      ],
+      "silent-treble": [
+        { "unlocked": 1, "required": 1 },
+        { "unlocked": 2, "required": 7 },
+        { "unlocked": 3, "required": 7 },
+        { "unlocked": 4, "required": 10 }
+      ],
+      "silent-bass": [
+        { "unlocked": 1, "required": 1 },
+        { "unlocked": 2, "required": 8 },
+        { "unlocked": 3, "required": 8 },
+        { "unlocked": 4, "required": 10 }
       ]
     },
     "intervals": {
@@ -44,7 +56,10 @@
     { "lesson": "Chapter 1-3", "next": "Chapter 1-4", "level-cap": 5},
     { "lesson": "Chapter 1-4", "next": "Chapter 1-5", "level-cap": 5},
     { "lesson": "Chapter 1-5", "next": "Chapter 1-6", "level-cap": 5},
-    { "lesson": "Chapter 1-6", "next": "Chapter 2-1", "level-cap": 10},
+    { "lesson": "Chapter 1-6", "next": "Chapter 1-7", "level-cap": 10},
+    { "lesson": "Chapter 1-7", "next": "Chapter 1-8", "level-cap": 10},
+    { "lesson": "Chapter 1-8", "next": "Chapter 1-9", "level-cap": 10},
+    { "lesson": "Chapter 1-9", "next": "Chapter 2-1", "level-cap": 10},
 
     { "lesson": "Chapter 2-1", "next": "Chapter 2-2", "level-cap": 10},
     { "lesson": "Chapter 2-2", "next": "Chapter 2-3", "level-cap": 10},
@@ -67,7 +82,10 @@
         { "chapter": "Chapter 1", "section": 3 },
         { "chapter": "Chapter 1", "section": 4 },
         { "chapter": "Chapter 1", "section": 5 },
-        { "chapter": "Chapter 1", "section": 6 }
+        { "chapter": "Chapter 1", "section": 6 },
+        { "chapter": "Chapter 1", "section": 7 },
+        { "chapter": "Chapter 1", "section": 8 },
+        { "chapter": "Chapter 1", "section": 9 }
       ]
     }
 

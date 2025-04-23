@@ -31,6 +31,6 @@ export function getIncreaseLevelCap(lessonKey: string): boolean {
 
 
 export function getLessonCompletionBonus(lessonKey: string, chapter: number): number {
-  return finalLessonKeys.has(lessonKey) ? 5 + (chapter*2) : 0;
+  return finalLessonKeys.has(lessonKey) ? 5 + (chapter*10) : 0;
 }
 

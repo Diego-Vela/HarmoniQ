@@ -5,6 +5,7 @@ import NoteReadingTimed from '@/app/(lessons)/note-reading/note-reading-timed';
 import IntervalGame from '@/app/(lessons)/intervals/interval-game';
 import KeySignatureGame from '@/app/(lessons)/notation/key-signature-id-game';
 import TapRhythmGame from '@/app/(lessons)/rhythm/tap-rhythm-game';
+import SilentNoteReading from '@/app/(lessons)/note-reading/silent-note-reading';
 import { ActivityDefinition } from '@/constants/types';
 import { getBaseClef, getNoteSet, getNoteImages } from './activity-sequence-utils';
 
@@ -17,19 +18,29 @@ export const resolveActivityComponent = (
 
   switch (current.type) {
     case 'note-reading': {
-      const isTimed = current.clef === 'TrebleTimed' || current.clef === 'BassTimed';
-      const baseClef = getBaseClef(current.clef);
+      const baseClef = getBaseClef(current.subtype);
 
-      if (isTimed) {
+      if (current.subtype === 'TrebleTimed' || current.subtype === 'BassTimed') {
         return (
           <NoteReadingTimed
             key={activityKey}
-            clef={baseClef as 'Treble' | 'Bass'}
-            notes={getNoteSet(current.clef, current.level)}
+            subtype={baseClef as 'Treble' | 'Bass'}
+            notes={getNoteSet(current.subtype, current.level)}
             noteImages={getNoteImages(baseClef)}
             level={current.level}
             onComplete={handleActivitySuccess}
             onSuccess={() => {}}
+          />
+        );
+      } else if (current.subtype === 'SilentTreble' || current.subtype === 'SilentBass') {
+        return (
+          <SilentNoteReading
+            key={activityKey}
+            clefName={baseClef}
+            notes={getNoteSet(current.subtype, current.level)}
+            noteImages={getNoteImages(current.subtype)}
+            level={current.level}
+            onSuccess={handleActivitySuccess}
           />
         );
       }
@@ -38,8 +49,8 @@ export const resolveActivityComponent = (
         <NoteReadingGame
           key={activityKey}
           clefName={baseClef}
-          notes={getNoteSet(current.clef, current.level)}
-          noteImages={getNoteImages(current.clef)}
+          notes={getNoteSet(current.subtype, current.level)}
+          noteImages={getNoteImages(current.subtype)}
           level={current.level}
           onSuccess={handleActivitySuccess}
         />

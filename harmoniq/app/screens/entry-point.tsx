@@ -53,7 +53,7 @@ const LessonsEntryPoint = () => {
       </Text>
     );
   }
-  // console.log(category, subcategory, parsedLevel, sequence);
+  //console.log( sequence);
 
   return (
     <ActivitySequenceManager

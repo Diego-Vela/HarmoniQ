@@ -25,6 +25,16 @@ const Training = () => {
           <TouchableOpacity onPress={() => navigateToLevelSelect('note-reading', 'bass-clef')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-orange-600">
             <Text className="text-primary font-semibold text-xl" adjustsFontSizeToFit numberOfLines={1}>Bass</Text>
           </TouchableOpacity>
+
+          {/* Silent Treble Section */}
+          <TouchableOpacity onPress={() => navigateToLevelSelect('note-reading', 'silent-treble')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-orange-600">
+            <Text className="text-primary font-semibold text-xl" adjustsFontSizeToFit numberOfLines={1}>Silent Treble</Text>
+          </TouchableOpacity>
+
+          {/* Silent Bass Section */}
+          <TouchableOpacity onPress={() => navigateToLevelSelect('note-reading', 'silent-bass')} className="bg-white p-5 mt-4 mb-4 rounded-xl border-l-4 border-orange-600">
+            <Text className="text-primary font-semibold text-xl" adjustsFontSizeToFit numberOfLines={1}>Silent Bass</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Notation Section */}

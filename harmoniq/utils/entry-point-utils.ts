@@ -11,8 +11,8 @@ export const Categories = {
 } as const;
 
 export const Subcategories = {
-  TrebleClef: 'treble-clef',
-  BassClef: 'bass-clef',
+  TrebleClef: 'treble-clef', SilentTreble: 'silent-treble',
+  BassClef: 'bass-clef', SilentBass: 'silent-bass',
   KeySignatureId: 'key-signature-id',
   TapRhythm: 'tap-rhythm',
   Interval: 'interval',
@@ -25,8 +25,7 @@ export const resolveActivityType = (
   if (category === Categories.Notation && subcategory === Subcategories.KeySignatureId) {
     return 'key-signature-id';
   }
-  if (category === Categories.NoteReading &&
-      (subcategory === Subcategories.TrebleClef || subcategory === Subcategories.BassClef)) {
+  if (category === Categories.NoteReading) {
     return 'note-reading';
   }
   if (category === Categories.Intervals && subcategory === Subcategories.Interval) {
@@ -53,6 +52,21 @@ const trainingLengths: Record<ActivityType, number> = {
 export const getTrainingLength = (type: ActivityType): number =>
   trainingLengths[type] ?? 5;
 
+const resolveNoteReadingSubtype = (subcategory: string): 'Treble' | 'Bass' | 'SilentTreble' | 'SilentBass' => {
+  switch (subcategory) {
+    case Subcategories.TrebleClef:
+      return 'Treble';
+    case Subcategories.BassClef:
+      return 'Bass';
+    case Subcategories.SilentTreble:
+      return 'SilentTreble';
+    case Subcategories.SilentBass:
+      return 'SilentBass';
+    default:
+      throw new Error(`Unsupported subcategory: ${subcategory}`);
+  }
+} 
+
 export const generateTrainingSequence = (
   type: ActivityType,
   subcategory: string,
@@ -63,10 +77,10 @@ export const generateTrainingSequence = (
 
   switch (type) {
     case 'note-reading': {
-      const clef = subcategory === Subcategories.TrebleClef ? 'Treble' : 'Bass';
+      const subtype = resolveNoteReadingSubtype(subcategory);
       return Array.from({ length }, () => ({
         type: 'note-reading',
-        clef,
+        subtype,
         level,
       }));
     }
@@ -80,4 +94,6 @@ export const generateTrainingSequence = (
       console.error(`Unsupported activity type: ${type}`);
       return [];
   }
+
+
 };

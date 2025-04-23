@@ -11,8 +11,7 @@ import { awardNoteReadingMedal } from '@/utils/compare-medals-util';
 import { specialLessonKeys } from '@/constants/lesson-keys';
 import  {
   getTrainingXP,
-  getLessonXP,
-  getLessonCompletionBonus,
+  getLessonXP
 } from '@/utils/xp-utils';
 
 const CompletionPage = () => {

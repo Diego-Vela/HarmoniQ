@@ -22,9 +22,16 @@ export const getNoteImages = (clef: string) => {
     : require('@/constants/music-notes-bass').bassClefNotes;
 };
 
-export const getActivityDescription = (type: string, clef: string | null): string => {
+export const getActivityDescription = (type: string, subtype: string | null): string => {
   switch (type) {
     case 'note-reading':
+      if (subtype === 'TrebleTimed' || subtype === 'BassTimed') {
+        return 'Identify as many notes as possible in 1 minute';
+      } else if (subtype === 'Treble' || subtype === 'SilentTreble') {
+        return 'Identify the note on the treble staff';
+      } else if (subtype === 'Bass' || subtype === 'SilentBass') {
+        return 'Identify the note on the bass staff';
+      }
       return 'Identify the note on the staff';
     case 'interval':
       return 'Identify the interval';
@@ -40,6 +47,6 @@ export const getActivityDescription = (type: string, clef: string | null): strin
 export const isTimedActivity = (activity: ActivityDefinition): boolean => {
   return (
     activity.type === 'note-reading' &&
-    (activity.clef === 'TrebleTimed' || activity.clef === 'BassTimed')
+    (activity.subtype === 'TrebleTimed' || activity.subtype === 'BassTimed')
   );
 };

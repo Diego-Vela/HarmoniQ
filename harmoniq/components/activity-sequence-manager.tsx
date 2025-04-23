@@ -34,7 +34,7 @@ const ActivitySequenceManager: React.FC<Props> = ({ mode, sequence, onComplete }
   
   useEffect(() => {
     if (!current) return;
-    setActivityDescription(getActivityDescription(current.type, 'clef' in current ? current.clef : null));
+    setActivityDescription(getActivityDescription(current.type, 'subtype' in current ? current.subtype : null));
   }, [current]);
 
   return (

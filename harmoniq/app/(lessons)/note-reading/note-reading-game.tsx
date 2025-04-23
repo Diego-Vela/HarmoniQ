@@ -105,9 +105,7 @@ const NoteReadingGame: React.FC<NoteReadingGameProps> = ({
             label={
               isChecking
                 ? 'Check Answer'
-                : visibleFeedback
-                ? 'Continue'
-                : 'Start'
+                : 'Continue'
             }
           />
         </View>

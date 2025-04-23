@@ -52,7 +52,7 @@ export interface MissionStore {
 
 // Activity Types & Interfaces
 export type ActivityDefinition =
-  | { type: 'note-reading'; clef: 'Treble' | 'Bass' | 'TrebleTimed' | 'BassTimed' ; level: number }
+  | { type: 'note-reading'; subtype: 'Treble' | 'Bass' | 'TrebleTimed' | 'BassTimed' | "SilentTreble" | "SilentBass" ; level: number }
   | { type: 'interval'; level: number }
   | { type: 'key-signature-id'; level: number }
   | { type: 'tap-rhythm'; level: number };
@@ -79,7 +79,7 @@ export interface NoteReadingGameProps extends ActivityComponentProps {
 }
 
 export interface NoteReadingTimedProps extends ActivityComponentProps {
-  clef: 'Treble' | 'Bass';
+  subtype: 'Treble' | 'Bass';
   notes: string[];
   noteImages: Record<string, any>;
   onComplete: (results: string[]) => void;
