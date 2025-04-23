@@ -7,16 +7,15 @@ import {
 import { MissionStore, MissionWithProgress } from '@/constants/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-type MissionStorePersist = Omit<MissionStore, 'claimedMissionIds'> & {
-  claimedMissionIds: string[];
-};
-
 export const useMissions = create<MissionStore>()(
   persist(
     (set, get) => ({
       dailyMissions: [],
       weeklyMissions: [],
-      claimedMissionIds: new Set(),
+      claimedMissionIds: [],
+      claimedWeeklyMissionIds: [],
+      lastDailyKey: null,
+      lastWeeklyKey: null,
 
       generateDailyMissions: (count: number) => {
         set({ dailyMissions: generateDailyMissions(count) });
@@ -30,16 +29,18 @@ export const useMissions = create<MissionStore>()(
         set({
           dailyMissions: [],
           weeklyMissions: [],
-          claimedMissionIds: new Set(),
+          claimedMissionIds: [], // Reset to an empty array
+          lastDailyKey: null,
+          lastWeeklyKey: null,
         });
       },
 
       resetDailyMissions: () => {
-        set({ dailyMissions: [], claimedMissionIds: new Set() });
+        set({ dailyMissions: [], claimedMissionIds: [], lastDailyKey: null });
       },
 
       resetWeeklyMissions: () => {
-        set({ weeklyMissions: [], claimedMissionIds: new Set() });
+        set({ weeklyMissions: [], claimedWeeklyMissionIds: [], lastWeeklyKey: null });
       },
 
       incrementMissionProgress: (scope, missionId, amount = 1) => {
@@ -59,9 +60,19 @@ export const useMissions = create<MissionStore>()(
       },
 
       claimMission: (missionId) => {
-        const claimed = new Set(get().claimedMissionIds);
-        claimed.add(missionId);
-        set({ claimedMissionIds: claimed });
+        if (missionId.startsWith('d')) {
+          // Handle daily missions
+          const claimedDaily = get().claimedMissionIds;
+          if (!claimedDaily.includes(missionId)) {
+            set({ claimedMissionIds: [...claimedDaily, missionId] });
+          }
+        } else if (missionId.startsWith('w')) {
+          // Handle weekly missions
+          const claimedWeekly = get().claimedWeeklyMissionIds;
+          if (!claimedWeekly.includes(missionId)) {
+            set({ claimedWeeklyMissionIds: [...claimedWeekly, missionId] });
+          }
+        }
       },
 
       updateMissionsFromActivity: (type, category, subcategory, xpGained = 0) => {
@@ -95,6 +106,14 @@ export const useMissions = create<MissionStore>()(
           weeklyMissions: updateList(state.weeklyMissions),
         }));
       },
+
+      updateLastDailyKey: (key: string) => {
+        set({ lastDailyKey: key });
+      },
+
+      updateLastWeeklyKey: (key: string) => {
+        set({ lastWeeklyKey: key });
+      },
     }),
     {
       name: 'mission-storage',
@@ -104,21 +123,18 @@ export const useMissions = create<MissionStore>()(
           return value ? JSON.parse(value) : null;
         },
         setItem: async (name, value) => {
+          const castValue = value as unknown as MissionStore;
           const copy = {
             ...value,
-            claimedMissionIds: Array.from(((value as unknown) as MissionStorePersist).claimedMissionIds || []),
+            claimedMissionIds: castValue.claimedMissionIds || [],
+            claimedWeeklyMissionIds: castValue.claimedWeeklyMissionIds || [],
+            dailyMissions: castValue.dailyMissions || [],
+            weeklyMissions: castValue.weeklyMissions || [],
           };
           await AsyncStorage.setItem(name, JSON.stringify(copy));
         },
         removeItem: AsyncStorage.removeItem,
       },
-      merge: (persistedState, currentState) => ({
-        ...currentState,
-        ...(typeof persistedState === 'object' && persistedState !== null ? persistedState : {}),
-        claimedMissionIds: new Set(
-          (persistedState as MissionStorePersist).claimedMissionIds || []
-        ),
-      }),
     }
   )
 );

@@ -12,7 +12,11 @@ type Props = {
 
 const MissionCard: React.FC<Props> = ({ mission, onClaim }) => {
   const isComplete = mission.progress >= mission.goal;
-  const isClaimed = useMissions((state) => state.claimedMissionIds.has(mission.id));
+  const isClaimed = useMissions((state) =>
+    mission.id.startsWith('d')
+      ? state.claimedMissionIds.includes(mission.id)
+      : state.claimedWeeklyMissionIds.includes(mission.id)
+  );
 
   return (
     <View
@@ -26,7 +30,7 @@ const MissionCard: React.FC<Props> = ({ mission, onClaim }) => {
         {/* Text Section */}
         <View className="flex-col justify-evenly w-[65%] h-[100%] items-center">
           <View className="flex justify-center items-center h-[50%] w-[95%]">
-            <Text adjustsFontSizeToFit numberOfLines={2} className="text-white text-center font-semibold text-xl w-full " >
+            <Text adjustsFontSizeToFit numberOfLines={2} className="text-white text-center font-semibold text-xl w-full ">
               {mission.title}
             </Text>
           </View>

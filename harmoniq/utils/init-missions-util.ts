@@ -7,25 +7,26 @@ const LAST_WEEKLY_KEY = 'last-weekly-refresh';
 
 export async function initMissions() {
   const {
+    lastDailyKey,
+    lastWeeklyKey,
     generateDailyMissions,
     generateWeeklyMissions,
     resetDailyMissions,
     resetWeeklyMissions,
-  } = useMissions.getState(); // Access Zustand store directly
+    updateLastDailyKey,
+    updateLastWeeklyKey,
+  } = useMissions.getState();
 
   const now = new Date();
   const todayStr = now.toDateString();
 
-  const [lastDailyStr, lastWeeklyStr] = await Promise.all([
-    AsyncStorage.getItem(LAST_DAILY_KEY),
-    AsyncStorage.getItem(LAST_WEEKLY_KEY),
-  ]);
+  const shouldResetDaily = !lastDailyKey || isNewDay(new Date(lastDailyKey), now);
+  const shouldResetWeekly = !lastWeeklyKey || isNewWeek(new Date(lastWeeklyKey), now);
 
-  const lastDailyDate = lastDailyStr ? new Date(lastDailyStr) : null;
-  const lastWeeklyDate = lastWeeklyStr ? new Date(lastWeeklyStr) : null;
-
-  const shouldResetDaily = !lastDailyDate || isNewDay(lastDailyDate, now);
-  const shouldResetWeekly = !lastWeeklyDate || isNewWeek(lastWeeklyDate, now);
+  if (!shouldResetDaily && !shouldResetWeekly) {
+    // console.log('Missions are already up-to-date.');
+    return; 
+  }
 
   const state = useMissions.getState();
   const hasNoMissions =
@@ -33,15 +34,40 @@ export async function initMissions() {
 
   if (shouldResetDaily || shouldResetWeekly || hasNoMissions) {
     if (shouldResetDaily || hasNoMissions) {
+      // console.log('Resetting Daily Missions...');
       resetDailyMissions();
       generateDailyMissions(3);
-      await AsyncStorage.setItem(LAST_DAILY_KEY, todayStr);
+      // console.log('Generated Daily Missions:', useMissions.getState().dailyMissions);
+      updateLastDailyKey(todayStr); // Update the key in the store
+      // console.log('Updated Last Daily Key:', todayStr);
     }
 
     if (shouldResetWeekly || hasNoMissions) {
+      // console.log('Resetting Weekly Missions...');
       resetWeeklyMissions();
       generateWeeklyMissions(1);
-      await AsyncStorage.setItem(LAST_WEEKLY_KEY, todayStr);
+      // console.log('Generated Weekly Missions:', useMissions.getState().weeklyMissions);
+      updateLastWeeklyKey(todayStr); // Update the key in the store
+      //console.log('Updated Last Weekly Key:', todayStr);
     }
+  } else {
+    // console.log('Missions are up-to-date. No reset needed.');
   }
+
+  // Initialize missing keys without resetting missions
+  if (!lastDailyKey) {
+    //console.log('Initializing Last Daily Key...');
+    updateLastDailyKey(todayStr);
+    //console.log('Initialized Last Daily Key:', todayStr);
+  }
+
+  if (!lastWeeklyKey) {
+    //console.log('Initializing Last Weekly Key...');
+    updateLastWeeklyKey(todayStr);
+    //console.log('Initialized Last Weekly Key:', todayStr);
+  }
+
+  //console.log('Final State:');
+  //console.log('Daily Missions:', useMissions.getState().dailyMissions);
+  //console.log('Weekly Missions:', useMissions.getState().weeklyMissions);
 }

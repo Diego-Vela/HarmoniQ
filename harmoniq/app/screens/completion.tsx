@@ -39,7 +39,7 @@ const CompletionPage = () => {
     results ? JSON.parse(results) : undefined
   );
 
-  console.log('Parsed Results:', parsedResults);
+  //console.log('Parsed Results:', parsedResults);
 
   // Static state for xpAwarded
   const [xpAwarded, setXpAwarded] = useState(() =>
@@ -90,7 +90,7 @@ const CompletionPage = () => {
 
         // Award the medal
         const awardedMedalObject = awardNoteReadingMedal(lessonKey, parsed[0], parsed[1]);
-        console.log('Awarded Medal:', awardedMedalObject);
+        //console.log('Awarded Medal:', awardedMedalObject);
 
         // Set the medal state
         setMedal(awardedMedalObject);
@@ -102,7 +102,7 @@ const CompletionPage = () => {
           return updatedResults;
         });
 
-        console.log('Parsed Results after medal:', parsedResults);
+        //console.log('Parsed Results after medal:', parsedResults);
       } catch (e) {
         console.warn('Failed to parse results or evaluate medal:', e);
       }

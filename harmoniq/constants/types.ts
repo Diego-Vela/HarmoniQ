@@ -13,6 +13,7 @@ export type Mission = {
 
 export type MissionWithProgress = Mission & {
   progress: number;
+  
 };
 
 export type MissionScope = 'daily' | 'weekly';
@@ -20,13 +21,18 @@ export type MissionScope = 'daily' | 'weekly';
 export interface MissionStore {
   dailyMissions: MissionWithProgress[];
   weeklyMissions: MissionWithProgress[];
-  claimedMissionIds: Set<string>;
+  claimedMissionIds: string[];
+  claimedWeeklyMissionIds: string[];
+  lastDailyKey: string | null;
+  lastWeeklyKey: string | null;
 
   generateDailyMissions: (count: number) => void;
   generateWeeklyMissions: (count: number) => void;
   resetAllMissions: () => void;
   resetDailyMissions: () => void;
   resetWeeklyMissions: () => void;
+  updateLastDailyKey: (key: string) => void;
+  updateLastWeeklyKey: (key: string) => void;
 
   incrementMissionProgress: (
     scope: MissionScope,
