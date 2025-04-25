@@ -30,8 +30,8 @@ const ActivityBase: React.FC<ActivityBaseProps> = ({ children, description }) =>
         {/* Activity Content */}
         <View className="flex-1 items-center justify-evenly mt-4">
           {description && (
-          <View className="flex w-[100%] h-[10%] bg-primary border border-white justify-center">
-            <Text className="text-white text-center font-bold text-xl">{description}</Text>
+          <View className="flex w-[75%] h-[10%] bg-primary border border-white justify-center">
+            <Text className="text-white text-center font-bold text-xl px-2" adjustsFontSizeToFit numberOfLines={2}>{description}</Text>
           </View>
           )}
           {children}

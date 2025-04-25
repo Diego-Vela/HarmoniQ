@@ -1,7 +1,7 @@
 {
   "levels": [
     {
-      "level": "1",
+      "level": 1,
       "rootNotes": ["C3", "C4"],
       "intervals": ["M2", "P4", "P5", "Octave"]
     },
@@ -14,6 +14,23 @@
       "level": 3,
       "rootNotes": ["C3", "C4"],
       "intervals": ["M2", "P4", "P5", "Octave", "M6", "M7"]
+    }
+  ],
+  "drag-interval": [
+    {
+      "level": 1,
+      "rootNotes": ["C3", "C4"],
+      "intervals": ["P4", "P5", "Octave"]
+    },
+    {
+    "level": 2,
+      "rootNotes": ["C3", "C4", "G3", "F3"],
+      "intervals": ["P4", "P5", "M6", "M7", "Octave"]
+    },
+    {
+      "level": 3,
+      "rootNotes": ["C3", "C4", "G3", "F3", "D3", "Bflat3"],
+      "intervals": ["P4", "P5", "M6", "M7", "Octave", "M2"]
     }
   ]
 }

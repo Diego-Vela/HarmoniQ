@@ -53,18 +53,33 @@
   "lessons": [
     { "lesson": "Chapter 1-1", "next": "Chapter 1-2", "level-cap": 3},
     { "lesson": "Chapter 1-2", "next": "Chapter 1-3", "level-cap": 3},
+
     { "lesson": "Chapter 1-3", "next": "Chapter 1-4", "level-cap": 5},
+
     { "lesson": "Chapter 1-4", "next": "Chapter 1-5", "level-cap": 5},
     { "lesson": "Chapter 1-5", "next": "Chapter 1-6", "level-cap": 5},
+
     { "lesson": "Chapter 1-6", "next": "Chapter 1-7", "level-cap": 10},
+
     { "lesson": "Chapter 1-7", "next": "Chapter 1-8", "level-cap": 10},
     { "lesson": "Chapter 1-8", "next": "Chapter 1-9", "level-cap": 10},
-    { "lesson": "Chapter 1-9", "next": "Chapter 2-1", "level-cap": 10},
+    { "lesson": "Chapter 1-9", "next": "Chapter 1-10", "level-cap": 10},
+
+    { "lesson": "Chapter 1-10", "next": "Chapter 1-11", "level-cap": 15}, 
+    
+    { "lesson": "Chapter 1-11", "next": "Chapter 1-12", "level-cap": 15},
+    { "lesson": "Chapter 1-12", "next": "Chapter 1-13", "level-cap": 15},
+    { "lesson": "Chapter 1-13", "next": "Chapter 1-14", "level-cap": 15},
+
 
     { "lesson": "Chapter 2-1", "next": "Chapter 2-2", "level-cap": 10},
     { "lesson": "Chapter 2-2", "next": "Chapter 2-3", "level-cap": 10},
     { "lesson": "Chapter 2-3", "next": "Chapter 2-4", "level-cap": 10},
-    { "lesson": "Chapter 2-4", "next": "Chapter 3-1", "level-cap": 15},
+    { "lesson": "Chapter 2-4", "next": "Chapter 2-5", "level-cap": 15},
+    { "lesson": "Chapter 2-5", "next": "Chapter 2-6", "level-cap": 15},
+    { "lesson": "Chapter 2-6", "next": "Chapter 2-7", "level-cap": 15},
+    { "lesson": "Chapter 2-7", "next": "Chapter 2-8", "level-cap": 15},
+    { "lesson": "Chapter 2-8", "next": "Chapter 2-9", "level-cap": 15},
 
     { "lesson": "Chapter 3-1", "next": "Chapter 3-2", "level-cap": 15},
     { "lesson": "Chapter 3-2", "next": "Chapter 3-3", "level-cap": 15},
